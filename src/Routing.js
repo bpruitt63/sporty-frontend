@@ -6,6 +6,7 @@ import Logout from './Logout';
 import Admin from './Admin';
 import UserUpdateForm from './UserUpdateForm';
 import OrganizationHome from './OrganizationHome';
+import SeasonHome from './SeasonHome';
 
 function Routing({user, setUser, handleLogin}) {
 
@@ -16,8 +17,10 @@ function Routing({user, setUser, handleLogin}) {
                                                     handleLogin={handleLogin} />} />
             <Route path='/logout' element={<Logout setUser={setUser} />} />
             <Route path='/admin' element={<Admin user={user} />} />
-            <Route path='/profile' element={<UserUpdateForm user={user} />} />
+            <Route path='/profile' element={<UserUpdateForm user={user}
+                                                            setUser={setUser} />} />
             <Route path='/organization/:orgId' element={<OrganizationHome user={user} />} />
+            <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user} />} />
             <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
     );

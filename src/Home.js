@@ -3,16 +3,19 @@ import OrganizationSearch from './OrganizationSearch';
 import {useToggle} from './hooks';
 import OrganizationNameForm from './OrganizationNameForm';
 import MyOrganizations from './MyOrganizations';
-import {buildSeason} from './static/helpers';
+import NewSeason from './NewSeason';
 
 function Home({user}) {
 
-    const toggleState = {search: false, newOrg: false, myOrgs: false};
-    const [toggle, isOpen] = useToggle(toggleState);
+    const initialState = {search: true, 
+                        newOrg: false, 
+                        myOrgs: false,
+                        newSeason: false};
+    const toggleState = {...initialState, search: false};
+    const [toggle, isOpen] = useToggle(initialState, toggleState);
 
     return (
         <div>
-            <button onClick={() => buildSeason([1, 2, 3, 4, 5, 6, 7], 20)}>test</button>
             <p>Here's where I'll say stuff</p>
             {isOpen.myOrgs && <MyOrganizations user={user} />}
             {user && (null in user.organizations === false) &&
@@ -29,6 +32,10 @@ function Home({user}) {
                 <button onClick={() => toggle('newOrg')}>
                     {isOpen.newOrg ? 'Cancel' : 'Create New Organization'}
                 </button>}
+            {isOpen.newSeason && <NewSeason />}
+            <button onClick={() => toggle('newSeason')}>
+                {isOpen.newSeason ? 'Cancel Season Create' : 'Build Season'}
+            </button>
         </div>
     );
 };

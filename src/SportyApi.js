@@ -106,6 +106,66 @@ class SportyApi {
         const res = await this.request(`users/org${orgId}/${email}`, {}, 'delete');
         return res.userOrg;
     };
+
+    /** Add season title */
+    static async addSeason(title, orgId) {
+        const res = await this.request(`organizations/${orgId}/seasons`, {title}, 'post');
+        return res.season;
+    };
+
+    /** Edit season title */
+    static async editSeason(orgId, seasonId, data) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}`, data, 'patch');
+        return res.season;
+    };
+
+    /** Remove season */
+    static async removeSeason(orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}`, {}, 'delete');
+        return res.deleted;
+    };
+
+    /** Get organization's seasons */
+    static async getSeasons(orgId) {
+        const res = await this.request(`organizations/${orgId}/seasons`);
+        return res.seasons;
+    };
+
+    /** Get season basic info */
+    static async getSeason(orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}`);
+        return res.season;
+    };
+
+    /** Get season's games */
+    static async getGames(orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/games`);
+        return res.games;
+    };
+
+    /** Add teams to database and/or season */
+    static async addTeams(data, seasonId, orgId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/teams`, data, 'post');
+        return res.teams;
+    };
+
+    /** Add games to season */
+    static async addGames(data, orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/games`, data, 'post');
+        return res.games;
+    };
+
+    /** Edit game */
+    static async editGame(game, gameId, orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/games/${gameId}`, game, 'patch');
+        return res.game;
+    };
+
+    /** Delete game */
+    static async deleteGame(orgId, seasonId, gameId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/games/${gameId}`, {}, 'delete');
+        return res.deleted;
+    };
 };
 
 SportyApi.token = localStorage.getItem("token");

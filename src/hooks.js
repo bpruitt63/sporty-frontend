@@ -76,11 +76,11 @@ function useErrors() {
     return [apiErrors, getApiErrors, setApiErrors];
 };
 
-function useToggle(initialState) {
+function useToggle(initialState, toggleState=initialState) {
     const [isOpen, setIsOpen] = useState(initialState);
 
     function toggle(section){
-        setIsOpen({...initialState, 
+        setIsOpen({...toggleState, 
             [section]: !isOpen[section]});
     };
     return [toggle, isOpen];

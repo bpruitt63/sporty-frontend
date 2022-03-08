@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
 
-function UserUpdateForm({user, targetEmail=''}) {
+function UserUpdateForm({user, targetEmail='', setUser=null}) {
 
     const [isLoading, setIsLoading] = useState(false);
     const initialState = {pwd: '', pwd2: '', firstName: '',
@@ -62,7 +62,10 @@ function UserUpdateForm({user, targetEmail=''}) {
 
             /** Submits data to update user info */
             try {
-                await SportyApi.updateUser(targetEmail, data);
+                const updated = await SportyApi.updateUser(targetEmail, data);
+                if (targetEmail === user.email) {
+                    setUser({...user, ...updated});
+                };
                 setIsLoading(false);
             } catch (e) {
                 setData({...data, pwd: '', pwd2: ''});

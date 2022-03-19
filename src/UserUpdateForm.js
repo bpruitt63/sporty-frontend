@@ -63,8 +63,12 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
             /** Submits data to update user info */
             try {
                 const updated = await SportyApi.updateUser(targetEmail, data);
+                
+                /** Updates user and token if user is updating self */
                 if (targetEmail === user.email) {
-                    setUser({...user, ...updated});
+                    setUser({...user, ...updated.user});
+                    localStorage.setItem("token", updated.token);
+                    SportyApi.setToken(updated.token);
                 };
                 setIsLoading(false);
             } catch (e) {

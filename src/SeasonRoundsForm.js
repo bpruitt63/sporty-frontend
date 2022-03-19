@@ -82,7 +82,7 @@ function SeasonRoundsForm({season, handleChange, toggle, setSeason, orgId}) {
                         name='rounds'
                         id='rounds'
                         min='1'
-                        max='100'
+                        max='50'
                         value={season.rounds}
                         onChange={handleChange} />
                 <button type='submit'>

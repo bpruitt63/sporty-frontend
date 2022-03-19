@@ -60,7 +60,7 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
         setApiErrors({});
 
         if (!validateGames(season.games, setErrors)) return false;
-        const games = formatInputs(season.games);
+        const games = formatInputs(season.games, bye);
         setIsLoading(true);
 
         try {
@@ -82,7 +82,7 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
             <form onSubmit={handleSubmit}>
-                {Object.keys(season.games).map(g =>
+                {Object.keys(season.games).map((g, i) =>
                     <NewGameForm key={g}
                                     g={g}
                                     season={season}

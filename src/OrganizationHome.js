@@ -8,7 +8,7 @@ import NewSeason from './NewSeason';
 import Errors from './Errors';
 import Modal from './Modal';
 
-function OrganizationHome({user}) {
+function OrganizationHome({user, setUser}) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
@@ -21,25 +21,32 @@ function OrganizationHome({user}) {
                             seasons: false};
     const [toggle, isOpen] = useToggle(toggleInitialState);
     const [modal, setModal] = useState(false);
-    const isAdmin = user.superAdmin || (user.organizations[orgId] && 
-                                user.organizations[orgId].adminLevel === 1);
-    const isEditor = user.superAdmin || (user.organizations[orgId] && 
-                                user.organizations[orgId].adminLevel <= 2);
+    const [isAdmin, setIsAdmin] = useState();
+    const [isEditor, setIsEditor] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
         async function getOrganizationInfo() {
             try {
-                const {orgName} = await SportyApi.getOranization(orgId);
+                const {orgName} = await SportyApi.getOrganization(orgId);
                 setOrg({orgId, orgName, seasons: []});
                 setIsLoading(false);
             } catch (e) {
-                getApiErrors(e);
-                setIsLoading(false);
+                if (e[0] === "Server error, please try again later") {
+                    getApiErrors(e);
+                    setIsLoading(false);
+                } else {
+                    navigate('/');
+                };
             };
         };
         getOrganizationInfo(orgId);
-    }, [orgId, navigate, getApiErrors]);
+        setIsAdmin(user.superAdmin || (user.organizations && Object.hasOwn(user.organizations, orgId) && 
+            user.organizations[orgId].adminLevel === 1));
+        setIsEditor(user.superAdmin || (user.organizations && Object.hasOwn(user.organizations, orgId) && 
+            user.organizations[orgId].adminLevel <= 2));
+    }, [orgId, navigate, getApiErrors, user]);
+
 
     const remove = async (e) => {
         e.preventDefault();
@@ -48,7 +55,14 @@ function OrganizationHome({user}) {
 
         try {
             setModal(false);
-            await SportyApi.deleteOrganization(orgId);
+            const {token} = await SportyApi.deleteOrganization(orgId);
+            if (orgId in user.organizations) {
+                const organizations = {...user.organizations};
+                delete organizations[orgId];
+                setUser({...user, organizations});
+                localStorage.setItem("token", token);
+                SportyApi.setToken(token);
+            };
             navigate('/');
         } catch (err) {
             getApiErrors(err);
@@ -108,7 +122,8 @@ function OrganizationHome({user}) {
                 <>
                 <OrganizationNameForm orgId={orgId}
                                         orgName={org.orgName}
-                                        setOrg={setOrg} />
+                                        setOrg={setOrg}
+                                        toggle={toggle} />
                 <button onClick={removeModal}>Delete Organization</button>                     
                 </>}
             {isAdmin && 

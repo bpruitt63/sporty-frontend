@@ -6,6 +6,11 @@ class SportyApi {
 
     static token;
 
+    /** Updates token when updating user info */
+    static setToken(newToken) {
+        this.token = newToken;
+    };
+
     /** Sends request to database and catches any errors */
     static async request(endpoint, data={}, method="get") {
         const url = `${BASE_URL}/${endpoint}`;
@@ -43,8 +48,8 @@ class SportyApi {
 
     /** Update user */
     static async updateUser(email, data) {
-        const res = await this.request(`users/${email}`, data, 'patch');
-        return res.user;
+        const {user, token} = await this.request(`users/${email}`, data, 'patch');
+        return {user, token};
     };
 
     /** Get user info */
@@ -60,7 +65,7 @@ class SportyApi {
     };
 
     /** Get organization info */
-    static async getOranization(orgId) {
+    static async getOrganization(orgId) {
         const res = await this.request(`organizations/${orgId}`);
         return res.org;
     };
@@ -79,14 +84,14 @@ class SportyApi {
 
     /** Delete organization */
     static async deleteOrganization(orgId){
-        const res = await this.request (`organizations/${orgId}`, {}, 'delete');
-        return res.deleted;
+        const {deleted, token} = await this.request (`organizations/${orgId}`, {}, 'delete');
+        return {deleted, token};
     };
 
     /** Add user to organization */
     static async addUserOrganization(orgId, email, data) {
-        const res = await this.request(`users/org${orgId}/${email}`, data, 'post');
-        return res.userOrg;
+        const {user, token} = await this.request(`users/org${orgId}/${email}`, data, 'post');
+        return {user, token};
     };
 
     /** Get all users tied to an organization */
@@ -146,6 +151,12 @@ class SportyApi {
     /** Add teams to database and/or season */
     static async addTeams(data, seasonId, orgId) {
         const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/teams`, data, 'post');
+        return res.teams;
+    };
+
+    /** Get season's teams */
+    static async getTeams(orgId, seasonId) {
+        const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/teams`);
         return res.teams;
     };
 

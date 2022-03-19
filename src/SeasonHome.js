@@ -33,15 +33,18 @@ function SeasonHome({user}) {
     useEffect(() => {
         async function getSeason() {
             try {
-                const result = await SportyApi.getGames(orgId, seasonId);
-                const {teams, rankings} = getTeams(result);
-                setSeason({seasonId: result[0].seasonId, 
-                            title: result[0].title, 
-                            games: result,
+                const [gamesResult, teamsResult] = await Promise.all([
+                    SportyApi.getGames(orgId, seasonId),
+                    SportyApi.getTeams(orgId, seasonId)
+                ]);
+                const {teams, rankings} = getTeams(gamesResult, teamsResult);
+                setSeason({seasonId: gamesResult[0].seasonId, 
+                            title: gamesResult[0].title, 
+                            games: gamesResult,
                             teams,
                             rankings});
-                setGames(result);
-                setTitle({seasonTitle: result[0].title});
+                setGames(gamesResult);
+                setTitle({seasonTitle: gamesResult[0].title});
                 const newGameTeams = [];
                 for (let team of Object.entries(teams)) {
                     team = {...team[1], teamId: team[0]};
@@ -56,7 +59,7 @@ function SeasonHome({user}) {
                         team2Score: null,
                         notes: ''};
                 setNewGame({games: [newGameObj], teams: newGameTeams});
-                setBye(Object.keys(teams).find(key => teams[key].teamName === 'Bye'));
+                setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                 setIsLoading(false);
             } catch (e) {
                 getApiErrors(e);
@@ -156,8 +159,8 @@ function SeasonHome({user}) {
         try {
             gameToAdd = await SportyApi.addGames(gameToAdd, orgId, seasonId);
             updateState(gameToAdd);
-            setIsLoading(false);
             setAddGame(false);
+            setIsLoading(false);
         } catch (err) {
             getApiErrorsNewGame(err);
             setIsLoading(false);
@@ -229,9 +232,10 @@ function SeasonHome({user}) {
                                 setIsEdit={setEditForm}
                                 season={season}
                                 setSeason={setSeason} />}
-            <button onClick={toggleEdit}>
-                {editForm ? 'Cancel' : 'Edit Season Name'}
-            </button>
+            {isEditor &&
+                <button onClick={toggleEdit}>
+                    {editForm ? 'Cancel' : 'Edit Season Name'}
+                </button>}
             <Errors apiErrors={apiErrors} />
             <ul>
                 {season.rankings.map(t =>

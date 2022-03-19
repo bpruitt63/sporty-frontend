@@ -31,7 +31,6 @@ function LoginForm({handleLogin}) {
             try {
                 const token = await SportyApi.login(data);
                 handleLogin(token);
-                setIsLoading(false);
             } catch (e) {
                 getApiErrors(e);
                 setData(initialState);

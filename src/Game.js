@@ -33,7 +33,7 @@ function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
 
     return (
         <div>
-            {!edit &&
+            {!edit && 
                 <div>
                     <p>{game.team1Name} vs {game.team2Name}</p>
                     <p>Date: {game.readableDate || 'TBA'}</p>

@@ -5,7 +5,7 @@ import OrganizationNameForm from './OrganizationNameForm';
 import MyOrganizations from './MyOrganizations';
 import NewSeason from './NewSeason';
 
-function Home({user}) {
+function Home({user, setUser}) {
 
     const initialState = {search: true, 
                         newOrg: false, 
@@ -18,7 +18,7 @@ function Home({user}) {
         <div>
             <p>Here's where I'll say stuff</p>
             {isOpen.myOrgs && <MyOrganizations user={user} />}
-            {user && (null in user.organizations === false) &&
+            {user && user.organizations && (null in user.organizations === false) &&
                 <button onClick={() => toggle('myOrgs')}>
                     {isOpen.myOrgs ? 'Close' : 'My Organizations'}    
                 </button>}
@@ -27,7 +27,8 @@ function Home({user}) {
                 {isOpen.search ? 'Cancel' : 'Search Organizations'}
             </button>
             {user && isOpen.newOrg &&
-                <OrganizationNameForm user={user}/>}
+                <OrganizationNameForm userProp={user}
+                                        setUser={setUser}/>}
             {user && 
                 <button onClick={() => toggle('newOrg')}>
                     {isOpen.newOrg ? 'Cancel' : 'Create New Organization'}

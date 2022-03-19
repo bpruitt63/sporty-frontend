@@ -60,7 +60,9 @@ function NewGameForm({g, season, handleGameChange, nullScore, bye}) {
                                 onChange={handleGameChange} />
                     </label>
                     <label htmlFor={`team1Score ${g}`}>
-                        Team 1 Score
+                        {season.games[g].team1Id ? 
+                            `${season.teams.find(team => team.teamId === parseInt(season.games[g].team1Id)).teamName} Score`
+                            : 'Score 1'}
                         <input type='number'
                                 min='0'
                                 max='999'
@@ -70,7 +72,9 @@ function NewGameForm({g, season, handleGameChange, nullScore, bye}) {
                                 onChange={handleGameChange} />
                     </label>
                     <label htmlFor={`team2Score ${g}`}>
-                        Team 2 Score
+                        {season.games[g].team2Id ?
+                            `${season.teams.find(team => team.teamId === parseInt(season.games[g].team2Id)).teamName} Score`
+                            : 'Score 2'}
                         <input type='number'
                                 min='0'
                                 max='999'

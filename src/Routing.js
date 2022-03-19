@@ -12,14 +12,16 @@ function Routing({user, setUser, handleLogin}) {
 
     return (
         <Routes>
-            <Route path='/' element={<Home user={user}/>} />
+            <Route path='/' element={<Home user={user}
+                                            setUser={setUser}/>} />
             <Route path='/register' element={<RegisterForm user={user}
                                                     handleLogin={handleLogin} />} />
             <Route path='/logout' element={<Logout setUser={setUser} />} />
             <Route path='/admin' element={<Admin user={user} />} />
             <Route path='/profile' element={<UserUpdateForm user={user}
                                                             setUser={setUser} />} />
-            <Route path='/organization/:orgId' element={<OrganizationHome user={user} />} />
+            <Route path='/organization/:orgId' element={<OrganizationHome user={user}
+                                                                        setUser={setUser} />} />
             <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user} />} />
             <Route path='*' element={<Navigate to='/'/>} />
         </Routes>

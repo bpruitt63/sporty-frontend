@@ -1,11 +1,24 @@
+/** Creates games for season based on provided teams and number of rounds
+ * Returns array of game objects and array of team objects
+ */
 export function buildSeason(teams, numGames) {
-    if (teams.length % 2 !== 0) teams.unshift({teamName: 'Bye',
-                                                color: 'N/A'});
+    let addBye = true;
+
+    // Ensure even number of teams by adding Bye team if odd number
+    if (teams.length % 2 !== 0) {
+        teams.unshift({teamName: 'Bye', color: 'N/A'});
+        addBye = false;
+    };
+
     let season = {};
     let round = 1;
     let spliceIndex = 0;
     const mid = teams.length / 2;
     let flipped = false;
+
+    /** For assigned number of rounds, creates games or byes for each team
+     * Changes home/away assignments each time same teams play each other
+     */
     while (round <= numGames){
         season[round] = [];
         for (let i = 0; i < mid; i++){
@@ -14,8 +27,12 @@ export function buildSeason(teams, numGames) {
         };
         if (!flipped && round % 2 === 0) season[round][0].reverse();
         if (flipped && round % 2 !== 0) season[round][0].reverse();
+
+        /** Ensure first team in array doesn't always play first in each round */
         season[round].splice(spliceIndex, 0, season[round].shift());
         spliceIndex + 1 < mid ? spliceIndex++ : spliceIndex = 0;
+        
+        /** Reorder teams array to ensure each team plays each team */
         const reordered = [...teams];
         for (let j = 1; j < teams.length; j++) {
             if (j === mid){ 
@@ -28,16 +45,21 @@ export function buildSeason(teams, numGames) {
                 reordered[j - 1] = teams[j];
             };
         };
+
+        /** Switches home/away teams each time teams replay each other */
         if (round % (teams.length - 1) === 0) flipped = !flipped;
         teams = reordered;
         round++;
     };
     const games = formatSeason(season);
-    if (teams[0].teamName !== 'Bye') teams.push({teamName: 'Bye', color: 'N/A'});
+
+    /** Adds bye team if not done at beginning of function */
+    if (addBye) teams.push({teamName: 'Bye', color: 'N/A'});
     return {games, teams};
 };
 
 
+/** Formats object of games into array of game objects */
 function formatSeason(season) {
     const games = [];
     const keys = Object.keys(season);
@@ -63,23 +85,21 @@ function formatSeason(season) {
     return games;
 };
 
-export function getTeams(season) {
+/** Calculates records and rankings for all teams
+ * Returns object of team objects,
+ * array of team ids ranked by win percentage
+ */
+export function getTeams(season, allTeams) {
     const teams = {};
+    for (let team of allTeams) {
+        teams[team.teamId] = {teamName: team.teamName,
+                                color: team.color,
+                                record: [0, 0, 0],
+                                games: []};
+    };
     for (let game of season) {
         const team1Id = game.team1Id;
         const team2Id = game.team2Id;
-        if (!(team1Id in teams)) {
-            teams[team1Id] = {teamName: game.team1Name,
-                                color: game.team1Color,
-                                record: [0, 0, 0],
-                                games: []};
-        };
-        if (!(team2Id in teams)) {
-            teams[team2Id] = {teamName: game.team2Name,
-                                color: game.team2Color,
-                                record: [0, 0, 0],
-                                games: []};
-        };
         if (game.team1Score !== null && game.team2Score !== null) {
             const winner = calculateWinner(game.team1Score, game.team2Score);
             if (winner === 'tie') {
@@ -120,6 +140,8 @@ function calculateWinPercent(record) {
     return wins / games;
 };
 
+
+/** Form validation for game creation or update */
 export function validateGames(games, setErrors) {
     for (let game of Object.keys(games)){
         if (!(games[game].team1Id && games[game].team2Id)) {
@@ -143,11 +165,14 @@ export function validateGames(games, setErrors) {
                     return false;
         };
     };
-    //if (errors.error) return false;
     return true;
 };
 
-export function formatInputs(games) {
+/** Changes form data from game creation or update into required
+ * format for SQL inputs
+ * Ensures no score is submitted for a bye week
+ */
+export function formatInputs(games, bye) {
     for (let game of Object.keys(games)) {
         games[game].team1Id = parseInt(games[game].team1Id);
         games[game].team2Id = parseInt(games[game].team2Id);
@@ -159,7 +184,7 @@ export function formatInputs(games) {
         } else if (games[game].gameTime && games[game].gameTime.length !== 8) {
             games[game].gameTime += ':00';
         };
-        if (games[game].team1Name === 'Bye' || games[game].team2Name === 'Bye') {
+        if (games[game].team1Id === bye || games[game].team2Id === bye) {
             games[game].team1Score = null;
             games[game].team2Score = null;
         };
@@ -169,6 +194,7 @@ export function formatInputs(games) {
     return games;
 };
 
+/** Changes time from HH24:MM:SS to HH12:MM AM/PM */
 export function formatTime(time) {
     if (!time) return null;
     time = time.split(':');

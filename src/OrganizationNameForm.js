@@ -4,7 +4,7 @@ import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
 
-function OrganizationNameForm({orgId=null, orgName='', setOrg, user}) {
+function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser, toggle}) {
 
     const [data, handleChange] = useHandleChange({orgName});
     const [checked, setChecked] = useState(false);
@@ -28,6 +28,7 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, user}) {
             try {
                 const org = await SportyApi.updateOrganization(orgId, data);
                 setOrg(org);
+                toggle('editOrg');
             } catch (err) {
                 getApiErrors(err);
             };
@@ -39,9 +40,12 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, user}) {
             try {
                 const org = await SportyApi.addOrganization(data);
 
-                if (checked || !user.superAdmin) {
-                    await SportyApi.addUserOrganization(org.orgId, 
-                                        user.email, {adminLevel: 1});
+                if (checked || !userProp.superAdmin) {
+                    const {user, token} = await SportyApi.addUserOrganization(
+                                            org.orgId, userProp.email, {adminLevel: 1});
+                    setUser(user);
+                    localStorage.setItem("token", token);
+                    SportyApi.setToken(token);
                 };
 
                 navigate(`/organization/${org.orgId}`);
@@ -69,7 +73,7 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, user}) {
                         placeholder='Organization Name'
                         value={data.orgName}
                         onChange={handleChange} />
-                {user && user.superAdmin &&
+                {userProp && userProp.superAdmin &&
                     <label >
                         <input type='checkbox'
                             name='userOrg'

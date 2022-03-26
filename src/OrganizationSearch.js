@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
+import {Form, Col, Button, InputGroup, ListGroup} from 'react-bootstrap';
 import Errors from './Errors';
 import {useHandleChange, useErrors} from './hooks';
 import SportyApi from './SportyApi';
@@ -45,21 +46,32 @@ function OrganizationSearch() {
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='orgName'>Organization Name</label>
-                <input type='text'
-                        name='orgName'
-                        id='orgName'
-                        placeholder='Organization Name'
-                        value={data.orgName}
-                        onChange={handleChange} />
-                <button type='submit'>Search</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                    <Form.Group controlId='orgName'>
+                        <Form.Label>Search Organizations</Form.Label>
+                        <InputGroup>
+                            <Form.Control type='text'
+                                        name='orgName'
+                                        placeholder='Organization Name'
+                                        value={data.orgName}
+                                        onChange={handleChange} />
+                            <Button type='submit'>Search</Button>
+                        </InputGroup>
+                    </Form.Group>
+                    
+                </Col>
+            </Form>
             {organizations && !organizations.length && 
                 <p>No organizations found.  Try a different search term.</p>}
-            {organizations && organizations.map(o =>
-                <Link to={`../organization/${o.orgId}`} 
-                        key={o.orgId}>{o.orgName}</Link>)}
+            <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                <ListGroup as='ul' variant='flush'>
+                    {organizations && organizations.map(o =>
+                        <ListGroup.Item key={o.orgId} className='listItem'>
+                            <Link to={`../organization/${o.orgId}`}>{o.orgName}</Link>
+                        </ListGroup.Item>)}
+                </ListGroup>
+            </Col>
         </div>
     );
 };

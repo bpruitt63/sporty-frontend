@@ -1,24 +1,30 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {Container, Navbar, NavDropdown} from 'react-bootstrap';
 import LoginForm from './LoginForm';
 
 function NavB({user, handleLogin}) {
 
     return (
-        <div>
-            <NavLink to='/'>Sporty</NavLink>
-            <span>Search goes here</span>
-            {user && <>
-                    <NavLink to='/profile'>{`${user.firstName} ${user.lastName}`}</NavLink>
-                    <NavLink to='/logout'>Log Out</NavLink>
-                </>}
-            {!user && <>
-                    <LoginForm handleLogin={handleLogin} />
-                    <NavLink to='/register'>Register</NavLink>
-                </>}
-            {user && user.superAdmin &&
-                <NavLink to='/admin'>Admin</NavLink>}
-        </div>
+        <Navbar bg='secondary'>
+            <Container>
+                <Navbar.Brand href='/'>Sporty</Navbar.Brand>
+                <LoginForm handleLogin={handleLogin} />
+                {user && 
+                    <NavDropdown title={`${user.firstName} ${user.lastName}`}>
+                        {user && user.superAdmin &&
+                            <NavDropdown.Item href='/admin'>Admin</NavDropdown.Item>}
+                        <NavDropdown.Item href='/profile'>Edit Profile</NavDropdown.Item>
+                        <NavDropdown.Item href='/logout'>Log Out</NavDropdown.Item>
+                    </NavDropdown>}
+                {!user && 
+                    <NavDropdown autoClose={false} title='Log In'>
+                        <NavDropdown.Item>
+                            <LoginForm handleLogin={handleLogin} />
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href='/register'>Register</NavDropdown.Item>
+                    </NavDropdown>}
+            </Container>
+        </Navbar>
     );
 };
 

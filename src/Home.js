@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import OrganizationSearch from './OrganizationSearch';
 import {useToggle} from './hooks';
 import OrganizationNameForm from './OrganizationNameForm';
@@ -15,8 +16,7 @@ function Home({user, setUser}) {
     const [toggle, isOpen] = useToggle(initialState, toggleState);
 
     return (
-        <div>
-            <p>Here's where I'll say stuff</p>
+        <Container>
             {isOpen.myOrgs && <MyOrganizations user={user} />}
             {user && user.organizations && (null in user.organizations === false) &&
                 <button onClick={() => toggle('myOrgs')}>
@@ -37,7 +37,7 @@ function Home({user, setUser}) {
             <button onClick={() => toggle('newSeason')}>
                 {isOpen.newSeason ? 'Cancel Season Create' : 'Build Season'}
             </button>
-        </div>
+        </Container>
     );
 };
 

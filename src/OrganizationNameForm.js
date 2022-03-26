@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Form, Col} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -63,27 +64,30 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='orgName'>
-                    {orgId ? 'New Name' : 'Organization Name'}
-                </label>
-                <input type='text'
-                        name='orgName'
-                        id='orgName'
-                        placeholder='Organization Name'
-                        value={data.orgName}
-                        onChange={handleChange} />
+            <Form onSubmit={handleSubmit}>
+                <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                    <Form.Group controlId='orgName'>
+                        <Form.Label>{orgId ? 'New Name' : 'Organization Name'}</Form.Label>
+                        <Form.Control type='text'
+                                    name='orgName'
+                                    placeholder='Organization Name'
+                                    value={data.orgName}
+                                    onChange={handleChange} />
+                    </Form.Group>
+                </Col>
+                
                 {userProp && userProp.superAdmin &&
-                    <label >
-                        <input type='checkbox'
-                            name='userOrg'
-                            id='userOrg'
-                            checked={checked}
-                            onChange={handleCheck} />
-                        This is my organization
-                    </label>}
+                    <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                        <Form.Group controlId='userOrg'>
+                            <Form.Check type='checkbox'
+                                        name='userOrg'
+                                        checked={checked}
+                                        onChange={handleCheck}
+                                        label='This is my Organization' />
+                        </Form.Group>
+                    </Col>}
                 <button type='submit'>Submit</button>
-            </form>
+            </Form>
         </div>
     );
 };

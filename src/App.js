@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import jwt_decode from 'jwt-decode';
-import './App.css';
+import './static/styles/App.css';
+import './static/styles/Form.css';
 import SportyApi from './SportyApi';
 import Routing from './Routing';
 import NavB from './NavB';

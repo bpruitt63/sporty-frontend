@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button, ButtonGroup } from 'react-bootstrap';
 import OrganizationSearch from './OrganizationSearch';
 import {useToggle} from './hooks';
 import OrganizationNameForm from './OrganizationNameForm';
 import MyOrganizations from './MyOrganizations';
 import NewSeason from './NewSeason';
 
-function Home({user, setUser}) {
+function Home({user, setUser, isMobile}) {
 
     const initialState = {search: true, 
                         newOrg: false, 
@@ -17,26 +17,32 @@ function Home({user, setUser}) {
 
     return (
         <Container>
+            <ButtonGroup vertical={isMobile}>
+                <Button onClick={() => toggle('search')} 
+                        active={isOpen.search}>
+                    Search Organizations
+                </Button>
+                {user && user.organizations && (null in user.organizations === false) &&
+                    <Button onClick={() => toggle('myOrgs')}
+                            active={isOpen.myOrgs}>
+                        My Organizations    
+                    </Button>}
+                {user && 
+                    <Button onClick={() => toggle('newOrg')}
+                            active={isOpen.newOrg}>
+                       Create New Organization
+                    </Button>}
+                <Button onClick={() => toggle('newSeason')}
+                        active={isOpen.newSeason}>
+                    Build Season
+                </Button>
+            </ButtonGroup>
             {isOpen.myOrgs && <MyOrganizations user={user} />}
-            {user && user.organizations && (null in user.organizations === false) &&
-                <button onClick={() => toggle('myOrgs')}>
-                    {isOpen.myOrgs ? 'Close' : 'My Organizations'}    
-                </button>}
             {isOpen.search && <OrganizationSearch />}
-            <button onClick={() => toggle('search')}>
-                {isOpen.search ? 'Cancel' : 'Search Organizations'}
-            </button>
             {user && isOpen.newOrg &&
                 <OrganizationNameForm userProp={user}
                                         setUser={setUser}/>}
-            {user && 
-                <button onClick={() => toggle('newOrg')}>
-                    {isOpen.newOrg ? 'Cancel' : 'Create New Organization'}
-                </button>}
             {isOpen.newSeason && <NewSeason />}
-            <button onClick={() => toggle('newSeason')}>
-                {isOpen.newSeason ? 'Cancel Season Create' : 'Build Season'}
-            </button>
         </Container>
     );
 };

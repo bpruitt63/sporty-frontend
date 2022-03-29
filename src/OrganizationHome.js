@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
+import {ButtonGroup, Button} from 'react-bootstrap';
 import {useToggle, useErrors} from './hooks';
 import SportyApi from './SportyApi';
 import OrganizationNameForm from './OrganizationNameForm';
@@ -8,7 +9,7 @@ import NewSeason from './NewSeason';
 import Errors from './Errors';
 import Modal from './Modal';
 
-function OrganizationHome({user, setUser}) {
+function OrganizationHome({user, setUser, isMobile}) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
@@ -100,24 +101,38 @@ function OrganizationHome({user, setUser}) {
     return (
         <div>
             <Errors apiErrors={apiErrors} />
-            <p>{org.orgName}</p>
+            <h3>{org.orgName}</h3>
+            {!isOpen.newSeason &&
+                <ButtonGroup vertical={isMobile}>
+                    <Button onClick={isOpen.seasons ? () => toggle('seasons') : getSeasons}
+                            active={isOpen.seasons}>
+                        View Seasons
+                    </Button>
+                    {isEditor &&
+                        <Button onClick={() => toggle('newSeason')}>
+                            Build Season   
+                        </Button>}
+                    {isAdmin && 
+                        <Button onClick={() => toggle('editOrg')}
+                                active={isOpen.editOrg}>
+                            Edit Organization
+                        </Button>}
+                    {isAdmin && 
+                        <Button onClick={() => toggle('manageUsers')}
+                                active={isOpen.manageUsers}>
+                            Manage Users 
+                        </Button>}
+                </ButtonGroup>}
             {isOpen.seasons && !org.seasons[0] &&
                 <p>No seasons found for {org.orgName}</p>}
             {isOpen.seasons && org.seasons[0] &&
                 org.seasons.map(s =>
                     <Link to={`/organization/${orgId}/seasons/${s.seasonId}`} 
                         key={s.seasonId}>{s.title}</Link> )}
-            {!isOpen.seasons &&
-                <button onClick={getSeasons}>View All Seasons</button>}
-            {isOpen.seasons &&
-                <button onClick={() => toggle('seasons')}>Close Seasons</button>}
             {isEditor && isOpen.newSeason &&
                 <NewSeason orgId={orgId}
                             cancel={toggle} />}
-            {isEditor && !isOpen.newSeason &&
-                <button onClick={() => toggle('newSeason')}>
-                    Build Season   
-                </button>}
+            
             {isAdmin && isOpen.editOrg &&
                 <>
                 <OrganizationNameForm orgId={orgId}
@@ -126,16 +141,10 @@ function OrganizationHome({user, setUser}) {
                                         toggle={toggle} />
                 <button onClick={removeModal}>Delete Organization</button>                     
                 </>}
-            {isAdmin && 
-                <button onClick={() => toggle('editOrg')}>
-                    {isOpen.editOrg ? 'Cancel' : 'Edit Organization'}
-                </button>}
+            
             {isAdmin && isOpen.manageUsers &&
                 <ManageUsers orgId={orgId} orgName={org.orgName} />}
-            {isAdmin && 
-                <button onClick={() => toggle('manageUsers')}>
-                    {isOpen.manageUsers ? 'Cancel Manage Users' : 'Manage Users'}    
-                </button>}
+            
             {modal &&
                 <Modal message={`Permanently delete ${org.orgName}?`}
                         cancel={removeModal}

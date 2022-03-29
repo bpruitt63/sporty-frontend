@@ -8,12 +8,13 @@ import UserUpdateForm from './UserUpdateForm';
 import OrganizationHome from './OrganizationHome';
 import SeasonHome from './SeasonHome';
 
-function Routing({user, setUser, handleLogin}) {
+function Routing({user, setUser, handleLogin, isMobile}) {
 
     return (
         <Routes>
             <Route path='/' element={<Home user={user}
-                                            setUser={setUser}/>} />
+                                            setUser={setUser}
+                                            isMobile={isMobile}/>} />
             <Route path='/register' element={<RegisterForm user={user}
                                                     handleLogin={handleLogin} />} />
             <Route path='/logout' element={<Logout setUser={setUser} />} />
@@ -21,7 +22,8 @@ function Routing({user, setUser, handleLogin}) {
             <Route path='/profile' element={<UserUpdateForm user={user}
                                                             setUser={setUser} />} />
             <Route path='/organization/:orgId' element={<OrganizationHome user={user}
-                                                                        setUser={setUser} />} />
+                                                                        setUser={setUser}
+                                                                        isMobile={isMobile} />} />
             <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user} />} />
             <Route path='*' element={<Navigate to='/'/>} />
         </Routes>

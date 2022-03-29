@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 
 function MyOrganizations({user}) {
 
-    const organizations = user ? Object.keys(user.organizations) : [];
+    const organizations = user ? Object.keys(user.organizations).reverse() : [];
     const adminLevel = {1: {src: admin_icon, alt: 'Administrator'}, 
                         2: {src: editor_icon, alt: 'Editor'}, 
                         3: null};

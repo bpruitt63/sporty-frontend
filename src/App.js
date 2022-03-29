@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useMediaQuery} from 'react-responsive';
 import jwt_decode from 'jwt-decode';
 import './static/styles/App.css';
 import './static/styles/Form.css';
@@ -10,6 +11,7 @@ function App() {
 
   const [user, setUser] = useState(localStorage.token &&
                         jwt_decode(localStorage.getItem("token")).user);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   const handleLogin = (token) => {
       localStorage.setItem("token", token);
@@ -23,7 +25,8 @@ function App() {
                 handleLogin={handleLogin} />
       <Routing user={user}
                 setUser={setUser}
-                handleLogin={handleLogin} />
+                handleLogin={handleLogin}
+                isMobile={isMobile} />
     </div>
   );
 };

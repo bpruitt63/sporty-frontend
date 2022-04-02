@@ -5,7 +5,7 @@ import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
 
-function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=null, season={}, setSeason=null}) {
+function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=null, season={}, setSeason=null, toggleEdit}) {
 
     const [errors, setErrors] = useState({});
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
@@ -43,22 +43,30 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
     };
 
     return (
-        <div>
+        <div
+        className={isEdit ? 'editForm' : 'nameForm'}>
             <Errors apiErrors={apiErrors}
                     formErrors={errors} />
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='seasonTitle'>
-                        <Form.Label>Season Title</Form.Label>
+                        {!isEdit &&
+                            <Form.Label className='message'>Season Title</Form.Label>}
                         <InputGroup>
                             <Form.Control type='text'
                                             name='seasonTitle'
                                             placeholder='Season Title'
                                             value={data.seasonTitle}
                                             onChange={handleChange} />
-                            <Button type='submit'>
+                            <Button type='submit'
+                                    variant='dark'>
                                 {isEdit ? 'Save' : 'Next'}
                             </Button>
+                            {isEdit &&
+                                <Button onClick={toggleEdit}
+                                        variant='outline-secondary'>
+                                    Cancel    
+                                </Button>}
                         </InputGroup>
                     </Form.Group>
                 </Col>

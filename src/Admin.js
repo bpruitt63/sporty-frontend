@@ -21,19 +21,23 @@ function Admin({user, setUser, isMobile}) {
         <Container>
             <ButtonGroup vertical={isMobile}>
                 <Button onClick={() => toggle('register')}
-                        active={isOpen.register}>
+                        active={isOpen.register}
+                        variant='warning'>
                     Create New User
                 </Button>
                 <Button onClick={() => toggle('userUpdate')}
-                        active={isOpen.userUpdate}>
+                        active={isOpen.userUpdate}
+                        variant='warning'>
                     Update User
                 </Button>
                 <Button onClick={() => toggle('search')}
-                        active={isOpen.search}>
+                        active={isOpen.search}
+                        variant='warning'>
                     Search Organizations
                 </Button>
                 <Button onClick={() => toggle('newOrg')}
-                        active={isOpen.newOrg}>
+                        active={isOpen.newOrg}
+                        variant='warning'>
                     Create New Organization
                 </Button>
             </ButtonGroup>

@@ -1,0 +1,30 @@
+.seasonHead {
+    display: inline-block;
+    text-align: center;
+    padding: 15px 0px;
+    margin: 10px 0px;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.seasonTitle {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.nameEditButton {
+    display: inline;
+    padding: 2px 1px 3px 1px;
+    position: absolute;
+    margin-top: 5px;
+}
+
+.teamList {
+    border-bottom: 1px solid rgb(224, 224, 224);
+    margin-bottom: 20px;
+}
+
+.returnLink {
+    display: block;
+    margin-bottom: 10px;
+}

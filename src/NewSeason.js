@@ -102,7 +102,7 @@ function NewSeason({orgId=null, cancel}) {
     return (
         <div>
             {!orgId && 
-                <p>
+                <p className='message'>
                     Seasons created here will not be saved. To save a season,
                     navigate to your organization's home page.
                 </p>}

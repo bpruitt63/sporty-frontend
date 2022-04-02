@@ -98,7 +98,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId='pwd'>
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label className='label'>Password</Form.Label>
                         <Form.Control type='password'
                                     name='pwd'
                                     placeholder='Password'
@@ -106,7 +106,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
                                     onChange={handleChange} />
                     </Form.Group>
                     <Form.Group controlId='pwd2'>
-                        <Form.Label>Retype Password</Form.Label>
+                        <Form.Label className='label'>Retype Password</Form.Label>
                         <Form.Control type='password'
                                     name='pwd2'
                                     placeholder='Retype Password'
@@ -114,7 +114,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
                                     onChange={handleChange} />
                     </Form.Group>
                     <Form.Group controlId='firstName'>
-                        <Form.Label>First Name</Form.Label>
+                        <Form.Label className='label'>First Name</Form.Label>
                         <Form.Control type='text'
                                     name='firstName'
                                     placeholder='First Name'
@@ -122,7 +122,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
                                     onChange={handleChange} />
                     </Form.Group>
                     <Form.Group controlId='lastName'>
-                        <Form.Label>Last Name</Form.Label>
+                        <Form.Label className='label'>Last Name</Form.Label>
                         <Form.Control type='text'
                                     name='lastName'
                                     placeholder='Last Name'
@@ -136,7 +136,9 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
                                         checked={data.superAdmin}
                                         onChange={handleCheck} 
                                         label='Super Admin'/>}
-                    <Button type='submit'>Submit</Button>
+                    <Button type='submit'
+                            variant='dark'
+                            className='longFormSubmit'>Submit</Button>
                 </Form>
             </Col>
         </div>

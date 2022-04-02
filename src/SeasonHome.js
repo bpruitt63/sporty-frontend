@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
+import { Container, Button, ListGroup, Col } from 'react-bootstrap';
+import './static/styles/Season.css';
 import {useErrors, useHandleChange} from './hooks';
 import {getTeams, validateGames, formatInputs} from './static/helpers';
 import SportyApi from './SportyApi';
@@ -193,7 +195,7 @@ function SeasonHome({user}) {
 
     if (!season.games[0]) {
         return (
-            <div>
+            <Container>
                 <p>No games found for {season.title}</p>
                 {addGame &&
                     <form onSubmit={handleSubmit}>
@@ -216,44 +218,61 @@ function SeasonHome({user}) {
                 <Modal message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
-            </div>
+            </Container>
         );
     };
 
 
     return (
-        <div>
-            {!editForm &&
-                <p>{season.title}</p>}
-            {editForm &&
-                <SeasonNameForm data={title}
-                                handleChange={handleChange}
-                                isEdit={editForm}
-                                setIsEdit={setEditForm}
-                                season={season}
-                                setSeason={setSeason} />}
-            {isEditor &&
-                <button onClick={toggleEdit}>
-                    {editForm ? 'Cancel' : 'Edit Season Name'}
-                </button>}
+        <Container>
+            <Col xs={{span: 10, offset: 1}} 
+                md={{span: 6, offset: 3}} 
+                className='seasonHead'>
+                <Link to={`../organization/${orgId}`}
+                        className='returnLink'>
+                    Back to organization
+                </Link>
+                {!editForm &&
+                    <h3 className='seasonTitle'>
+                        {season.title}
+                    </h3>}
+                {editForm &&
+                    <SeasonNameForm data={title}
+                                    handleChange={handleChange}
+                                    isEdit={editForm}
+                                    setIsEdit={setEditForm}
+                                    season={season}
+                                    setSeason={setSeason}
+                                    toggleEdit={toggleEdit} />}
+                {isEditor && !editForm &&
+                    <Button onClick={toggleEdit}
+                            variant='outline-secondary'
+                            size='sm'
+                            className='nameEditButton'>
+                        Rename
+                    </Button>}
+            </Col>
             <Errors apiErrors={apiErrors} />
-            <ul>
-                {season.rankings.map(t =>
-                    <li key={t}>
-                        <button onClick={() => setGames(season.teams[t].games)}>
-                                {season.teams[t].teamName}
-                        </button>
-                        <p>
-                            {season.teams[t].record.join('-')}
-                        </p>
-                    </li>)}
-                <li>
-                    <button onClick={() => setGames(season.games)}>
-                            Show all games
-                    </button>
-                </li>
-            </ul>
-            <Link to={`../organization/${orgId}`}>Back to organization</Link>
+            <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                <ListGroup as='ul' variant='flush' className='teamList'>
+                    {season.rankings.map(t =>
+                        <ListGroup.Item key={t}>
+                            <Button onClick={() => setGames(season.teams[t].games)}
+                                    variant='link'>
+                                    {season.teams[t].teamName}
+                            </Button>
+                            <span>
+                                {season.teams[t].record.join('-')}
+                            </span>
+                        </ListGroup.Item>)}
+                    <ListGroup.Item>
+                        <Button onClick={() => setGames(season.games)}
+                                variant='link'>
+                                Show all games
+                        </Button>
+                    </ListGroup.Item>
+                </ListGroup>
+            </Col>
             {games &&
                 <GameList games={games}
                             setGames={setGames}
@@ -281,7 +300,7 @@ function SeasonHome({user}) {
                 <Modal message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
-        </div>
+        </Container>
     );
 };
 

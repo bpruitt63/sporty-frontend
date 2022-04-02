@@ -1,3 +1,12 @@
 .form-check {
     display: inline-block;
+    background-color: white;
+    padding: 8px 35px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.longFormSubmit {
+    display: block;
+    margin: 20px auto;
 }

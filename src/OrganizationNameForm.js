@@ -67,19 +67,21 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='orgName'>
-                        <Form.Label>{orgId ? 'New Name' : 'Name Organization'}</Form.Label>
+                        <Form.Label className='message'>{orgId ? 'New Name' : 'Name Organization'}</Form.Label>
                         <InputGroup>
                             <Form.Control type='text'
                                         name='orgName'
                                         placeholder='Organization Name'
                                         value={data.orgName}
                                         onChange={handleChange} />
-                        <Button type='submit'>Submit</Button>
+                        <Button type='submit'
+                                variant='dark'>
+                            Submit
+                        </Button>
                         </InputGroup>
                         
                     </Form.Group>
                 </Col>
-                
                 {userProp && userProp.superAdmin &&
                     <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
                         <Form.Group controlId='userOrg'>

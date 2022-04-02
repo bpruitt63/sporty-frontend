@@ -1,14 +1,18 @@
-import React from 'react';
-import {Container, Navbar, NavDropdown} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Container, Navbar, NavDropdown, Button} from 'react-bootstrap';
 import LoginForm from './LoginForm';
 
 function NavB({user, handleLogin}) {
 
+    const [login, setLogin] = useState(false);
+
     return (
-        <Navbar bg='secondary'>
+        <Navbar bg='dark'
+                variant='dark'>
             <Container>
                 <Navbar.Brand href='/'>Sporty</Navbar.Brand>
-                <LoginForm handleLogin={handleLogin} />
+                {login && 
+                    <LoginForm handleLogin={handleLogin} />}
                 {user && 
                     <NavDropdown title={`${user.firstName} ${user.lastName}`}>
                         {user && user.superAdmin &&
@@ -16,10 +20,18 @@ function NavB({user, handleLogin}) {
                         <NavDropdown.Item href='/profile'>Edit Profile</NavDropdown.Item>
                         <NavDropdown.Item href='/logout'>Log Out</NavDropdown.Item>
                     </NavDropdown>}
-                {!user && 
-                    <NavDropdown autoClose={false} title='Log In'>
+                {/* {!user &&
+                    <Button onClick={() => setLogin(!login)}
+                            variant='link'>
+                        {login ? 'Cancel Log In' : 'Log In'}
+                    </Button>} */}
+                {!user &&
+                    <NavDropdown title='Users'>
                         <NavDropdown.Item>
-                            <LoginForm handleLogin={handleLogin} />
+                            <Button onClick={() => setLogin(!login)}
+                                    variant='link'>
+                                {login ? 'Cancel Log In' : 'Log In'}
+                            </Button>
                         </NavDropdown.Item>
                         <NavDropdown.Item href='/register'>Register</NavDropdown.Item>
                     </NavDropdown>}

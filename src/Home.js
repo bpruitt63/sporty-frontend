@@ -19,21 +19,25 @@ function Home({user, setUser, isMobile}) {
         <Container>
             <ButtonGroup vertical={isMobile}>
                 <Button onClick={() => toggle('search')} 
-                        active={isOpen.search}>
+                        active={isOpen.search}
+                        variant='warning'>
                     Search Organizations
                 </Button>
                 {user && user.organizations && (null in user.organizations === false) &&
                     <Button onClick={() => toggle('myOrgs')}
-                            active={isOpen.myOrgs}>
+                            active={isOpen.myOrgs}
+                            variant='warning'>
                         My Organizations    
                     </Button>}
                 {user && 
                     <Button onClick={() => toggle('newOrg')}
-                            active={isOpen.newOrg}>
+                            active={isOpen.newOrg}
+                            variant='warning'>
                        Create New Organization
                     </Button>}
                 <Button onClick={() => toggle('newSeason')}
-                        active={isOpen.newSeason}>
+                        active={isOpen.newSeason}
+                        variant='warning'>
                     Build Season
                 </Button>
             </ButtonGroup>

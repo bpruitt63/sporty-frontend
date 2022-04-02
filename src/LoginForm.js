@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Form, Button, InputGroup} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -47,23 +48,26 @@ function LoginForm({handleLogin}) {
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='email'>Email</label>
-                <input type='text'
-                        name='email'
-                        id='loginEmail'
-                        placeholder='Email'
-                        value={data.email}
-                        onChange={handleChange} />
-                <label htmlFor='pwd'>Password</label>
-                <input type='password'
-                        name='pwd'
-                        id='loginPwd'
-                        placeholder='Password'
-                        value={data.pwd}
-                        onChange={handleChange} />
-                <button type='submit'>Submit</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <InputGroup>
+                    <Form.Control type='text'
+                                name='email'
+                                id='loginEmail'
+                                placeholder='Email'
+                                value={data.email}
+                                onChange={handleChange} />
+                    <Form.Control type='password'
+                                name='pwd'
+                                id='loginPwd'
+                                placeholder='Password'
+                                value={data.pwd}
+                                onChange={handleChange} />
+                    <Button type='submit'
+                            variant='secondary'>
+                        Submit
+                    </Button>
+                </InputGroup>
+            </Form>
         </div>
     )
 };

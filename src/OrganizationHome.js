@@ -110,21 +110,25 @@ function OrganizationHome({user, setUser, isMobile}) {
             {!isOpen.newSeason &&
                 <ButtonGroup vertical={isMobile}>
                     <Button onClick={isOpen.seasons ? () => toggleAndRemoveErrors('seasons') : getSeasons}
-                            active={isOpen.seasons}>
+                            active={isOpen.seasons}
+                            variant='warning'>
                         View Seasons
                     </Button>
                     {isEditor &&
-                        <Button onClick={() => toggleAndRemoveErrors('newSeason')}>
+                        <Button onClick={() => toggleAndRemoveErrors('newSeason')}
+                                variant='warning'>
                             Build Season   
                         </Button>}
                     {isAdmin && 
                         <Button onClick={() => toggleAndRemoveErrors('editOrg')}
-                                active={isOpen.editOrg}>
+                                active={isOpen.editOrg}
+                                variant='warning'>
                             Edit Organization
                         </Button>}
                     {isAdmin && 
                         <Button onClick={() => toggleAndRemoveErrors('manageUsers')}
-                                active={isOpen.manageUsers}>
+                                active={isOpen.manageUsers}
+                                variant='warning'>
                             Manage Users 
                         </Button>}
                 </ButtonGroup>}

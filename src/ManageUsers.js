@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Form, Button, InputGroup, Col} from 'react-bootstrap';
 import SportyApi from './SportyApi';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
@@ -49,20 +50,25 @@ function ManageUsers({orgId, orgName}) {
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='email'>Find User By Email</label>
-                <input type='text'
-                        name='email'
-                        id='email'
-                        placeholder="User's Email"
-                        value={data.email}
-                        onChange={handleChange} />
-                <button type='submit'>Get User</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                    <Form.Group controlId='email'>
+                        <Form.Label>Find User By Email</Form.Label>
+                        <InputGroup>
+                            <Form.Control type='text'
+                                    name='email'
+                                    placeholder="User's Email"
+                                    value={data.email}
+                                    onChange={handleChange} />
+                            <Button type='submit'>Get User</Button>
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+            </Form>
             {foundUser && 
                 <UserPermissions targetUser={foundUser} orgId={orgId}/>}
             {!orgUsers && 
-                <button onClick={getAll}>View all {orgName}'s users</button>}
+                <Button onClick={getAll}>View all {orgName}'s users</Button>}
             {orgUsers && orgUsers.map(u =>
                 <UserPermissions key={u.email} 
                                 targetUser={u}

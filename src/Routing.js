@@ -18,7 +18,9 @@ function Routing({user, setUser, handleLogin, isMobile}) {
             <Route path='/register' element={<RegisterForm user={user}
                                                     handleLogin={handleLogin} />} />
             <Route path='/logout' element={<Logout setUser={setUser} />} />
-            <Route path='/admin' element={<Admin user={user} />} />
+            <Route path='/admin' element={<Admin user={user}
+                                                setUser={setUser}
+                                                isMobile={isMobile} />} />
             <Route path='/profile' element={<UserUpdateForm user={user}
                                                             setUser={setUser} />} />
             <Route path='/organization/:orgId' element={<OrganizationHome user={user}

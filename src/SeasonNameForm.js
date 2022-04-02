@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
+import {Form, Button, InputGroup, Col} from 'react-bootstrap';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -45,20 +46,23 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
         <div>
             <Errors apiErrors={apiErrors}
                     formErrors={errors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='seasonTitle'>
-                    Season Title
-                </label>
-                <input type='text'
-                        name='seasonTitle'
-                        id='seasonTitle'
-                        placeholder='Season Title'
-                        value={data.seasonTitle}
-                        onChange={handleChange} />
-                <button type='submit'>
-                    {isEdit ? 'Save' : 'Next'}
-                </button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+                <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                    <Form.Group controlId='seasonTitle'>
+                        <Form.Label>Season Title</Form.Label>
+                        <InputGroup>
+                            <Form.Control type='text'
+                                            name='seasonTitle'
+                                            placeholder='Season Title'
+                                            value={data.seasonTitle}
+                                            onChange={handleChange} />
+                            <Button type='submit'>
+                                {isEdit ? 'Save' : 'Next'}
+                            </Button>
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+            </Form>
         </div>
     );
 };

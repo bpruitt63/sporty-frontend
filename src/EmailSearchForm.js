@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Col, Button, Form, InputGroup} from 'react-bootstrap';
 import Errors from './Errors';
 import UserUpdateForm from './UserUpdateForm';
 import {useHandleChange} from './hooks';
@@ -27,16 +28,24 @@ function EmailSearchForm({user}) {
     return (
         <div>
             <Errors formErrors={errors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='email'>Enter User's Email</label>
-                <input type='text'
-                        name='email'
-                        id='email'
-                        placeholder="User's Email"
-                        value={data.email}
-                        onChange={handleChange} />
-                <button type='submit'>Get User</button>
-            </form>
+            {!targetEmail &&
+                <Form onSubmit={handleSubmit}>
+                    <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                        <Form.Group controlId='email'>
+                            <Form.Label >Enter User's Email</Form.Label>
+                            <InputGroup>
+                                <Form.Control type='text'
+                                            name='email'
+                                            placeholder="User's Email"
+                                            value={data.email}
+                                            onChange={handleChange} />
+                                <Button type='submit'>Get User</Button>
+                            </InputGroup>
+                        </Form.Group>
+                    
+                    
+                    </Col>
+                </Form>}
             {targetEmail && <UserUpdateForm user={user}
                             targetEmail={targetEmail} />}
         </div>

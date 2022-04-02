@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Form, Button, Col} from 'react-bootstrap';
 import {useHandleChange, useValidate, useErrors} from './hooks';
 import {useNavigate} from 'react-router-dom';
 import SportyApi from './SportyApi';
@@ -94,46 +95,50 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
         <div>
             <Errors formErrors={formErrors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='pwd'>Password</label>
-                <input type='password'
-                        name='pwd'
-                        id='pwd'
-                        placeholder='Password'
-                        value={data.pwd || ''}
-                        onChange={handleChange} />
-                <label htmlFor='pwd2'>Retype Password</label>
-                <input type='password'
-                        name='pwd2'
-                        id='pwd2'
-                        placeholder='Retype Password'
-                        value={data.pwd2 || ''}
-                        onChange={handleChange} />
-                <label htmlFor='firstName'>First Name</label>
-                <input type='text'
-                        name='firstName'
-                        id='firstName'
-                        placeholder='First Name'
-                        value={data.firstName}
-                        onChange={handleChange} />
-                <label htmlFor='lastName'>Last Name</label>
-                <input type='text'
-                        name='lastName'
-                        id='lastName'
-                        placeholder='Last Name'
-                        value={data.lastName}
-                        onChange={handleChange} />
-                {user && user.superAdmin && user.email !== targetEmail &&
-                    <label >
-                        <input type='checkbox'
-                            name='superAdmin'
-                            id='superAdmin'
-                            checked={data.superAdmin}
-                            onChange={handleCheck} />
-                        Super Admin
-                    </label>}
-                <button type='submit'>Submit</button>
-            </form>
+            <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId='pwd'>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type='password'
+                                    name='pwd'
+                                    placeholder='Password'
+                                    value={data.pwd || ''}
+                                    onChange={handleChange} />
+                    </Form.Group>
+                    <Form.Group controlId='pwd2'>
+                        <Form.Label>Retype Password</Form.Label>
+                        <Form.Control type='password'
+                                    name='pwd2'
+                                    placeholder='Retype Password'
+                                    value={data.pwd2 || ''}
+                                    onChange={handleChange} />
+                    </Form.Group>
+                    <Form.Group controlId='firstName'>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type='text'
+                                    name='firstName'
+                                    placeholder='First Name'
+                                    value={data.firstName}
+                                    onChange={handleChange} />
+                    </Form.Group>
+                    <Form.Group controlId='lastName'>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type='text'
+                                    name='lastName'
+                                    placeholder='Last Name'
+                                    value={data.lastName}
+                                    onChange={handleChange} />
+                    </Form.Group>   
+                    {user && user.superAdmin && user.email !== targetEmail &&
+                                <Form.Check type='checkbox'
+                                        name='superAdmin'
+                                        id='superAdmin'
+                                        checked={data.superAdmin}
+                                        onChange={handleCheck} 
+                                        label='Super Admin'/>}
+                    <Button type='submit'>Submit</Button>
+                </Form>
+            </Col>
         </div>
     );
 };

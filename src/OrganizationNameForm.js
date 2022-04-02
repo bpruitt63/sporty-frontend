@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Form, Col} from 'react-bootstrap';
+import {Form, Col, Button, InputGroup} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -67,12 +67,16 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='orgName'>
-                        <Form.Label>{orgId ? 'New Name' : 'Organization Name'}</Form.Label>
-                        <Form.Control type='text'
-                                    name='orgName'
-                                    placeholder='Organization Name'
-                                    value={data.orgName}
-                                    onChange={handleChange} />
+                        <Form.Label>{orgId ? 'New Name' : 'Name Organization'}</Form.Label>
+                        <InputGroup>
+                            <Form.Control type='text'
+                                        name='orgName'
+                                        placeholder='Organization Name'
+                                        value={data.orgName}
+                                        onChange={handleChange} />
+                        <Button type='submit'>Submit</Button>
+                        </InputGroup>
+                        
                     </Form.Group>
                 </Col>
                 
@@ -86,7 +90,6 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
                                         label='This is my Organization' />
                         </Form.Group>
                     </Col>}
-                <button type='submit'>Submit</button>
             </Form>
         </div>
     );

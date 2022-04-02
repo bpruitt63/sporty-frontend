@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import {ButtonGroup, Button} from 'react-bootstrap';
+import {Container, Col, ButtonGroup, Button, ListGroup} from 'react-bootstrap';
 import {useToggle, useErrors} from './hooks';
 import SportyApi from './SportyApi';
 import OrganizationNameForm from './OrganizationNameForm';
@@ -94,62 +94,71 @@ function OrganizationHome({user, setUser, isMobile}) {
         toggle('seasons');
     };
 
+    const toggleAndRemoveErrors = (section) =>{
+        setApiErrors({});
+        toggle(section);
+    };
+
     if (isLoading) {
         return <p>Loading</p>
     };
 
     return (
-        <div>
+        <Container>
             <Errors apiErrors={apiErrors} />
             <h3>{org.orgName}</h3>
             {!isOpen.newSeason &&
                 <ButtonGroup vertical={isMobile}>
-                    <Button onClick={isOpen.seasons ? () => toggle('seasons') : getSeasons}
+                    <Button onClick={isOpen.seasons ? () => toggleAndRemoveErrors('seasons') : getSeasons}
                             active={isOpen.seasons}>
                         View Seasons
                     </Button>
                     {isEditor &&
-                        <Button onClick={() => toggle('newSeason')}>
+                        <Button onClick={() => toggleAndRemoveErrors('newSeason')}>
                             Build Season   
                         </Button>}
                     {isAdmin && 
-                        <Button onClick={() => toggle('editOrg')}
+                        <Button onClick={() => toggleAndRemoveErrors('editOrg')}
                                 active={isOpen.editOrg}>
                             Edit Organization
                         </Button>}
                     {isAdmin && 
-                        <Button onClick={() => toggle('manageUsers')}
+                        <Button onClick={() => toggleAndRemoveErrors('manageUsers')}
                                 active={isOpen.manageUsers}>
                             Manage Users 
                         </Button>}
                 </ButtonGroup>}
             {isOpen.seasons && !org.seasons[0] &&
                 <p>No seasons found for {org.orgName}</p>}
-            {isOpen.seasons && org.seasons[0] &&
-                org.seasons.map(s =>
-                    <Link to={`/organization/${orgId}/seasons/${s.seasonId}`} 
-                        key={s.seasonId}>{s.title}</Link> )}
+            <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                <ListGroup as='ul' variant='flush'>
+                    {isOpen.seasons && org.seasons[0] &&
+                        org.seasons.map(s =>
+                            <ListGroup.Item key={s.seasonId} className='listItem'>
+                                <Link to={`/organization/${orgId}/seasons/${s.seasonId}`}>
+                                    {s.title}
+                                </Link>
+                            </ListGroup.Item>)}
+                </ListGroup>
+             </Col>
             {isEditor && isOpen.newSeason &&
                 <NewSeason orgId={orgId}
                             cancel={toggle} />}
-            
             {isAdmin && isOpen.editOrg &&
                 <>
                 <OrganizationNameForm orgId={orgId}
                                         orgName={org.orgName}
                                         setOrg={setOrg}
                                         toggle={toggle} />
-                <button onClick={removeModal}>Delete Organization</button>                     
+                <Button onClick={removeModal}>Delete Organization</Button>                     
                 </>}
-            
             {isAdmin && isOpen.manageUsers &&
                 <ManageUsers orgId={orgId} orgName={org.orgName} />}
-            
             {modal &&
                 <Modal message={`Permanently delete ${org.orgName}?`}
                         cancel={removeModal}
                         confirm={remove} />}
-        </div>
+        </Container>
     );
 };
 

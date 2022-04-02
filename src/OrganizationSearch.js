@@ -59,7 +59,6 @@ function OrganizationSearch() {
                             <Button type='submit'>Search</Button>
                         </InputGroup>
                     </Form.Group>
-                    
                 </Col>
             </Form>
             {organizations && !organizations.length && 

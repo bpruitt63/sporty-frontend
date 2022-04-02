@@ -1,12 +1,13 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { ButtonGroup, Button, Container } from 'react-bootstrap';
 import RegisterForm from './RegisterForm';
 import EmailSearchForm from './EmailSearchForm';
 import OrganizationNameForm from './OrganizationNameForm';
 import OrganizationSearch from './OrganizationSearch';
 import {useToggle} from './hooks';
 
-function Admin({user}) {
+function Admin({user, setUser, isMobile}) {
 
     const initialState = {register: false, userUpdate: false, search: false,
                             newOrg: false};
@@ -17,24 +18,31 @@ function Admin({user}) {
     };
 
     return (
-        <div>
+        <Container>
+            <ButtonGroup vertical={isMobile}>
+                <Button onClick={() => toggle('register')}
+                        active={isOpen.register}>
+                    Create New User
+                </Button>
+                <Button onClick={() => toggle('userUpdate')}
+                        active={isOpen.userUpdate}>
+                    Update User
+                </Button>
+                <Button onClick={() => toggle('search')}
+                        active={isOpen.search}>
+                    Search Organizations
+                </Button>
+                <Button onClick={() => toggle('newOrg')}
+                        active={isOpen.newOrg}>
+                    Create New Organization
+                </Button>
+            </ButtonGroup>
             {isOpen.register && <RegisterForm user={user} />}
-            <button onClick={() => toggle('register')}>
-                {isOpen.register ? "Cancel" : "Create New User"}
-            </button>
             {isOpen.userUpdate && <EmailSearchForm user={user} />}
-            <button onClick={() => toggle('userUpdate')}>
-                {isOpen.userUpdate ? "Cancel" : "Update User"}
-            </button>
             {isOpen.search && <OrganizationSearch />}
-            <button onClick={() => toggle('search')}>
-                {isOpen.search ? 'Cancel' : 'Search Organizations'}
-            </button>
-            {isOpen.newOrg && <OrganizationNameForm user={user}/>}
-            <button onClick={() => toggle('newOrg')}>
-                {isOpen.newOrg ? 'Cancel' : 'Create New Organization'}
-            </button>
-        </div>
+            {isOpen.newOrg && <OrganizationNameForm userProp={user}
+                                                    setUser={setUser}/>}
+        </Container>
     );
 };
 

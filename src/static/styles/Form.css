@@ -10,3 +10,7 @@
     display: block;
     margin: 20px auto;
 }
+
+.loginMobile .form-control {
+    margin-bottom: 10px;
+}

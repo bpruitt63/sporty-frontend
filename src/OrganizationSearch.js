@@ -49,7 +49,6 @@ function OrganizationSearch() {
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='orgName'>
-                        <Form.Label className='message'>Search Organizations</Form.Label>
                         <InputGroup>
                             <Form.Control type='text'
                                         name='orgName'

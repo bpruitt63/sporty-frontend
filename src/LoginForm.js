@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Form, Button, InputGroup} from 'react-bootstrap';
+import {Form, Button, InputGroup, Col} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
 
-function LoginForm({handleLogin}) {
+function LoginForm({handleLogin, isMobile}) {
 
     const initialState = {email: '', pwd: ''}
 
@@ -49,24 +49,44 @@ function LoginForm({handleLogin}) {
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
             <Form onSubmit={handleSubmit}>
-                <InputGroup>
-                    <Form.Control type='text'
-                                name='email'
-                                id='loginEmail'
-                                placeholder='Email'
-                                value={data.email}
-                                onChange={handleChange} />
-                    <Form.Control type='password'
-                                name='pwd'
-                                id='loginPwd'
-                                placeholder='Password'
-                                value={data.pwd}
-                                onChange={handleChange} />
-                    <Button type='submit'
-                            variant='secondary'>
-                        Submit
-                    </Button>
-                </InputGroup>
+                {!isMobile &&
+                    <InputGroup>
+                        <Form.Control type='text'
+                                    name='email'
+                                    id='loginEmail'
+                                    placeholder='Email'
+                                    value={data.email}
+                                    onChange={handleChange} />
+                        <Form.Control type='password'
+                                    name='pwd'
+                                    id='loginPwd'
+                                    placeholder='Password'
+                                    value={data.pwd}
+                                    onChange={handleChange} />
+                        <Button type='submit'
+                                variant='secondary'>
+                            Submit
+                        </Button>
+                    </InputGroup>}
+                {isMobile &&
+                    <Col xs={{span: 10, offset: 1}} className='loginMobile'>
+                        <Form.Control type='text'
+                                    name='email'
+                                    id='loginEmail'
+                                    placeholder='Email'
+                                    value={data.email}
+                                    onChange={handleChange} />
+                        <Form.Control type='password'
+                                    name='pwd'
+                                    id='loginPwd'
+                                    placeholder='Password'
+                                    value={data.pwd}
+                                    onChange={handleChange} />
+                        <Button type='submit'
+                                variant='secondary'>
+                            Submit
+                        </Button>
+                    </Col>}
             </Form>
         </div>
     )

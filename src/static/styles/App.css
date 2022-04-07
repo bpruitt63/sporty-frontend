@@ -55,3 +55,11 @@ nav {
 .btn-dark:hover {
   background-color: rgb(59, 59, 59);
 }
+
+.navbarDrop a button {
+  padding-left: 0;
+}
+
+.navbarDrop .dropdown-menu {
+  min-width: 0;
+}

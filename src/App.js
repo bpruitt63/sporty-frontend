@@ -22,7 +22,8 @@ function App() {
   return (
     <div className="App">
       <NavB user={user} 
-                handleLogin={handleLogin} />
+                handleLogin={handleLogin}
+                isMobile={isMobile} />
       <Routing user={user}
                 setUser={setUser}
                 handleLogin={handleLogin}

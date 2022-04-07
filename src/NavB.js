@@ -2,17 +2,18 @@ import React, {useState} from 'react';
 import {Container, Navbar, NavDropdown, Button} from 'react-bootstrap';
 import LoginForm from './LoginForm';
 
-function NavB({user, handleLogin}) {
+function NavB({user, handleLogin, isMobile}) {
 
     const [login, setLogin] = useState(false);
 
     return (
+        <div>
         <Navbar bg='dark'
                 variant='dark'>
             <Container>
                 <Navbar.Brand href='/'>Sporty</Navbar.Brand>
-                {login && 
-                    <LoginForm handleLogin={handleLogin} />}
+                {login && !isMobile && 
+                    <LoginForm handleLogin={handleLogin} isMobile={isMobile}/>}
                 {user && 
                     <NavDropdown title={`${user.firstName} ${user.lastName}`}>
                         {user && user.superAdmin &&
@@ -20,16 +21,11 @@ function NavB({user, handleLogin}) {
                         <NavDropdown.Item href='/profile'>Edit Profile</NavDropdown.Item>
                         <NavDropdown.Item href='/logout'>Log Out</NavDropdown.Item>
                     </NavDropdown>}
-                {/* {!user &&
-                    <Button onClick={() => setLogin(!login)}
-                            variant='link'>
-                        {login ? 'Cancel Log In' : 'Log In'}
-                    </Button>} */}
                 {!user &&
-                    <NavDropdown title='Users'>
+                    <NavDropdown align='end' title='Users' className='navbarDrop'>
                         <NavDropdown.Item>
                             <Button onClick={() => setLogin(!login)}
-                                    variant='link'>
+                                    variant='dropdown-item'>
                                 {login ? 'Cancel Log In' : 'Log In'}
                             </Button>
                         </NavDropdown.Item>
@@ -37,6 +33,9 @@ function NavB({user, handleLogin}) {
                     </NavDropdown>}
             </Container>
         </Navbar>
+        {login && isMobile && 
+                    <LoginForm handleLogin={handleLogin} isMobile={isMobile}/>}
+        </div>
     );
 };
 

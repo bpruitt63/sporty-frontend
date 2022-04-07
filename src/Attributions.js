@@ -2,10 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Container} from 'react-bootstrap';
 
-function Attributions() {
+function Attributions({isMobile}) {
 
     return (
-        <div className='attributions' sticky='bottom'>
+        <div className={isMobile ? 'attributionsM' : 'attributions'}>
             <Container>
                 <p>Background Photo by{' '}
                     <Link to={{pathname: 'https://unsplash.com/@willianjusten?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'}}

@@ -22,14 +22,16 @@ function App() {
 
   return (
     <div className="App">
-      <NavB user={user} 
-                handleLogin={handleLogin}
-                isMobile={isMobile} />
-      <Routing user={user}
-                setUser={setUser}
-                handleLogin={handleLogin}
-                isMobile={isMobile} />
-      <Attributions />
+      <div className={isMobile ? 'contentM' : 'content'}>
+        <NavB user={user} 
+                  handleLogin={handleLogin}
+                  isMobile={isMobile} />
+        <Routing user={user}
+                  setUser={setUser}
+                  handleLogin={handleLogin}
+                  isMobile={isMobile} />
+      </div>
+      <Attributions isMobile={isMobile} />
     </div>
   );
 };

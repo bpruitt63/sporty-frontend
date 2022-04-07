@@ -8,8 +8,34 @@ body {
   position: relative;
 }
 
+.content {
+  padding-bottom: 3rem;
+}
+
+.contentM {
+  padding-bottom: 4.5rem;
+}
+
 .App {
   text-align: center;
+}
+
+.attributions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  padding-top: .7rem;
+  background-color: brown; 
+}
+
+.attributionsM {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 4.5rem;
+  padding-top: .7rem;
+  background-color: brown;
 }
 
 .listItem {
@@ -71,9 +97,4 @@ nav {
 
 .navbarDrop .dropdown-toggle {
   color: white;
-}
-
-.attributions {
-  background-color: brown;
-  padding: 15px 0px 5px 0px;
 }

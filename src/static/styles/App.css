@@ -3,6 +3,11 @@ body {
   background-size: cover;
 }
 
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
 .App {
   text-align: center;
 }
@@ -62,4 +67,13 @@ nav {
 
 .navbarDrop .dropdown-menu {
   min-width: 0;
+}
+
+.navbarDrop .dropdown-toggle {
+  color: white;
+}
+
+.attributions {
+  background-color: brown;
+  padding: 15px 0px 5px 0px;
 }

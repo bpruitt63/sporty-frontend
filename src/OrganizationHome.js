@@ -42,10 +42,12 @@ function OrganizationHome({user, setUser, isMobile}) {
             };
         };
         getOrganizationInfo(orgId);
-        setIsAdmin(user.superAdmin || (user.organizations && Object.hasOwn(user.organizations, orgId) && 
-            user.organizations[orgId].adminLevel === 1));
-        setIsEditor(user.superAdmin || (user.organizations && Object.hasOwn(user.organizations, orgId) && 
-            user.organizations[orgId].adminLevel <= 2));
+        setIsAdmin((user && user.superAdmin) || 
+                    (user && user.organizations && Object.hasOwn(user.organizations, orgId) && 
+                        user.organizations[orgId].adminLevel === 1));
+        setIsEditor((user && user.superAdmin) || 
+                    (user && user.organizations && Object.hasOwn(user.organizations, orgId) && 
+                        user.organizations[orgId].adminLevel <= 2));
     }, [orgId, navigate, getApiErrors, user]);
 
 

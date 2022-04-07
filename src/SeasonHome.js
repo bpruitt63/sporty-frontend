@@ -27,7 +27,7 @@ function SeasonHome({user}) {
     const [addGame, setAddGame] = useState(false);
     const [newGame, setNewGame] = useState();
     const [bye, setBye] = useState();
-    const isEditor = user.superAdmin || (user.organizations[orgId] && 
+    const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
         user.organizations[orgId].adminLevel <= 2);
     const navigate = useNavigate();
 

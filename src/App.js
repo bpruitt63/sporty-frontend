@@ -6,6 +6,7 @@ import './static/styles/Form.css';
 import SportyApi from './SportyApi';
 import Routing from './Routing';
 import NavB from './NavB';
+import Attributions from './Attributions';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
                 setUser={setUser}
                 handleLogin={handleLogin}
                 isMobile={isMobile} />
+      <Attributions />
     </div>
   );
 };

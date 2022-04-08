@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Row, Col, Button} from 'react-bootstrap';
 import GameEditForm from './GameEditForm';
 
 function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
@@ -32,18 +33,31 @@ function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
     };
 
     return (
-        <div>
+        <div className='gameContainer'>
             {!edit && 
                 <div>
-                    <p>{game.team1Name} vs {game.team2Name}</p>
-                    <p>Date: {game.readableDate || 'TBA'}</p>
-                    <p>Time: {game.readableTime || 'TBA'}</p>
-                    <p>Location: {game.gameLocation || 'TBA'}</p>
-                    {game.team1Score !== null &&
-                        <>
-                            <p>{game.team1Name}: {game.team1Score} </p>
-                            <p>{game.team2Name}: {game.team2Score} </p>
-                        </>}
+                    <Row className='gameTime'>
+                        <Col xs={12} md={6}>
+                            {game.readableDate || 'Date TBA'}
+                        </Col>
+                        <Col xs={12} md={6}>
+                            {game.readableTime || 'Time TBA'}
+                        </Col>
+                    </Row>
+                    <Row className='matchup'>
+                        <Col xs={12} md={5} className={`matchup${game.team1Color}`}>
+                            {game.team1Name}
+                            <p className='score'>{game.team1Score}</p>
+                        </Col>
+                        <Col xs={12} md={2} className='vs'>
+                            vs 
+                        </Col>
+                        <Col xs={12} md={5} className={`matchup${game.team2Color}`}>
+                            {game.team2Name}
+                            <p className='score'>{game.team2Score}</p>
+                        </Col>
+                    </Row>
+                    <p className='location'>{game.gameLocation || 'Location TBA'}</p>
                     <p>Notes: {game.notes}</p>
                 </div>}
             {edit &&
@@ -55,9 +69,11 @@ function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
                                 currentGames={games}
                                 setGames={setGames} />}
             {isEditor &&
-                <button onClick={() => setEdit(!edit)}>
+            <div className='d-grid gap-2'>
+                <Button onClick={() => setEdit(!edit)}
+                        variant='outline-secondary'>
                     {edit? 'Cancel' : 'Edit'}
-                </button>}
+                </Button></div>}
         </div>
     );
 };

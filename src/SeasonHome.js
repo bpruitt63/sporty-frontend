@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import { Container, Button, ListGroup, Col } from 'react-bootstrap';
 import './static/styles/Season.css';
+import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
 import {getTeams, validateGames, formatInputs} from './static/helpers';
 import SportyApi from './SportyApi';

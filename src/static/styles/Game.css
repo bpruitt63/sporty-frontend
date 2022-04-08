@@ -1,0 +1,100 @@
+.gameContainer {
+    border-radius: 5px;
+    background-color: aliceblue;
+    margin-bottom: 15px;
+}
+
+.gameTime {
+    padding: 10px 0px;
+}
+
+.matchup {
+    margin: 0;
+}
+
+.vs {
+    font-size: 1.1rem;
+    padding: 10px 0px;
+    outline: 1px solid gray;
+}
+
+.matchupN\/A {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    outline: 1px solid gray;
+}
+
+.matchupblack {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: black;
+    color: white;
+}
+
+.matchupwhite {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: white;
+    outline: 1px solid gray;
+}
+
+.matchupgray {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: grey;
+    color: white;
+}
+
+.matchupred {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: red;
+    color: white;
+    outline: 1px solid gray;
+}
+
+.matchuporange {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: orange;
+    outline: 1px solid gray;
+}
+
+.matchupyellow {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: yellow;
+    outline: 1px solid gray;
+}
+
+.matchupblue {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: blue;
+    color: white;
+    outline: 1px solid gray;
+}
+
+.matchupgreen {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: green;
+    color: white;
+    outline: 1px solid gray;
+}
+
+.matchuppurple {
+    padding: 10px 0px;
+    font-size: 1.2rem;
+    background-color: purple;
+    color: white;
+    outline: 1px solid gray;
+}
+
+.score {
+    margin: 10px 0px;
+}
+
+.location {
+    margin-top: 10px;
+}

@@ -4,7 +4,7 @@ import Game from './Game';
 function GameList({games, setGames = null, isEditor=false, season={}, setSeason=null}) {
 
     return (
-        <div>
+        <div className='gameList'>
             {games.map(g =>
                 <Game key={g.gameId || `game ${games.indexOf(g)}`} 
                     gameProp={g}

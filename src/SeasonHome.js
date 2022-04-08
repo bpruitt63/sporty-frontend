@@ -256,7 +256,8 @@ function SeasonHome({user}) {
             <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                 <ListGroup as='ul' variant='flush' className='teamList'>
                     {season.rankings.map(t =>
-                        <ListGroup.Item key={t}>
+                        <ListGroup.Item key={t}
+                                        className={`teamRank${season.teams[t].color}`}>
                             <Button onClick={() => setGames(season.teams[t].games)}
                                     variant='link'>
                                     {season.teams[t].teamName}
@@ -265,7 +266,7 @@ function SeasonHome({user}) {
                                 {season.teams[t].record.join('-')}
                             </span>
                         </ListGroup.Item>)}
-                    <ListGroup.Item>
+                    <ListGroup.Item className='teamRankN/A'>
                         <Button onClick={() => setGames(season.games)}
                                 variant='link'>
                                 Show all games

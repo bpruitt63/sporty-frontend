@@ -12,10 +12,10 @@ function NavB({user, handleLogin, isMobile}) {
                 variant='dark'>
             <Container>
                 <Navbar.Brand href='/'>Sporty</Navbar.Brand>
-                {login && !isMobile && 
+                {!user && login && !isMobile && 
                     <LoginForm handleLogin={handleLogin} isMobile={isMobile}/>}
                 {user && 
-                    <NavDropdown title={`${user.firstName} ${user.lastName}`}>
+                    <NavDropdown align='end' title={`${user.firstName} ${user.lastName}`} className='navbarDrop'>
                         {user && user.superAdmin &&
                             <NavDropdown.Item href='/admin'>Admin</NavDropdown.Item>}
                         <NavDropdown.Item href='/profile'>Edit Profile</NavDropdown.Item>
@@ -33,7 +33,7 @@ function NavB({user, handleLogin, isMobile}) {
                     </NavDropdown>}
             </Container>
         </Navbar>
-        {login && isMobile && 
+        {!user && login && isMobile && 
                     <LoginForm handleLogin={handleLogin} isMobile={isMobile}/>}
         </div>
     );

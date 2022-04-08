@@ -22,9 +22,101 @@
 .teamList {
     border-bottom: 1px solid rgb(224, 224, 224);
     margin-bottom: 20px;
+    border-radius: 5px;
 }
 
 .returnLink {
     display: block;
     margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.teamRankN\/A {
+    background-color: white;
+}
+
+.teamRankblack {
+    background-color: black;
+}
+
+.teamRankwhite {
+    background-color: white;
+}
+
+.teamRankgray {
+    background-color: grey;
+}
+
+.teamRankred {
+    background-color: red;
+}
+
+.teamRankorange {
+    background-color: orange;
+}
+
+.teamRankyellow {
+    background-color: yellow;
+}
+
+.teamRankblue {
+    background-color: blue;
+}
+
+.teamRankgreen {
+    background-color: green;
+}
+
+.teamRankpurple {
+    background-color: purple;
+}
+
+.teamRankN\/A button, .teamRankN\/A span {
+    text-decoration: none;
+    color: black;
+}
+
+.teamRankblack button, .teamRankblack span {
+    text-decoration: none;
+    color: white;
+}
+
+.teamRankwhite button, .teamRankwhite span {
+    text-decoration: none;
+    color: black;
+}
+
+.teamRankgray button, .teamRankgray span {
+    text-decoration: none;
+    color: white;
+}
+
+.teamRankred button, .teamRankred span {
+    text-decoration: none;
+    color: white;
+}
+
+.teamRankorange button, .teamRankorange span {
+    text-decoration: none;
+    color: black;
+}
+
+.teamRankyellow button, .teamRankyellow span {
+    text-decoration: none;
+    color: black;
+}
+
+.teamRankblue button, .teamRankblue span {
+    text-decoration: none;
+    color: white;
+}
+
+.teamRankgreen button, .teamRankgreen span {
+    text-decoration: none;
+    color: white;
+}
+
+.teamRankpurple button, .teamRankpurple span {
+    text-decoration: none;
+    color: white;
 }

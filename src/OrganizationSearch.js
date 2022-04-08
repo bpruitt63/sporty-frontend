@@ -46,7 +46,7 @@ function OrganizationSearch() {
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className='searchForm'>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='orgName'>
                         <InputGroup>
@@ -64,9 +64,9 @@ function OrganizationSearch() {
                 </Col>
             </Form>
             {organizations && !organizations.length && 
-                <p>No organizations found.  Try a different search term.</p>}
+                <p className='message'>No organizations found.  Try a different search term.</p>}
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
-                <ListGroup as='ul' variant='flush'>
+                <ListGroup as='ul' variant='flush' className='searchResults'>
                     {organizations && organizations.map(o =>
                         <ListGroup.Item key={o.orgId} className='listItem'>
                             <Link to={`../organization/${o.orgId}`}>{o.orgName}</Link>

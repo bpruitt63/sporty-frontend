@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import {Container, Col, ButtonGroup, Button, ListGroup} from 'react-bootstrap';
+import './static/styles/Org.css';
 import {useToggle, useErrors} from './hooks';
 import SportyApi from './SportyApi';
 import OrganizationNameForm from './OrganizationNameForm';
@@ -108,7 +109,7 @@ function OrganizationHome({user, setUser, isMobile}) {
     return (
         <Container>
             <Errors apiErrors={apiErrors} />
-            <h3>{org.orgName}</h3>
+            <h3 className='orgHead'>{org.orgName}</h3>
             {!isOpen.newSeason &&
                 <ButtonGroup vertical={isMobile}>
                     <Button onClick={isOpen.seasons ? () => toggleAndRemoveErrors('seasons') : getSeasons}
@@ -134,10 +135,8 @@ function OrganizationHome({user, setUser, isMobile}) {
                             Manage Users 
                         </Button>}
                 </ButtonGroup>}
-            {isOpen.seasons && !org.seasons[0] &&
-                <p>No seasons found for {org.orgName}</p>}
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
-                <ListGroup as='ul' variant='flush'>
+                <ListGroup as='ul' variant='flush' className='searchResults'>
                     {isOpen.seasons && org.seasons[0] &&
                         org.seasons.map(s =>
                             <ListGroup.Item key={s.seasonId} className='listItem'>

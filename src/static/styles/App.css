@@ -98,3 +98,7 @@ nav {
 .navbarDrop .dropdown-toggle {
   color: white;
 }
+
+.searchResults {
+  border-radius: 10px;
+}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Form, Button, Col} from 'react-bootstrap';
+import {Form, Button, Col, Spinner} from 'react-bootstrap';
 import {useHandleChange, useValidate, useErrors} from './hooks';
 import {useNavigate} from 'react-router-dom';
 import SportyApi from './SportyApi';
@@ -88,7 +88,11 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return(

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
+import {Spinner} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import { validateGames, formatInputs, formatTime, getTeams } from './static/helpers';
 import Errors from './Errors';
@@ -104,7 +105,11 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

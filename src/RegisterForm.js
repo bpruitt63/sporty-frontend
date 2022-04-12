@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigate, Navigate} from 'react-router-dom';
-import {Col, Form, Button} from 'react-bootstrap';
+import {Col, Form, Button, Spinner} from 'react-bootstrap';
 import {useHandleChange, useValidate, useErrors} from './hooks';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
@@ -70,7 +70,11 @@ function RegisterForm({user, handleLogin}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return(

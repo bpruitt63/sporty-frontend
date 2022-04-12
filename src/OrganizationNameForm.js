@@ -67,7 +67,6 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='orgName'>
-                        <Form.Label className='message'>{orgId ? 'New Name' : 'Name Organization'}</Form.Label>
                         <InputGroup>
                             <Form.Control type='text'
                                         name='orgName'
@@ -79,19 +78,16 @@ function OrganizationNameForm({orgId=null, orgName='', setOrg, userProp, setUser
                             Submit
                         </Button>
                         </InputGroup>
-                        
                     </Form.Group>
-                </Col>
-                {userProp && userProp.superAdmin &&
-                    <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                    {userProp && userProp.superAdmin &&
                         <Form.Group controlId='userOrg'>
                             <Form.Check type='checkbox'
                                         name='userOrg'
                                         checked={checked}
                                         onChange={handleCheck}
                                         label='This is my Organization' />
-                        </Form.Group>
-                    </Col>}
+                        </Form.Group>}
+                </Col>
             </Form>
         </div>
     );

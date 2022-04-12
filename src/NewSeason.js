@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Spinner} from 'react-bootstrap';
 import { useHandleChange, useToggle, useErrors } from './hooks';
 import ManualSeasonForm from './ManualSeasonForm';
 import SeasonNameForm from './SeasonNameForm';
@@ -96,7 +97,11 @@ function NewSeason({orgId=null, cancel}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

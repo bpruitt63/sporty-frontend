@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Spinner } from 'react-bootstrap';
 import SportyApi from './SportyApi';
 import {useErrors} from './hooks';
 import Errors from './Errors';
@@ -57,7 +58,11 @@ function UserPermissions({targetUser, orgId}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

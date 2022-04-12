@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Button, InputGroup, Col} from 'react-bootstrap';
+import {Form, Button, InputGroup, Col, Spinner} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -41,7 +41,11 @@ function LoginForm({handleLogin, isMobile}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

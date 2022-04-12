@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import { Container, Button, ListGroup, Col } from 'react-bootstrap';
+import { Container, Button, ListGroup, Col, Spinner } from 'react-bootstrap';
 import './static/styles/Season.css';
 import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
@@ -190,7 +190,11 @@ function SeasonHome({user}) {
 
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
 

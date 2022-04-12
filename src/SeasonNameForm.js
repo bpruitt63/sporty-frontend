@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
-import {Form, Button, InputGroup, Col} from 'react-bootstrap';
+import {Form, Button, InputGroup, Col, Spinner} from 'react-bootstrap';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -39,7 +39,11 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (
@@ -50,8 +54,6 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='seasonTitle'>
-                        {!isEdit &&
-                            <Form.Label className='message'>Season Title</Form.Label>}
                         <InputGroup>
                             <Form.Control type='text'
                                             name='seasonTitle'

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import {Container, Col, ButtonGroup, Button, ListGroup} from 'react-bootstrap';
+import {Container, Col, ButtonGroup, Button, ListGroup, Spinner} from 'react-bootstrap';
 import './static/styles/Org.css';
 import {useToggle, useErrors} from './hooks';
 import SportyApi from './SportyApi';
@@ -103,13 +103,19 @@ function OrganizationHome({user, setUser, isMobile}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (
         <Container>
             <Errors apiErrors={apiErrors} />
-            <h3 className='orgHead'>{org.orgName}</h3>
+            <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
+                <h3 className='orgHead'>{org.orgName}</h3>
+            </Col>
             {!isOpen.newSeason &&
                 <ButtonGroup vertical={isMobile}>
                     <Button onClick={isOpen.seasons ? () => toggleAndRemoveErrors('seasons') : getSeasons}
@@ -155,7 +161,11 @@ function OrganizationHome({user, setUser, isMobile}) {
                                         orgName={org.orgName}
                                         setOrg={setOrg}
                                         toggle={toggle} />
-                <Button onClick={removeModal}>Delete Organization</Button>                     
+                <Button onClick={removeModal}
+                        variant='danger'
+                        className='deleteButton'>
+                    Delete Organization
+                </Button>                     
                 </>}
             {isAdmin && isOpen.manageUsers &&
                 <ManageUsers orgId={orgId} orgName={org.orgName} />}

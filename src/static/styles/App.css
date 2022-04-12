@@ -101,4 +101,9 @@ nav {
 
 .searchResults {
   border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.deleteButton {
+  margin-top: 20px;
 }

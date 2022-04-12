@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
-import {Form, Col, Button, InputGroup, ListGroup} from 'react-bootstrap';
+import {Form, Col, Button, InputGroup, ListGroup, Spinner} from 'react-bootstrap';
 import Errors from './Errors';
 import {useHandleChange, useErrors} from './hooks';
 import SportyApi from './SportyApi';
@@ -39,7 +39,11 @@ function OrganizationSearch() {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

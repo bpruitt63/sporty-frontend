@@ -13,8 +13,7 @@ function MyOrganizations({user}) {
 
     return (
         <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
-            <h3>My Organizations</h3>
-            <ListGroup as='ul' variant='flush'>
+            <ListGroup as='ul' variant='flush' className='searchResults'>
                 {organizations.map(o =>
                     <ListGroup.Item className='listItem' key={o}>
                         <Link to={`organization/${o}`}>

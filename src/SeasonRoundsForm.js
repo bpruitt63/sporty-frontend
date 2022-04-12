@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Spinner} from 'react-bootstrap';
 import { buildSeason } from './static/helpers';
 import { useErrors } from './hooks';
 import Errors from './Errors';
@@ -53,7 +54,11 @@ function SeasonRoundsForm({season, handleChange, toggle, setSeason, orgId}) {
     };
 
     if (isLoading) {
-        return <p>Loading</p>
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
     };
 
     return (

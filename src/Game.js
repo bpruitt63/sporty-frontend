@@ -69,11 +69,12 @@ function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
                                 currentGames={games}
                                 setGames={setGames} />}
             {isEditor &&
-            <div className='d-grid gap-2'>
-                <Button onClick={() => setEdit(!edit)}
-                        variant='outline-secondary'>
-                    {edit? 'Cancel' : 'Edit'}
-                </Button></div>}
+                <div className='d-grid gap-2'>
+                    <Button onClick={() => setEdit(!edit)}
+                            variant='outline-secondary'>
+                        {edit? 'Cancel' : 'Edit'}
+                    </Button>
+                </div>}
         </div>
     );
 };

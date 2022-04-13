@@ -4,7 +4,7 @@ import {Spinner} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import { validateGames, formatInputs, formatTime, getTeams } from './static/helpers';
 import Errors from './Errors';
-import Modal from './Modal';
+import ModalComponent from './ModalComponent';
 import SportyApi from './SportyApi';
 
 function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGames, setGames}) {
@@ -198,7 +198,7 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
                         formErrors={errors} />
             </form>
             {modal &&
-                <Modal message={'Score already entered for game.  Are you sure you want to delete?'}
+                <ModalComponent message={'Score already entered for game.  Are you sure you want to delete?'}
                         cancel={deleteModal}
                         confirm={deleteGame} />}
         </div>

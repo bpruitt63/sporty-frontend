@@ -52,7 +52,7 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
             <Errors apiErrors={apiErrors}
                     formErrors={errors} />
             <Form onSubmit={handleSubmit}>
-                <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
+                <Col xs={{span: 10, offset: 1}} md={isEdit ? {span: 10, offset: 1} : {span: 6, offset: 3}}>
                     <Form.Group controlId='seasonTitle'>
                         <InputGroup>
                             <Form.Control type='text'

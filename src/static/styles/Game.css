@@ -2,6 +2,7 @@
     border-radius: 5px;
     background-color: aliceblue;
     margin-bottom: 15px;
+    outline: 1px solid gray;
 }
 
 .gameTime {
@@ -29,6 +30,7 @@
     font-size: 1.2rem;
     background-color: black;
     color: white;
+    outline: 1px solid gray;
 }
 
 .matchupwhite {
@@ -43,6 +45,7 @@
     font-size: 1.2rem;
     background-color: grey;
     color: white;
+    outline: 1px solid gray;
 }
 
 .matchupred {

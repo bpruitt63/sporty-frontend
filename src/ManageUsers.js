@@ -60,7 +60,10 @@ function ManageUsers({orgId, orgName}) {
                                     placeholder="User's Email"
                                     value={data.email}
                                     onChange={handleChange} />
-                            <Button type='submit'>Get User</Button>
+                            <Button type='submit'
+                                    variant='dark'>
+                                Get User
+                            </Button>
                         </InputGroup>
                     </Form.Group>
                 </Col>
@@ -68,7 +71,11 @@ function ManageUsers({orgId, orgName}) {
             {foundUser && 
                 <UserPermissions targetUser={foundUser} orgId={orgId}/>}
             {!orgUsers && 
-                <Button onClick={getAll}>View all {orgName}'s users</Button>}
+                <Button onClick={getAll}
+                        variant='dark'
+                        className='viewAllButton'>
+                    View all {orgName}'s users
+                </Button>}
             {orgUsers && orgUsers.map(u =>
                 <UserPermissions key={u.email} 
                                 targetUser={u}

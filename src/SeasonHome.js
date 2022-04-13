@@ -9,7 +9,7 @@ import SportyApi from './SportyApi';
 import Errors from './Errors';
 import GameList from './GameList';
 import SeasonNameForm from './SeasonNameForm';
-import Modal from './Modal';
+import ModalComponent from './ModalComponent';
 import NewGameForm from './NewGameForm';
 
 function SeasonHome({user}) {
@@ -220,7 +220,7 @@ function SeasonHome({user}) {
                 {isEditor &&
                     <button onClick={deleteModal}>Delete Season</button>}
                 {modal &&
-                <Modal message={`Permanently delete season ${season.title}?`}
+                <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
             </Container>
@@ -303,7 +303,7 @@ function SeasonHome({user}) {
             {isEditor && 
                 <button onClick={deleteModal}>Delete Season</button>}
             {modal &&
-                <Modal message={`Permanently delete season ${season.title}?`}
+                <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
         </Container>

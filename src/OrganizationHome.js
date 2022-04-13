@@ -8,7 +8,7 @@ import OrganizationNameForm from './OrganizationNameForm';
 import ManageUsers from './ManageUsers';
 import NewSeason from './NewSeason';
 import Errors from './Errors';
-import Modal from './Modal';
+import ModalComponent from './ModalComponent';
 
 function OrganizationHome({user, setUser, isMobile}) {
 
@@ -170,7 +170,7 @@ function OrganizationHome({user, setUser, isMobile}) {
             {isAdmin && isOpen.manageUsers &&
                 <ManageUsers orgId={orgId} orgName={org.orgName} />}
             {modal &&
-                <Modal message={`Permanently delete ${org.orgName}?`}
+                <ModalComponent message={`Permanently delete ${org.orgName}?`}
                         cancel={removeModal}
                         confirm={remove} />}
         </Container>

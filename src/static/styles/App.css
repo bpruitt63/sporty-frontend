@@ -107,3 +107,15 @@ nav {
 .deleteButton {
   margin-top: 20px;
 }
+
+.viewAllButton {
+  margin-top: 20px;
+}
+
+.modal-open {
+  text-align: center;
+}
+
+.modal-footer {
+  justify-content: space-around;
+}

@@ -53,7 +53,6 @@ function ManageUsers({orgId, orgName}) {
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>
                     <Form.Group controlId='email'>
-                        <Form.Label className='message'>Find User By Email</Form.Label>
                         <InputGroup>
                             <Form.Control type='text'
                                     name='email'

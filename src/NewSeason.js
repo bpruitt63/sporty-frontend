@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import {Spinner} from 'react-bootstrap';
+import {Spinner, Button} from 'react-bootstrap';
 import { useHandleChange, useToggle, useErrors } from './hooks';
 import ManualSeasonForm from './ManualSeasonForm';
 import SeasonNameForm from './SeasonNameForm';
@@ -132,7 +132,10 @@ function NewSeason({orgId=null, cancel}) {
                                 setSeason={setSeason}
                                 gamesToDatabase={gamesToDatabase} />}
             {orgId && !isOpen.preview &&
-                <button onClick={cancelSeason}>Cancel Season Create</button>}
+                <Button onClick={cancelSeason}
+                        variant='dark'>
+                    Cancel Season Create
+                </Button>}
             {orgId && isOpen.preview && !season.seasonId &&
                 <button onClick={saveSeason}>
                     Save Season    

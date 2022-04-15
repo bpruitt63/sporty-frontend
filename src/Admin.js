@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { ButtonGroup, Button, Container } from 'react-bootstrap';
+import './static/styles/Admin.css';
 import RegisterForm from './RegisterForm';
 import EmailSearchForm from './EmailSearchForm';
 import OrganizationNameForm from './OrganizationNameForm';

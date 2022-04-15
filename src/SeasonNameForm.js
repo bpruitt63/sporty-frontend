@@ -47,8 +47,7 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
     };
 
     return (
-        <div
-        className={isEdit ? 'editForm' : 'nameForm'}>
+        <div className={isEdit ? 'editForm' : 'nameForm'}>
             <Errors apiErrors={apiErrors}
                     formErrors={errors} />
             <Form onSubmit={handleSubmit}>

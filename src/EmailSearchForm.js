@@ -44,8 +44,6 @@ function EmailSearchForm({user}) {
                                 </Button>
                             </InputGroup>
                         </Form.Group>
-                    
-                    
                     </Col>
                 </Form>}
             {targetEmail && <UserUpdateForm user={user}

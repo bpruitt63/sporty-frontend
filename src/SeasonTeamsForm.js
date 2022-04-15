@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Form, Button, Col, Row} from 'react-bootstrap';
 import Errors from './Errors';
 
 function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
@@ -77,37 +78,51 @@ function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
 
     return (
         <div>
-            <Errors formErrors={errors}/>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='numTeams'>Number of Teams</label>
-                <input type='number'
-                        name='numTeams'
-                        id='numTeams'
-                        min='2'
-                        max='30'
-                        value={season.numTeams}
-                        onChange={handleChange} />
-                <label>
-                    <input type='radio' 
-                            name='generateNames'
+            <Col xs={12} lg={{span: 8, offset: 2}}>
+                <Errors formErrors={errors}/>
+                <Form onSubmit={handleSubmit} className='teamsFormContainer'>
+                    <Form.Group as={Row}>
+                        <Form.Label htmlFor='numTeams'
+                                    column xs={8} md={6}
+                                    id='numTeamsLabel'>
+                            Number of Teams
+                        </Form.Label>
+                        <Col xs={3} md={2}>
+                        <Form.Control type='number'
+                                name='numTeams'
+                                id='numTeams'
+                                min='2'
+                                max='30'
+                                value={season.numTeams}
+                                onChange={handleChange} />
+                                </Col>
+                    </Form.Group>
+                    <Form.Check type='radio' 
+                            id='generateNamesF'
+                            label='Name Teams'
                             checked={season.generateNames === false}
                             onChange={() => handleRadio(false)} />
-                    Name Teams
-                </label>
-                <label>
-                    <input type='radio' 
-                            name='generateNames'
+                    <Form.Check type='radio' 
+                            id='generateNamesT'
+                            label='Use Numbers for Team Names'
                             checked={season.generateNames === true}
                             onChange={() => handleRadio(true)} />
-                    Use Numbers for Team Names
-                </label>
-                <button type='submit'>
-                    {isOpen ? 'Change' : 'Next'}
-                </button>
-                <button onClick={() => toggle('seasonName')}>
-                    Back
-                </button>
-            </form>
+                    <Row id='numTeamsButtons'>
+                        <Col xs={6}>
+                            <Button onClick={() => toggle('seasonName')}
+                                    variant='secondary'>
+                                Back
+                            </Button>
+                        </Col>
+                        <Col xs={6}>
+                            <Button type='submit'
+                                    variant='dark'>
+                                {isOpen ? 'Change' : 'Next'}
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Col>
             {isOpen && <>
                 <p>Enter Team Names</p>
                 <form onSubmit={handleNameSubmit}>

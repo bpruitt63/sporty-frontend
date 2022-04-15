@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Form, Button } from 'react-bootstrap';
 import SportyApi from './SportyApi';
 import {useErrors} from './hooks';
 import Errors from './Errors';
@@ -66,41 +66,35 @@ function UserPermissions({targetUser, orgId}) {
     };
 
     return (
-        <div>
-            <p>{targetUser.firstName} {targetUser.lastName}</p>
+        <div className='userPermissionContainer'>
+            <h6>{targetUser.firstName} {targetUser.lastName}</h6>
             <Errors apiErrors={apiErrors}/>
-            {message && <p>{message}</p>}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <input type='radio' 
-                            name='adminLevel'
-                            checked={val === 1}
-                            onChange={() => handleRadio(1)} />
-                    Organization Admin
-                </label>
-                <label>
-                    <input type='radio' 
-                            name='adminLevel'
-                            checked={val === 2}
-                            onChange={() => handleRadio(2)} />
-                    Organization Editor
-                </label>
-                <label>
-                    <input type='radio' 
-                            name='adminLevel'
-                            checked={val === 3}
-                            onChange={() => handleRadio(3)} />
-                    No Permissions
-                </label>
-                <label>
-                    <input type='radio' 
-                            name='adminLevel'
-                            checked={val === 4}
-                            onChange={() => handleRadio(4)} />
-                    Remove User From Organization
-                </label>
-                <button type='submit'>Confirm</button>
-            </form>
+            {message && <p className='toastMsg'>{message}</p>}
+            <Form onSubmit={handleSubmit}>
+                <Form.Check type='radio' 
+                        id='adminLevel1'
+                        label='Organization Admin'
+                        checked={val === 1}
+                        onChange={() => handleRadio(1)} />
+                <Form.Check type='radio' 
+                        id='adminLevel2'
+                        label='Organization Editor'
+                        checked={val === 2}
+                        onChange={() => handleRadio(2)} />
+                <Form.Check type='radio' 
+                        id='adminLevel3'
+                        label='No Permissions'
+                        checked={val === 3}
+                        onChange={() => handleRadio(3)} />
+                <Form.Check type='radio' 
+                        id='adminLevel4'
+                        label='Remove User From Organization'                            checked={val === 4}
+                        onChange={() => handleRadio(4)} />
+                <Button type='submit'
+                        variant='dark'>
+                    Confirm
+                </Button>
+            </Form>
         </div>
     )
 };

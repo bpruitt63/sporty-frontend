@@ -18,3 +18,35 @@
 .searchForm {
     margin-bottom: 20px;
 }
+
+.userForm .form-control {
+    margin: 20px 0px;
+}
+
+.editForm, .nameForm {
+    margin-bottom: 20px;
+}
+
+.teamsFormContainer {
+    background-color: aliceblue;
+    padding: 20px 0px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.teamsFormContainer .form-check{
+    background-color: aliceblue;
+}
+
+#numTeamsLabel {
+    text-align: right;
+}
+
+#numTeamsButtons {
+    margin: 10px 0px;
+    justify-content: space-around;
+}
+
+#numTeamsButtons button {
+    padding: 8px 30px;
+}

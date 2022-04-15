@@ -82,47 +82,32 @@ function RegisterForm({user, handleLogin}) {
             <Errors formErrors={formErrors}
                     apiErrors={apiErrors} />
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId='email'>
-                        <Form.Label className='label'>Email</Form.Label>
-                        <Form.Control type='text'
-                                    name='email'
-                                    placeholder='Email'
-                                    value={data.email}
-                                    onChange={handleChange} />
-                    </Form.Group>
-                    <Form.Group controlId='pwd'>
-                        <Form.Label className='label'>Password</Form.Label>
-                        <Form.Control type='password'
-                                    name='pwd'
-                                    placeholder='Password'
-                                    value={data.pwd}
-                                    onChange={handleChange} />
-                    </Form.Group>
-                    <Form.Group controlId='pwd2'>
-                        <Form.Label className='label'>Retype Password</Form.Label>
-                        <Form.Control type='password'
-                                    name='pwd2'
-                                    placeholder='Retype Password'
-                                    value={data.pwd2}
-                                    onChange={handleChange} />
-                    </Form.Group>
-                    <Form.Group controlId='firstName'>
-                        <Form.Label className='label'>First Name</Form.Label>
-                        <Form.Control type='text'
-                                    name='firstName'
-                                    placeholder='First Name'
-                                    value={data.firstName}
-                                    onChange={handleChange} />
-                    </Form.Group>
-                    <Form.Group controlId='lastName'>
-                        <Form.Label className='label'>Last Name</Form.Label>
-                        <Form.Control type='text'
-                                    name='lastName'
-                                    placeholder='Last Name'
-                                    value={data.lastName}
-                                    onChange={handleChange} />
-                    </Form.Group>
+                <Form onSubmit={handleSubmit} className='userForm'>
+                    <Form.Control type='text'
+                                name='email'
+                                placeholder='Email'
+                                value={data.email}
+                                onChange={handleChange} />
+                    <Form.Control type='password'
+                                name='pwd'
+                                placeholder='Password'
+                                value={data.pwd}
+                                onChange={handleChange} />
+                    <Form.Control type='password'
+                                name='pwd2'
+                                placeholder='Retype Password'
+                                value={data.pwd2}
+                                onChange={handleChange} />
+                    <Form.Control type='text'
+                                name='firstName'
+                                placeholder='First Name'
+                                value={data.firstName}
+                                onChange={handleChange} />
+                    <Form.Control type='text'
+                                name='lastName'
+                                placeholder='Last Name'
+                                value={data.lastName}
+                                onChange={handleChange} />
                     {user && user.superAdmin && 
                         <Form.Check type='checkbox'
                                     name='superAdmin'

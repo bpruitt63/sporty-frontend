@@ -38,16 +38,16 @@
     background-color: aliceblue;
 }
 
-#numTeamsLabel {
+.numberLabel {
     text-align: right;
 }
 
-#numTeamsButtons {
+.backNextButtons {
     margin: 10px 0px;
     justify-content: space-around;
 }
 
-#numTeamsButtons button {
+.backNextButtons button {
     padding: 8px 30px;
 }
 
@@ -58,4 +58,12 @@
 
 .teamsFormRow {
     margin-bottom: 30px;
+}
+
+.roundsRow {
+    margin: 20px 0px;
+}
+
+.roundsRow label, .roundsRow div {
+    display: inline;
 }

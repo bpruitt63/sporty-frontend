@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Spinner} from 'react-bootstrap';
+import {Spinner, Col, Row, Form, Button} from 'react-bootstrap';
 import { buildSeason } from './static/helpers';
 import { useErrors } from './hooks';
 import Errors from './Errors';
@@ -62,42 +62,55 @@ function SeasonRoundsForm({season, handleChange, toggle, setSeason, orgId}) {
     };
 
     return (
-        <>
+        <Col xs={12} lg={{span: 8, offset: 2}} className='teamsFormContainer'>
             <Errors apiErrors={apiErrors} />
             {orgId &&
-                <div>
-                    <label>
-                        <input type='radio' 
-                                name='manual'
+                <Row>
+                    <Col xs={12} md={6}>
+                        <Form.Check type='radio' 
+                                id='notManual'
                                 checked={season.generateGames}
-                                onChange={() => handleRadio(true)} />
-                        Automatically Generate Season
-                    </label>
-                    <label>
-                        <input type='radio' 
-                                name='manual'
+                                onChange={() => handleRadio(true)}
+                                label='Automatically Generate Season' />
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Check type='radio' 
+                                id='manual'
                                 checked={!season.generateGames}
-                                onChange={() => handleRadio(false)} />
-                        Manually Enter Season Info
-                    </label>
-                </div>}
-            <form onSubmit={handleSubmitRounds}>
-                <label htmlFor='rounds'>Number of Weeks/Rounds</label>
-                <input type='number'
-                        name='rounds'
-                        id='rounds'
-                        min='1'
-                        max='50'
-                        value={season.rounds}
-                        onChange={handleChange} />
-                <button type='submit'>
-                    {orgId ? 'Next' : 'Generate Season'}
-                </button>
-                <button onClick={() => toggle('seasonTeams')}>
-                    Back
-                </button>
-            </form>
-        </>
+                                onChange={() => handleRadio(false)}
+                                label='Manually Enter Season Info' />
+                    </Col>
+                </Row>}
+            <Form onSubmit={handleSubmitRounds}>
+                <Form.Group as={Row} controlId='rounds' className='roundsRow'>
+                    <Form.Label column xs={12} md={{span: 5, offset: 2}}>
+                        Number of Weeks/Rounds
+                    </Form.Label>
+                    <Col xs={{span: 4, offset: 4}} md={{span: 2, offset: 0}}>
+                        <Form.Control type='number'
+                                name='rounds'
+                                min='1'
+                                max='50'
+                                value={season.rounds}
+                                onChange={handleChange} />
+                    </Col>
+                </Form.Group>
+                <Row className='backNextButtons'>
+                    <Col xs={6}>
+                        <Button onClick={() => toggle('seasonTeams')}
+                                variant='secondary'>
+                            Back
+                        </Button>
+                    </Col>
+                    <Col xs={6}>
+                        <Button type='submit'
+                                variant='dark'>
+                            {orgId ? 'Next' : 'Generate Season'}
+                        </Button>
+                    </Col>
+                </Row>
+            </Form>
+        </Col>
     );
 };
 

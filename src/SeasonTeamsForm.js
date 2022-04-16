@@ -81,16 +81,14 @@ function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
             <Col xs={12} lg={{span: 8, offset: 2}}>
                 <Errors formErrors={errors}/>
                 <Form onSubmit={handleSubmit} className='teamsFormContainer'>
-                    <Form.Group as={Row}>
-                        <Form.Label htmlFor='numTeams'
-                                    column xs={8} md={6}
-                                    id='numTeamsLabel'>
+                    <Form.Group as={Row} controlId='numTeams'>
+                        <Form.Label column xs={8} md={6}
+                                    className='numberLabel'>
                             Number of Teams
                         </Form.Label>
                         <Col xs={3} md={2}>
                             <Form.Control type='number'
                                     name='numTeams'
-                                    id='numTeams'
                                     min='2'
                                     max='30'
                                     value={season.numTeams}
@@ -107,7 +105,7 @@ function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
                             label='Use Numbers for Team Names'
                             checked={season.generateNames === true}
                             onChange={() => handleRadio(true)} />
-                    <Row id='numTeamsButtons'>
+                    <Row className='backNextButtons'>
                         <Col xs={6}>
                             <Button onClick={() => toggle('seasonName')}
                                     variant='secondary'>

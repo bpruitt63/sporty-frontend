@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import { Container, Button, ListGroup, Col, Spinner } from 'react-bootstrap';
+import { Container, Button, ListGroup, Col, Row, Spinner, Form } from 'react-bootstrap';
 import './static/styles/Season.css';
 import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
@@ -286,7 +286,7 @@ function SeasonHome({user}) {
                             season={season}
                             setSeason={setSeason} />}
             {addGame &&
-                <form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                     <Errors apiErrors={apiErrorsNewGame}
                             formErrors={errors} />
                     <NewGameForm g={'0'}
@@ -294,14 +294,26 @@ function SeasonHome({user}) {
                                 handleGameChange={handleGameChange}
                                 nullScore={nullScore}
                                 bye={bye} />
-                    <button type='submit'>Save</button>
-                </form>}
+                    <Button type='submit'
+                            variant='dark'>
+                        Save
+                    </Button>
+                </Form>}
             {isEditor &&
-                <button onClick={toggleAdd}>
-                    {addGame ? 'Cancel' : 'Add Game'}    
-                </button>}
-            {isEditor && 
-                <button onClick={deleteModal}>Delete Season</button>}
+                <Row>
+                    <Col xs={6}>
+                        <Button onClick={deleteModal}
+                                variant='danger'>
+                            Delete Season
+                        </Button> 
+                    </Col>
+                    <Col xs={6}>
+                        <Button onClick={toggleAdd}
+                                variant={addGame ? 'secondary' : 'dark'}>
+                            {addGame ? 'Cancel Add' : 'Add Game'}    
+                        </Button> 
+                    </Col>
+                </Row>}
             {modal &&
                 <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}

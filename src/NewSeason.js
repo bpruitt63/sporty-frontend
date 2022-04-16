@@ -137,15 +137,18 @@ function NewSeason({orgId=null, cancel}) {
                     Cancel Season Create
                 </Button>}
             {orgId && isOpen.preview && !season.seasonId &&
-                <button onClick={saveSeason}>
+                <Button onClick={saveSeason}
+                        variant='dark'
+                        id='topSaveButton'>
                     Save Season    
-                </button>}
+                </Button>}
             {isOpen.preview &&
                 <GameList games={Object.values(season.games)} />}
             {orgId && isOpen.preview && !season.seasonId &&
-                <button onClick={saveSeason}>
+                <Button onClick={saveSeason}
+                        variant='dark'>
                     Save Season    
-                </button>}
+                </Button>}
         </div>
     );
 };

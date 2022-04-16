@@ -31,6 +31,10 @@
     text-decoration: none;
 }
 
+#topSaveButton {
+    margin-bottom: 20px;
+}
+
 .teamRankN\/A {
     background-color: white;
 }

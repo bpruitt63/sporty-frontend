@@ -29,7 +29,7 @@
 
 .teamsFormContainer {
     background-color: aliceblue;
-    padding: 20px 0px;
+    padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
@@ -49,4 +49,13 @@
 
 #numTeamsButtons button {
     padding: 8px 30px;
+}
+
+.teamsFormCol {
+    display: inline-block;
+    margin: 5px;
+}
+
+.teamsFormRow {
+    margin-bottom: 30px;
 }

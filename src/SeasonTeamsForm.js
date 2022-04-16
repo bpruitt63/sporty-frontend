@@ -88,14 +88,14 @@ function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
                             Number of Teams
                         </Form.Label>
                         <Col xs={3} md={2}>
-                        <Form.Control type='number'
-                                name='numTeams'
-                                id='numTeams'
-                                min='2'
-                                max='30'
-                                value={season.numTeams}
-                                onChange={handleChange} />
-                                </Col>
+                            <Form.Control type='number'
+                                    name='numTeams'
+                                    id='numTeams'
+                                    min='2'
+                                    max='30'
+                                    value={season.numTeams}
+                                    onChange={handleChange} />
+                        </Col>
                     </Form.Group>
                     <Form.Check type='radio' 
                             id='generateNamesF'
@@ -123,41 +123,56 @@ function SeasonTeamsForm({season, handleChange, toggle, setSeason}) {
                     </Row>
                 </Form>
             </Col>
-            {isOpen && <>
-                <p>Enter Team Names</p>
-                <form onSubmit={handleNameSubmit}>
-                    {Object.keys(season.teams).map(t =>
-                        <div key={t}>
-                            <label htmlFor={`${t} teamName`}>
-                                Team Name
-                                <input type='text'
-                                        name={`${t} teamName`}
-                                        id={`${t} teamName`}
-                                        placeholder={`Team ${t}`}
-                                        value={season.teams[t].teamName}
-                                        onChange={handleNameChange}/>
-                            </label>
-                            <label htmlFor={`${t} color`}>
-                                Team Color
-                                <select value={season.teams[t].color}
-                                        onChange={handleNameChange}
-                                        name={`${t} color`}
-                                        id={`${t} color`}>
-                                    <option value='N/A'>N/A</option>
-                                    <option value='black'>Black</option>
-                                    <option value='white'>White</option>
-                                    <option value='gray'>Gray</option>
-                                    <option value='red'>Red</option>
-                                    <option value='orange'>Orange</option>
-                                    <option value='yellow'>Yellow</option>
-                                    <option value='blue'>Blue</option>
-                                    <option value='green'>Green</option>
-                                    <option value='purple'>Purple</option>
-                                </select>
-                            </label>
-                        </div>)} 
-                    <button type='submit'>Submit Teams</button>   
-                </form></>}
+            {isOpen && 
+                <Col xs={12} lg={{span: 8, offset: 2}}>
+                    <p className='message'>Enter Team Names</p>
+                    <Form onSubmit={handleNameSubmit} className='teamsFormContainer'>
+                        {Object.keys(season.teams).map(t =>
+                            <Row key={t} className='teamsFormRow'>
+                                <Form.Group controlId={`${t} teamName`}>
+                                    <Col xs={4} md={2} className='teamsFormCol'>
+                                        <Form.Label>
+                                            Team Name
+                                        </Form.Label>
+                                    </Col>
+                                    <Col xs={7} md={6} className='teamsFormCol'>
+                                        <Form.Control type='text'
+                                                name={`${t} teamName`}
+                                                placeholder={`Team ${t}`}
+                                                value={season.teams[t].teamName}
+                                                onChange={handleNameChange}/>
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group controlId={`${t} color`}>
+                                    <Col xs={4} md={2} className='teamsFormCol'>
+                                        <Form.Label>
+                                            Team Color
+                                        </Form.Label>
+                                    </Col>
+                                    <Col xs={7} md={6} className='teamsFormCol'>
+                                        <Form.Select value={season.teams[t].color}
+                                                onChange={handleNameChange}
+                                                name={`${t} color`}>
+                                            <option value='N/A'>N/A</option>
+                                            <option value='black'>Black</option>
+                                            <option value='white'>White</option>
+                                            <option value='gray'>Gray</option>
+                                            <option value='red'>Red</option>
+                                            <option value='orange'>Orange</option>
+                                            <option value='yellow'>Yellow</option>
+                                            <option value='blue'>Blue</option>
+                                            <option value='green'>Green</option>
+                                            <option value='purple'>Purple</option>
+                                        </Form.Select>
+                                    </Col>
+                                </Form.Group>
+                            </Row>)} 
+                        <Button type='submit'
+                                variant='dark'>
+                            Submit Teams
+                        </Button>   
+                    </Form>
+                </Col>}
         </div>
     );
 };

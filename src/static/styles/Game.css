@@ -10,7 +10,7 @@
 }
 
 .matchup {
-    margin: 0;
+    margin: 0px 0px 10px 0px;
 }
 
 .vs {
@@ -96,8 +96,4 @@
 
 .score {
     margin: 10px 0px;
-}
-
-.location {
-    margin-top: 10px;
 }

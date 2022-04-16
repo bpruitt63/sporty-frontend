@@ -300,7 +300,7 @@ function SeasonHome({user}) {
                     </Button>
                 </Form>}
             {isEditor &&
-                <Row>
+                <Row className='addDelete'>
                     <Col xs={6}>
                         <Button onClick={deleteModal}
                                 variant='danger'>

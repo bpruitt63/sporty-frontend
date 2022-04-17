@@ -221,21 +221,32 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
                         </Col>
                     </Row>
                 }
-                <label htmlFor={`notes`}>
-                    Notes: 
-                    <textarea
-                        name={`notes`}
-                        value={data.notes}
-                        onChange={handleChange} />
-                    </label>
-                <Button type='submit'
-                        variant='dark'>
-                    Save
-                </Button>
-                <Button onClick={gameProp.team1Score ? deleteModal : deleteGame}
-                        variant='danger'>
-                    Delete Game
-                </Button>
+                <Form.Group controlId='notes'>
+                    <Form.Label>
+                        Notes: 
+                    </Form.Label>
+                    <Col xs={{span: 10, offset: 1}}>
+                        <Form.Control as='textarea'
+                                    rows={3}
+                                    name='notes'
+                                    value={data.notes}
+                                    onChange={handleChange} />
+                    </Col>
+                </Form.Group>
+                <Row className='backNextButtons'>
+                    <Col xs={6}>
+                        <Button onClick={gameProp.team1Score ? deleteModal : deleteGame}
+                                variant='danger'>
+                            Delete Game
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button type='submit'
+                                variant='dark'>
+                            Save
+                        </Button>
+                    </Col>
+                </Row>
                 <Errors apiErrors={apiErrors}
                         formErrors={errors} />
             </Form>
@@ -245,107 +256,6 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
                         confirm={deleteGame} />}
         </div>
     );
-
-    // return (
-    //     <div>
-    //         <Form onSubmit={handleSubmit}>
-    //             <label htmlFor={`team1Id`}>
-    //                 <select value={data.team1Id}
-    //                         onChange={handleChange}
-    //                         name={`team1Id`}>
-    //                     <option value={''}>Select Team</option>
-    //                     {Object.keys(season.teams).map(t =>
-    //                         <option value={t}
-    //                                 key={t}>
-    //                             {season.teams[t].teamName}
-    //                         </option>)}
-    //                 </select>
-    //             </label>
-    //             <label htmlFor={`team2Id`}>
-    //                 vs
-    //                 <select value={data.team2Id}
-    //                         onChange={handleChange}
-    //                         name={`team2Id`}>
-    //                     <option value={''}>Select Team</option>
-    //                     {Object.keys(season.teams).map(t =>
-    //                         <option value={t}
-    //                                 key={t}>
-    //                             {season.teams[t].teamName}
-    //                         </option>)}
-    //                 </select>
-    //             </label>
-    //             <label htmlFor='gameDate'>
-    //                 Date: 
-    //                 <input type='date'
-    //                         name={`gameDate`}
-    //                         value={data.gameDate || ''}
-    //                         onChange={handleChange} />
-    //             </label>
-    //             {parseInt(data.team1Id) !== bye && 
-    //             parseInt(data.team2Id) !== bye &&
-    //                 <>
-    //                     <label htmlFor={`gameTime`}>
-    //                         Time: 
-    //                         <input type='time'
-    //                                 name={`gameTime`}
-    //                                 value={data.gameTime || ''}
-    //                                 onChange={handleChange} />
-    //                     </label>
-    //                     <label htmlFor={`gameLocation`}>
-    //                         Location: 
-    //                         <input type='text'
-    //                                 name={`gameLocation`}
-    //                                 value={data.gameLocation}
-    //                                 onChange={handleChange} />
-    //                     </label>
-    //                     <label htmlFor={`team1Score`}>
-    //                     {data.team1Id ? `${season.teams[data.team1Id].teamName} Score` : 'Score 1'}
-    //                         <input type='number'
-    //                                 min='0'
-    //                                 max='999'
-    //                                 name={`team1Score`}
-    //                                 value={data.team1Score !== null ? data.team1Score : ''}
-    //                                 onChange={handleChange} />
-    //                     </label>
-    //                     <label htmlFor={`team2Score`}>
-    //                         {data.team2Id ? `${season.teams[data.team2Id].teamName} Score` : 'Score 2'}
-    //                         <input type='number'
-    //                                 min='0'
-    //                                 max='999'
-    //                                 name={`team2Score`}
-    //                                 value={data.team2Score !== null ? data.team2Score : ''}
-    //                                 onChange={handleChange} />
-    //                     </label>
-    //                     <Button onClick={nullScore}
-    //                             variant='outline-secondary'>
-    //                         Remove Score
-    //                     </Button>
-    //                 </>
-    //             }
-    //             <label htmlFor={`notes`}>
-    //                 Notes: 
-    //                 <textarea
-    //                     name={`notes`}
-    //                     value={data.notes}
-    //                     onChange={handleChange} />
-    //                 </label>
-    //             <Button type='submit'
-    //                     variant='dark'>
-    //                 Save
-    //             </Button>
-    //             <Button onClick={gameProp.team1Score ? deleteModal : deleteGame}
-    //                     variant='danger'>
-    //                 Delete Game
-    //             </Button>
-    //             <Errors apiErrors={apiErrors}
-    //                     formErrors={errors} />
-    //         </Form>
-    //         {modal &&
-    //             <ModalComponent message={'Score already entered for game.  Are you sure you want to delete?'}
-    //                     cancel={deleteModal}
-    //                     confirm={deleteGame} />}
-    //     </div>
-    // );
 };
 
 export default GameEditForm;

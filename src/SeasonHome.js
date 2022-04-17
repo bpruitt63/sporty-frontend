@@ -32,6 +32,15 @@ function SeasonHome({user}) {
         user.organizations[orgId].adminLevel <= 2);
     const navigate = useNavigate();
 
+    const newGameObj = {team1Id: '',
+                        team2Id: '',
+                        gameDate: null,
+                        gameTime: null,
+                        gameLocation: '',
+                        team1Score: null,
+                        team2Score: null,
+                        notes: ''};
+
 
     useEffect(() => {
         async function getSeason() {
@@ -53,22 +62,31 @@ function SeasonHome({user}) {
                     team = {...team[1], teamId: team[0]};
                     newGameTeams.push(team);
                 };
-                const newGameObj = {team1Id: '',
-                        team2Id: '',
-                        gameDate: null,
-                        gameTime: null,
-                        gameLocation: '',
-                        team1Score: null,
-                        team2Score: null,
-                        notes: ''};
                 setNewGame({games: [newGameObj], teams: newGameTeams});
                 setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                 setIsLoading(false);
             } catch (e) {
                 getApiErrors(e);
                 try {
-                    const result = await SportyApi.getSeason(orgId, seasonId);
-                    setSeason({seasonId: result.seasonId, title: result.title, games: []});
+                    const [seasonResult, teamsResult] = await Promise.all([
+                        SportyApi.getSeason(orgId, seasonId),
+                        SportyApi.getTeams(orgId, seasonId)
+                    ]);
+                    const {teams, rankings} = getTeams([], teamsResult);
+                    setSeason({seasonId: seasonResult.seasonId, 
+                                title: seasonResult.title, 
+                                games: [],
+                                teams,
+                                rankings});
+                    setGames([]);
+                    setTitle({seasonTitle: seasonResult.title});
+                    const newGameTeams = [];
+                    for (let team of Object.entries(teams)) {
+                        team = {...team[1], teamId: team[0]};
+                        newGameTeams.push(team);
+                    };
+                    setNewGame({games: [newGameObj], teams: newGameTeams});
+                    setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                     setIsLoading(false);
                 } catch (err) {
                     getApiErrors(err);
@@ -201,9 +219,9 @@ function SeasonHome({user}) {
     if (!season.games[0]) {
         return (
             <Container>
-                <p>No games found for {season.title}</p>
+                <p className='message'>No games found for {season.title}</p>
                 {addGame &&
-                    <form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit}>
                         <Errors apiErrors={apiErrorsNewGame}
                                 formErrors={errors} />
                         <NewGameForm g={'0'}
@@ -211,14 +229,26 @@ function SeasonHome({user}) {
                                     handleGameChange={handleGameChange}
                                     nullScore={nullScore}
                                     bye={bye} />
-                        <button type='submit'>Save</button>
-                    </form>}
+                        <Button type='submit'
+                                variant='dark'>
+                            Save
+                        </Button>
+                    </Form>}
                 {isEditor &&
-                    <button onClick={toggleAdd}>
-                        {addGame ? 'Cancel' : 'Add Game'}    
-                    </button>}
-                {isEditor &&
-                    <button onClick={deleteModal}>Delete Season</button>}
+                    <Row>
+                        <Col xs={6} md={{span: 3, offset: 3}}>
+                            <Button onClick={deleteModal}
+                                    variant='danger'>
+                                Delete Season
+                            </Button>
+                        </Col>
+                        <Col xs={6} md={3}>
+                            <Button onClick={toggleAdd}
+                                    variant='dark'>
+                                {addGame ? 'Cancel' : 'Add Game'}    
+                            </Button>
+                        </Col>
+                    </Row>}
                 {modal &&
                 <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}

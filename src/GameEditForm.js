@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {Spinner} from 'react-bootstrap';
+import {Spinner, Form, Button, Row, Col} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
 import { validateGames, formatInputs, formatTime, getTeams } from './static/helpers';
 import Errors from './Errors';
@@ -114,76 +114,112 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor={`team1Id`}>
-                    <select value={data.team1Id}
-                            onChange={handleChange}
-                            name={`team1Id`}>
-                        <option value={''}>Select Team</option>
-                        {Object.keys(season.teams).map(t =>
-                            <option value={t}
-                                    key={t}>
-                                {season.teams[t].teamName}
-                            </option>)}
-                    </select>
-                </label>
-                <label htmlFor={`team2Id`}>
-                    vs
-                    <select value={data.team2Id}
-                            onChange={handleChange}
-                            name={`team2Id`}>
-                        <option value={''}>Select Team</option>
-                        {Object.keys(season.teams).map(t =>
-                            <option value={t}
-                                    key={t}>
-                                {season.teams[t].teamName}
-                            </option>)}
-                    </select>
-                </label>
-                <label htmlFor='gameDate'>
-                    Date: 
-                    <input type='date'
-                            name={`gameDate`}
-                            value={data.gameDate || ''}
-                            onChange={handleChange} />
-                </label>
-                {parseInt(data.team1Id) !== bye && 
-                parseInt(data.team2Id) !== bye &&
-                    <>
-                        <label htmlFor={`gameTime`}>
-                            Time: 
-                            <input type='time'
-                                    name={`gameTime`}
+            <Form onSubmit={handleSubmit}>
+                <Row className='gameTime'>
+                    <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 1}}>
+                        <Form.Control type='date'
+                                name='gameDate'
+                                value={data.gameDate || ''}
+                                onChange={handleChange} />
+                    </Col>
+                    {parseInt(data.team1Id) !== bye && 
+                    parseInt(data.team2Id) !== bye &&
+                        <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 1}}>
+                            <Form.Control type='time'
+                                    name='gameTime'
                                     value={data.gameTime || ''}
                                     onChange={handleChange} />
-                        </label>
-                        <label htmlFor={`gameLocation`}>
-                            Location: 
-                            <input type='text'
-                                    name={`gameLocation`}
-                                    value={data.gameLocation}
-                                    onChange={handleChange} />
-                        </label>
-                        <label htmlFor={`team1Score`}>
-                        {data.team1Id ? `${season.teams[data.team1Id].teamName} Score` : 'Score 1'}
-                            <input type='number'
-                                    min='0'
-                                    max='999'
-                                    name={`team1Score`}
-                                    value={data.team1Score !== null ? data.team1Score : ''}
-                                    onChange={handleChange} />
-                        </label>
-                        <label htmlFor={`team2Score`}>
-                            {data.team2Id ? `${season.teams[data.team2Id].teamName} Score` : 'Score 2'}
-                            <input type='number'
-                                    min='0'
-                                    max='999'
-                                    name={`team2Score`}
-                                    value={data.team2Score !== null ? data.team2Score : ''}
-                                    onChange={handleChange} />
-                        </label>
-                        <button onClick={nullScore}>Remove Score</button>
-                    </>
+                        </Col>}
+                </Row>
+                <Row className='matchup'>
+                    <Col xs={12} md={5} 
+                        className={data.team1Id ? `matchup${season.teams[data.team1Id].color}` : 'matchupN/A'}>
+                        <Col xs={{span: 10, offset: 1}}>
+                            <Form.Select value={data.team1Id}
+                                    onChange={handleChange}
+                                    name={`team1Id`}>
+                                <option value={''}>Select Team</option>
+                                {Object.keys(season.teams).map(t =>
+                                    <option value={t}
+                                            key={t}>
+                                        {season.teams[t].teamName}
+                                    </option>)}
+                            </Form.Select>
+                            {parseInt(data.team1Id) !== bye && 
+                            parseInt(data.team2Id) !== bye &&
+                                <Form.Group controlId='team1Score' className='scoreEdit'>
+                                    <Form.Label column xs={4}>
+                                        Score:{' '}
+                                    </Form.Label>
+                                        <Col xs={4}>
+                                            <Form.Control type='number'
+                                                    min='0'
+                                                    max='999'
+                                                    name={`team1Score`}
+                                                    value={data.team1Score !== null ? data.team1Score : ''}
+                                                    onChange={handleChange} />
+                                        </Col>
+                                </Form.Group>}
+                        </Col>
+                    </Col>
+                    <Col xs={12} md={2} className='vs'>
+                        vs 
+                    </Col>
+                    <Col xs={12} md={5} 
+                        className={data.team2Id ? `matchup${season.teams[data.team2Id].color}` : 'matchupN/A'}>
+                        <Col xs={{span: 10, offset: 1}}>
+                            <Form.Select value={data.team2Id}
+                                    onChange={handleChange}
+                                    name={`team2Id`}>
+                                <option value={''}>Select Team</option>
+                                {Object.keys(season.teams).map(t =>
+                                    <option value={t}
+                                            key={t}>
+                                        {season.teams[t].teamName}
+                                    </option>)}
+                            </Form.Select>
+                            {parseInt(data.team1Id) !== bye && 
+                            parseInt(data.team2Id) !== bye &&
+                                <Form.Group controlId='team2Score' 
+                                            className='scoreEdit'>
+                                    <Form.Label column xs={4}>
+                                        Score:{' '}
+                                    </Form.Label>
+                                        <Col xs={4}>
+                                            <Form.Control type='number'
+                                                    min='0'
+                                                    max='999'
+                                                    name={`team2Score`}
+                                                    value={data.team2Score !== null ? data.team2Score : ''}
+                                                    onChange={handleChange} />
+                                        </Col>
+                                </Form.Group>}
+                        </Col>
+                    </Col>
+                </Row>
+                {parseInt(data.team1Id) !== bye && 
+                parseInt(data.team2Id) !== bye &&
+                    <Row className='locationRow'>
+                        <Col xs={12} md={6}>
+                            <Form.Group controlId='gameLocation'>
+                                <Form.Label column xs={4}>
+                                    Location:{' '}
+                                </Form.Label>
+                                <Col xs={8}>
+                                    <Form.Control type='text'
+                                            name={`gameLocation`}
+                                            value={data.gameLocation}
+                                            onChange={handleChange} />
+                                </Col>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 0}}>
+                            <Button onClick={nullScore}
+                                    variant='outline-secondary'>
+                                Remove Score
+                            </Button>
+                        </Col>
+                    </Row>
                 }
                 <label htmlFor={`notes`}>
                     Notes: 
@@ -192,17 +228,124 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
                         value={data.notes}
                         onChange={handleChange} />
                     </label>
-                <button type='submit'>Save</button>
-                <button onClick={gameProp.team1Score ? deleteModal : deleteGame}>Delete Game</button>
+                <Button type='submit'
+                        variant='dark'>
+                    Save
+                </Button>
+                <Button onClick={gameProp.team1Score ? deleteModal : deleteGame}
+                        variant='danger'>
+                    Delete Game
+                </Button>
                 <Errors apiErrors={apiErrors}
                         formErrors={errors} />
-            </form>
+            </Form>
             {modal &&
                 <ModalComponent message={'Score already entered for game.  Are you sure you want to delete?'}
                         cancel={deleteModal}
                         confirm={deleteGame} />}
         </div>
     );
+
+    // return (
+    //     <div>
+    //         <Form onSubmit={handleSubmit}>
+    //             <label htmlFor={`team1Id`}>
+    //                 <select value={data.team1Id}
+    //                         onChange={handleChange}
+    //                         name={`team1Id`}>
+    //                     <option value={''}>Select Team</option>
+    //                     {Object.keys(season.teams).map(t =>
+    //                         <option value={t}
+    //                                 key={t}>
+    //                             {season.teams[t].teamName}
+    //                         </option>)}
+    //                 </select>
+    //             </label>
+    //             <label htmlFor={`team2Id`}>
+    //                 vs
+    //                 <select value={data.team2Id}
+    //                         onChange={handleChange}
+    //                         name={`team2Id`}>
+    //                     <option value={''}>Select Team</option>
+    //                     {Object.keys(season.teams).map(t =>
+    //                         <option value={t}
+    //                                 key={t}>
+    //                             {season.teams[t].teamName}
+    //                         </option>)}
+    //                 </select>
+    //             </label>
+    //             <label htmlFor='gameDate'>
+    //                 Date: 
+    //                 <input type='date'
+    //                         name={`gameDate`}
+    //                         value={data.gameDate || ''}
+    //                         onChange={handleChange} />
+    //             </label>
+    //             {parseInt(data.team1Id) !== bye && 
+    //             parseInt(data.team2Id) !== bye &&
+    //                 <>
+    //                     <label htmlFor={`gameTime`}>
+    //                         Time: 
+    //                         <input type='time'
+    //                                 name={`gameTime`}
+    //                                 value={data.gameTime || ''}
+    //                                 onChange={handleChange} />
+    //                     </label>
+    //                     <label htmlFor={`gameLocation`}>
+    //                         Location: 
+    //                         <input type='text'
+    //                                 name={`gameLocation`}
+    //                                 value={data.gameLocation}
+    //                                 onChange={handleChange} />
+    //                     </label>
+    //                     <label htmlFor={`team1Score`}>
+    //                     {data.team1Id ? `${season.teams[data.team1Id].teamName} Score` : 'Score 1'}
+    //                         <input type='number'
+    //                                 min='0'
+    //                                 max='999'
+    //                                 name={`team1Score`}
+    //                                 value={data.team1Score !== null ? data.team1Score : ''}
+    //                                 onChange={handleChange} />
+    //                     </label>
+    //                     <label htmlFor={`team2Score`}>
+    //                         {data.team2Id ? `${season.teams[data.team2Id].teamName} Score` : 'Score 2'}
+    //                         <input type='number'
+    //                                 min='0'
+    //                                 max='999'
+    //                                 name={`team2Score`}
+    //                                 value={data.team2Score !== null ? data.team2Score : ''}
+    //                                 onChange={handleChange} />
+    //                     </label>
+    //                     <Button onClick={nullScore}
+    //                             variant='outline-secondary'>
+    //                         Remove Score
+    //                     </Button>
+    //                 </>
+    //             }
+    //             <label htmlFor={`notes`}>
+    //                 Notes: 
+    //                 <textarea
+    //                     name={`notes`}
+    //                     value={data.notes}
+    //                     onChange={handleChange} />
+    //                 </label>
+    //             <Button type='submit'
+    //                     variant='dark'>
+    //                 Save
+    //             </Button>
+    //             <Button onClick={gameProp.team1Score ? deleteModal : deleteGame}
+    //                     variant='danger'>
+    //                 Delete Game
+    //             </Button>
+    //             <Errors apiErrors={apiErrors}
+    //                     formErrors={errors} />
+    //         </Form>
+    //         {modal &&
+    //             <ModalComponent message={'Score already entered for game.  Are you sure you want to delete?'}
+    //                     cancel={deleteModal}
+    //                     confirm={deleteGame} />}
+    //     </div>
+    // );
 };
 
 export default GameEditForm;

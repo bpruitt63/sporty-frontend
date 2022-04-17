@@ -9,6 +9,11 @@
     padding: 10px 0px;
 }
 
+.gameTime div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .matchup {
     margin: 0px 0px 10px 0px;
 }
@@ -96,4 +101,23 @@
 
 .score {
     margin: 10px 0px;
+}
+
+.scoreEdit {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.scoreEdit label, .scoreEdit div {
+    display: inline-block;
+}
+
+.locationRow {
+    margin-bottom: 10px;
+}
+
+.locationRow div {
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

@@ -67,3 +67,7 @@
 .roundsRow label, .roundsRow div {
     display: inline;
 }
+
+.newGameNotes {
+    margin-bottom: 15px;
+}

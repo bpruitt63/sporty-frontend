@@ -57,12 +57,7 @@ function SeasonHome({user}) {
                             rankings});
                 setGames(gamesResult);
                 setTitle({seasonTitle: gamesResult[0].title});
-                const newGameTeams = [];
-                for (let team of Object.entries(teams)) {
-                    team = {...team[1], teamId: team[0]};
-                    newGameTeams.push(team);
-                };
-                setNewGame({games: [newGameObj], teams: newGameTeams});
+                setNewGame({games: [newGameObj], teams});
                 setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                 setIsLoading(false);
             } catch (e) {
@@ -80,12 +75,7 @@ function SeasonHome({user}) {
                                 rankings});
                     setGames([]);
                     setTitle({seasonTitle: seasonResult.title});
-                    const newGameTeams = [];
-                    for (let team of Object.entries(teams)) {
-                        team = {...team[1], teamId: team[0]};
-                        newGameTeams.push(team);
-                    };
-                    setNewGame({games: [newGameObj], teams: newGameTeams});
+                    setNewGame({games: [newGameObj], teams});
                     setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                     setIsLoading(false);
                 } catch (err) {
@@ -126,20 +116,7 @@ function SeasonHome({user}) {
     const toggleAdd = (e) => {
         e.preventDefault();
         if (!addGame) {
-            const newGameTeams = [];
-            for (let team of Object.entries(season.teams)) {
-                const formatted = {...team[1], teamId: team[0]};
-                newGameTeams.push(formatted);
-            };
-            const newGameObj = {team1Id: '',
-                    team2Id: '',
-                    gameDate: null,
-                    gameTime: null,
-                    gameLocation: '',
-                    team1Score: null,
-                    team2Score: null,
-                    notes: ''};
-            setNewGame({games: [newGameObj], teams: newGameTeams});
+            setNewGame({games: [newGameObj], teams: season.teams});
         };
         setAddGame(!addGame);
     };
@@ -216,48 +193,6 @@ function SeasonHome({user}) {
     };
 
 
-    if (!season.games[0]) {
-        return (
-            <Container>
-                <p className='message'>No games found for {season.title}</p>
-                {addGame &&
-                    <Form onSubmit={handleSubmit}>
-                        <Errors apiErrors={apiErrorsNewGame}
-                                formErrors={errors} />
-                        <NewGameForm g={'0'}
-                                    season={newGame}
-                                    handleGameChange={handleGameChange}
-                                    nullScore={nullScore}
-                                    bye={bye} />
-                        <Button type='submit'
-                                variant='dark'>
-                            Save
-                        </Button>
-                    </Form>}
-                {isEditor &&
-                    <Row>
-                        <Col xs={6} md={{span: 3, offset: 3}}>
-                            <Button onClick={deleteModal}
-                                    variant='danger'>
-                                Delete Season
-                            </Button>
-                        </Col>
-                        <Col xs={6} md={3}>
-                            <Button onClick={toggleAdd}
-                                    variant='dark'>
-                                {addGame ? 'Cancel' : 'Add Game'}    
-                            </Button>
-                        </Col>
-                    </Row>}
-                {modal &&
-                <ModalComponent message={`Permanently delete season ${season.title}?`}
-                        cancel={deleteModal}
-                        confirm={deleteSeason} />}
-            </Container>
-        );
-    };
-
-
     return (
         <Container>
             <Col xs={{span: 10, offset: 1}} 
@@ -316,7 +251,8 @@ function SeasonHome({user}) {
                             season={season}
                             setSeason={setSeason} />}
             {addGame &&
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}
+                        className='gameContainer'>
                     <Errors apiErrors={apiErrorsNewGame}
                             formErrors={errors} />
                     <NewGameForm g={'0'}
@@ -324,10 +260,12 @@ function SeasonHome({user}) {
                                 handleGameChange={handleGameChange}
                                 nullScore={nullScore}
                                 bye={bye} />
-                    <Button type='submit'
-                            variant='dark'>
-                        Save
-                    </Button>
+                    <div className='d-grid gap-2'>
+                        <Button type='submit'
+                                variant='outline-secondary'>
+                            Save
+                        </Button>
+                    </div>
                 </Form>}
             {isEditor &&
                 <Row className='addDelete'>

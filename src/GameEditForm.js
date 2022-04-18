@@ -219,8 +219,7 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
                                 Remove Score
                             </Button>
                         </Col>
-                    </Row>
-                }
+                    </Row>}
                 <Form.Group controlId='notes'>
                     <Form.Label>
                         Notes: 

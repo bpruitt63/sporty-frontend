@@ -33,22 +33,10 @@ export function buildSeason(teams, numGames) {
         spliceIndex + 1 < mid ? spliceIndex++ : spliceIndex = 0;
         
         /** Reorder teams array to ensure each team plays each team */
-        const reordered = [...teams];
-        for (let j = 1; j < teams.length; j++) {
-            if (j === mid){ 
-                reordered[1] = teams[j];
-            } else if (j === mid - 1) {
-                reordered[reordered.length - 1] = teams[j];
-            } else if (j < mid){
-                reordered[j + 1] = teams[j];
-            } else {
-                reordered[j - 1] = teams[j];
-            };
-        };
+        teams = reorderTeams(teams, mid);
 
         /** Switches home/away teams each time teams replay each other */
         if (round % (teams.length - 1) === 0) flipped = !flipped;
-        teams = reordered;
         round++;
     };
     const games = formatSeason(season);
@@ -58,6 +46,22 @@ export function buildSeason(teams, numGames) {
     return {games, teams};
 };
 
+/** Reorder teams array to ensure each team plays each team */
+function reorderTeams(teams, mid) {
+    const reordered = [...teams];
+    for (let j = 1; j < teams.length; j++) {
+        if (j === mid){ 
+            reordered[1] = teams[j];
+        } else if (j === mid - 1) {
+            reordered[reordered.length - 1] = teams[j];
+        } else if (j < mid){
+            reordered[j + 1] = teams[j];
+        } else {
+            reordered[j - 1] = teams[j];
+        };
+    };
+    return reordered;
+};
 
 /** Formats object of games into array of game objects */
 function formatSeason(season) {
@@ -85,50 +89,9 @@ function formatSeason(season) {
     return games;
 };
 
-/** Calculates records and rankings for all teams
- * Returns object of team objects,
- * array of team ids ranked by win percentage
+/** Formats teams array into object 
+ * primarily to prepare for getRankings function
  */
-// export function getTeams(season, allTeams) {
-//     const teams = {};
-//     for (let team of allTeams) {
-//         teams[team.teamId] = {teamName: team.teamName,
-//                                 color: team.color,
-//                                 record: [0, 0, 0],
-//                                 games: []};
-//     };
-
-//     for (let game of season) {
-//         const team1Id = game.team1Id;
-//         const team2Id = game.team2Id;
-//         if (game.team1Score !== null && game.team2Score !== null) {
-//             const winner = calculateWinner(game.team1Score, game.team2Score);
-//             if (winner === 'tie') {
-//                 teams[team1Id].record[2]++;
-//                 teams[team2Id].record[2]++;
-//             } else if (winner === 'team1') {
-//                 teams[team1Id].record[0]++;
-//                 teams[team2Id].record[1]++;
-//             } else {
-//                 teams[team1Id].record[1]++;
-//                 teams[team2Id].record[0]++;
-//             };
-//         };
-//         teams[team1Id].games.push(game);
-//         teams[team2Id].games.push(game);
-//     };
-//     console.log('fdsf')
-//     let rankings = [];
-//     for (let key of Object.keys(teams)) {
-//         if (teams[key].teamName !== 'Bye') {
-//             teams[key].winPercent = calculateWinPercent(teams[key].record);
-//             rankings.push(key);
-//         };
-//     };
-//     rankings = rankings.sort(function(a, b){return teams[b].winPercent - teams[a].winPercent});
-//     return {teams, rankings};
-// };
-
 export function getTeams(allTeams) {
     const teams = {};
     for (let team of allTeams) {
@@ -140,6 +103,10 @@ export function getTeams(allTeams) {
     return teams;
 };
 
+/** Calculates records and rankings for all teams
+ * Returns object of team objects,
+ * array of team ids ranked by win percentage
+ */
 export function getRankings(season, teams) {
     for (let game of season) {
         const team1Id = game.team1Id;

@@ -21,8 +21,8 @@ function Game({gameProp, isEditor, season, setSeason, games, setGames}) {
                         <Row className='matchup'>
                             <Col xs={12} md={6} 
                                 className={game.team1Name === 'Bye' ? 
-                                            `matchup${game.team1Color}`
-                                            : `matchup${game.team2Color}`}>
+                                            `matchup${game.team2Color}`
+                                            : `matchup${game.team1Color}`}>
                                 {game.team1Name === 'Bye' ? game.team2Name : game.team1Name}
                             </Col>
                             <Col xs={12} md={6} className={`matchupN/A`}>

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import { Container, Button, ListGroup, Col, Row, Spinner, Form } from 'react-bootstrap';
 import './static/styles/Season.css';
 import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
-import {getTeams, validateGames, formatInputs} from './static/helpers';
+import {getTeams, getRankings, validateGames, formatInputs} from './static/helpers';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
 import GameList from './GameList';
@@ -32,24 +32,27 @@ function SeasonHome({user}) {
         user.organizations[orgId].adminLevel <= 2);
     const navigate = useNavigate();
 
-    const newGameObj = {team1Id: '',
-                        team2Id: '',
-                        gameDate: null,
-                        gameTime: null,
-                        gameLocation: '',
-                        team1Score: null,
-                        team2Score: null,
-                        notes: ''};
+    const newGameObj = useMemo(() => {
+                        return {team1Id: '',
+                                team2Id: '',
+                                gameDate: null,
+                                gameTime: null,
+                                gameLocation: '',
+                                team1Score: null,
+                                team2Score: null,
+                                notes: ''};
+    }, []);
 
 
     useEffect(() => {
         async function getSeason() {
             try {
-                const [gamesResult, teamsResult] = await Promise.all([
+                let [gamesResult, teamsResult] = await Promise.all([
                     SportyApi.getGames(orgId, seasonId),
                     SportyApi.getTeams(orgId, seasonId)
                 ]);
-                const {teams, rankings} = getTeams(gamesResult, teamsResult);
+                teamsResult = getTeams(teamsResult);
+                const {teams, rankings} = getRankings(gamesResult, teamsResult);
                 setSeason({seasonId: gamesResult[0].seasonId, 
                             title: gamesResult[0].title, 
                             games: gamesResult,
@@ -63,11 +66,12 @@ function SeasonHome({user}) {
             } catch (e) {
                 getApiErrors(e);
                 try {
-                    const [seasonResult, teamsResult] = await Promise.all([
+                    let [seasonResult, teamsResult] = await Promise.all([
                         SportyApi.getSeason(orgId, seasonId),
                         SportyApi.getTeams(orgId, seasonId)
                     ]);
-                    const {teams, rankings} = getTeams([], teamsResult);
+                    teamsResult = getTeams(teamsResult);
+                    const {teams, rankings} = getRankings([], teamsResult);
                     setSeason({seasonId: seasonResult.seasonId, 
                                 title: seasonResult.title, 
                                 games: [],
@@ -85,7 +89,7 @@ function SeasonHome({user}) {
             };
         };
         getSeason(orgId, seasonId);
-    }, [orgId, seasonId, setSeason, getApiErrors, navigate, setTitle, setNewGame]);
+    }, [orgId, seasonId, setSeason, getApiErrors, navigate, setTitle, setNewGame, newGameObj]);
 
 
     const deleteModal = (e) => {

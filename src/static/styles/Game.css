@@ -5,6 +5,10 @@
     outline: 1px solid gray;
 }
 
+.gameContainer-manual {
+    padding-bottom: 5px;
+}
+
 .gameTime {
     padding: 10px 0px;
 }

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Button, Form, Row, Col } from 'react-bootstrap';
 import { useErrors } from './hooks';
 import { validateGames, formatInputs } from './static/helpers';
 import NewGameForm from './NewGameForm';
@@ -14,8 +14,8 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const navigate = useNavigate();
 
-    const bye = season.teams.find(t => t.teamName === 'Bye').teamId;
-    
+    const bye = parseInt(Object.keys(season.teams).find(key => season.teams[key].teamName === 'Bye'));
+
     const newGame = {team1Id: '',
                         team2Id: '',
                         gameDate: null,
@@ -86,18 +86,35 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
         <div>
             <Errors formErrors={errors}
                     apiErrors={apiErrors} />
-            <form onSubmit={handleSubmit}>
-                {Object.keys(season.games).map((g, i) =>
-                    <NewGameForm key={g}
-                                    g={g}
+            <Form onSubmit={handleSubmit}>
+                {Object.keys(season.games).map(g =>
+                    <div key={g} className='gameContainer gameContainer-manual'>
+                        <NewGameForm g={g}
                                     season={season}
                                     handleGameChange={handleGameChange}
                                     nullScore={nullScore}
-                                    bye={bye} />)}
-                <button type='submit'>Save Season</button>
-            </form>
-            <button onClick={() => changeNumberOfGames('more')}>Add Game</button>
-            <button onClick={() => changeNumberOfGames('less')}>Remove Last Game</button>
+                                    bye={bye} />
+                    </div>
+                    )}
+                <Button type='submit'
+                        variant='dark'>
+                    Save Season
+                </Button>
+            </Form>
+            <Row className='addRemove'>
+                <Col xs={6}>
+                    <Button onClick={() => changeNumberOfGames('less')}
+                            variant='warning'>
+                        Remove Last Game
+                    </Button>
+                </Col>
+                <Col>
+                    <Button onClick={() => changeNumberOfGames('more')}
+                            variant='secondary'>
+                        Add Game
+                    </Button>
+                </Col>
+            </Row>
         </div>
     );
 };

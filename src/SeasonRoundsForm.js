@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Spinner, Col, Row, Form, Button} from 'react-bootstrap';
-import { buildSeason } from './static/helpers';
+import { buildSeason, getTeams } from './static/helpers';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
@@ -24,16 +24,17 @@ function SeasonRoundsForm({season, handleChange, toggle, setSeason, orgId}) {
         setApiErrors({});
         setIsLoading(true);
         if (!season.generateGames) {
-            let teams = Object.values(season.teams);
-            teams.push({teamName: 'Bye', color: 'N/A'});
-            const numGames = season.rounds * (Math.floor(teams.length / 2));
+            let teamsArray = Object.values(season.teams);
+            teamsArray.push({teamName: 'Bye', color: 'N/A'});
+            const numGames = season.rounds * (Math.floor(teamsArray.length / 2));
             const games = {};
             for (let game = 1; game <= numGames; game++) {
                 games[game] = newGame;
             };
             try {
                 const {seasonId} = await SportyApi.addSeason(season.seasonTitle, orgId);
-                teams = await SportyApi.addTeams({teams}, seasonId, orgId);
+                teamsArray = await SportyApi.addTeams({teams: teamsArray}, seasonId, orgId);
+                const teams = getTeams(teamsArray);
                 setSeason({...season, seasonId, games, teams});
                 setIsLoading(false);
                 toggle('manualForm');

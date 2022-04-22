@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {Spinner, Form, Button, Row, Col} from 'react-bootstrap';
 import {useHandleChange, useErrors} from './hooks';
-import { validateGames, formatInputs, formatTime, getTeams } from './static/helpers';
+import { validateGames, formatInputs, formatTime, getTeams, getRankings } from './static/helpers';
 import Errors from './Errors';
 import ModalComponent from './ModalComponent';
 import SportyApi from './SportyApi';
@@ -63,8 +63,9 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
             const readableTime = formatTime(game.gameTime);
             setGame({...updatedGame, readableTime});
             const updatedSeason = {...season, games};
-            const teamsArray = formatSeasonTeams(season.teams);
-            const {teams, rankings} = getTeams(updatedSeason.games, teamsArray);
+            let teamsArray = formatSeasonTeams(season.teams);
+            teamsArray = getTeams(teamsArray);
+            const {teams, rankings} = getRankings(updatedSeason.games, teamsArray);
             setSeason({...updatedSeason, teams, rankings});
             setEdit(false);
         } catch (err) {
@@ -85,8 +86,9 @@ function GameEditForm({gameProp, season, setSeason, setEdit, setGame, currentGam
             const ind = season.games.findIndex(g => g.gameId === data.gameId);
             const games = [...season.games];
             games.splice(ind, 1);
-            const teamsArray = formatSeasonTeams(season.teams);
-            const {teams, rankings} = getTeams(games, teamsArray);
+            let teamsArray = formatSeasonTeams(season.teams);
+            teamsArray = getTeams(teamsArray);
+            const {teams, rankings} = getRankings(games, teamsArray);
             setSeason({...season, games, teams, rankings});
 
             const currentInd = currentGames.findIndex(g => g.gameId === data.gameId);

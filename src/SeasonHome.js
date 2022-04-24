@@ -206,25 +206,29 @@ function SeasonHome({user}) {
                         className='returnLink'>
                     Back to organization
                 </Link>
-                {!editForm &&
-                    <h3 className='seasonTitle'>
-                        {season.title}
-                    </h3>}
-                {editForm &&
-                    <SeasonNameForm data={title}
-                                    handleChange={handleChange}
-                                    isEdit={editForm}
-                                    setIsEdit={setEditForm}
-                                    season={season}
-                                    setSeason={setSeason}
-                                    toggleEdit={toggleEdit} />}
-                {isEditor && !editForm &&
-                    <Button onClick={toggleEdit}
-                            variant='outline-secondary'
-                            size='sm'
-                            className='nameEditButton'>
-                        Rename
-                    </Button>}
+                <Row className='seasonTitleRow'>
+                    {!editForm &&
+                        <Col as='h3' xs={12} lg={{span: 8, offset: 2}}>
+                            {season.title}
+                        </Col>}
+                    {editForm &&
+                        <SeasonNameForm data={title}
+                                        handleChange={handleChange}
+                                        isEdit={editForm}
+                                        setIsEdit={setEditForm}
+                                        season={season}
+                                        setSeason={setSeason}
+                                        toggleEdit={toggleEdit} />}
+                    {isEditor && !editForm &&
+                        <Col xs={12} lg={2}>
+                            <Button onClick={toggleEdit}
+                                    variant='outline-secondary'
+                                    size='sm'
+                                    className='nameEditButton'>
+                                Rename
+                            </Button>
+                        </Col>}
+                </Row>
             </Col>
             <Errors apiErrors={apiErrors} />
             <Col xs={{span: 10, offset: 1}} md={{span: 6, offset: 3}}>

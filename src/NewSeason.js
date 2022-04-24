@@ -133,7 +133,8 @@ function NewSeason({orgId=null, cancel}) {
                                 gamesToDatabase={gamesToDatabase} />}
             {orgId && !isOpen.preview &&
                 <Button onClick={cancelSeason}
-                        variant='dark'>
+                        variant='dark'
+                        id='cancelSeasonCreateButton'>
                     Cancel Season Create
                 </Button>}
             {orgId && isOpen.preview && !season.seasonId &&

@@ -8,3 +8,7 @@
 .addRemove {
     margin: 20px 0px;
 }
+
+#cancelSeasonCreateButton {
+    margin-bottom: 20px;
+}

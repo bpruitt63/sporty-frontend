@@ -26,7 +26,8 @@ function Routing({user, setUser, handleLogin, isMobile}) {
             <Route path='/organization/:orgId' element={<OrganizationHome user={user}
                                                                         setUser={setUser}
                                                                         isMobile={isMobile} />} />
-            <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user} />} />
+            <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user}
+                                                                                    isMobile={isMobile} />} />
             <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
     );

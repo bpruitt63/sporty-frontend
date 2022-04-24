@@ -12,7 +12,7 @@ import SeasonNameForm from './SeasonNameForm';
 import ModalComponent from './ModalComponent';
 import NewGameForm from './NewGameForm';
 
-function SeasonHome({user}) {
+function SeasonHome({user, isMobile}) {
 
     const {seasonId} = useParams();
     const {orgId} = useParams();
@@ -215,6 +215,7 @@ function SeasonHome({user}) {
                         <SeasonNameForm data={title}
                                         handleChange={handleChange}
                                         isEdit={editForm}
+                                        isMobile={isMobile}
                                         setIsEdit={setEditForm}
                                         season={season}
                                         setSeason={setSeason}

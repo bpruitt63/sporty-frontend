@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
-import {Form, Button, InputGroup, Col, Spinner} from 'react-bootstrap';
+import {Form, Button, InputGroup, Col, Row, Spinner} from 'react-bootstrap';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';
 
-function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=null, season={}, setSeason=null, toggleEdit}) {
+function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=null, season={}, setSeason=null, toggleEdit, isMobile=false}) {
 
     const [errors, setErrors] = useState({});
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
@@ -53,22 +53,45 @@ function SeasonNameForm({data, handleChange, toggle, isEdit=false, setIsEdit=nul
             <Form onSubmit={handleSubmit}>
                 <Col xs={{span: 10, offset: 1}} md={isEdit ? {span: 10, offset: 1} : {span: 6, offset: 3}}>
                     <Form.Group controlId='seasonTitle'>
-                        <InputGroup>
-                            <Form.Control type='text'
-                                            name='seasonTitle'
-                                            placeholder='Season Title'
-                                            value={data.seasonTitle}
-                                            onChange={handleChange} />
-                            <Button type='submit'
-                                    variant='dark'>
-                                {isEdit ? 'Save' : 'Next'}
-                            </Button>
-                            {isEdit &&
-                                <Button onClick={toggleEdit}
-                                        variant='outline-secondary'>
-                                    Cancel    
-                                </Button>}
-                        </InputGroup>
+                        {isMobile && isEdit ?
+                            <>
+                                <Form.Control type='text'
+                                                name='seasonTitle'
+                                                placeholder='Season Title'
+                                                value={data.seasonTitle}
+                                                onChange={handleChange} />
+                                <Row id='cancelSave'>
+                                    <Col xs={6}>
+                                        <Button type='submit'
+                                                variant='dark'>
+                                            Save
+                                        </Button>
+                                    </Col>
+                                    <Col xs={6}>
+                                        <Button onClick={toggleEdit}
+                                                variant='outline-secondary'>
+                                            Cancel    
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </>
+                            :
+                            <InputGroup>
+                                <Form.Control type='text'
+                                                name='seasonTitle'
+                                                placeholder='Season Title'
+                                                value={data.seasonTitle}
+                                                onChange={handleChange} />
+                                <Button type='submit'
+                                        variant='dark'>
+                                    {isEdit ? 'Save' : 'Next'}
+                                </Button>
+                                {isEdit &&
+                                    <Button onClick={toggleEdit}
+                                            variant='outline-secondary'>
+                                        Cancel    
+                                    </Button>}
+                            </InputGroup>}
                     </Form.Group>
                 </Col>
             </Form>

@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# Sporty
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Deployed on Heroku at [Sporty](https://sporto-app.herokuapp.com/)
 
-## Available Scripts
+This is a web app I created to help with my job at the YMCA, specifically with the youth sports leagues I run there.  I found that as league registration increased, the number of teams increased, and scheduling games manually was becoming complicated.  In addition, I didn't have a good way of tracking game results, and it was always a scramble at the end of the season to determine final rankings for seeding tournaments.
 
-In the project directory, you can run:
+So, I came up with the idea for this app.  The main function of it is to solve the two problems mentioned above.  Unregistered users are able to generate a season schedule based on number of teams and number of games, but they cannot save the season for tracking purposes.  All saved seasons must also be tied to an organization.  Registered users can have various permission levels:  super admins who can create and edit all organizations, seasons, and users.  Local admins who can edit their own organization, create and edit seasons for their organization, and edit user permissions for their organization.  And local editors who can create and edit seasons for their organization.  Any registered user can create an organization and will automatically become that organization's admin.  Super admins can also create organizations and assign users admin privileges for that organization.
 
-### `npm start`
+Anyone with organizational permissions can create a season either through the season generator, or by manually entering the games.  Teams can be either named manually, or assigned numbered names like Team 1, Team 2, etc.  Teams can also be assigned a color, which will show up as the team's background color in rankings and games.  Once a season has been saved, it can be viewed by anybody.  So it is also a good way for youth athletes and their parents to check schedules and results.  In order to find a season, outside of a direct link, it can also be found under the associated organization.  Any user associated with any organizations has a My Organizations tab on their homepage, which will bring up a list of the organizations they are associated with, along with an icon showing their permission level for each organization.  Also, anyone can search for an organization, with the search results returning up to the ten closest results.  Once under the correct organization, hit the View Seasons tab to see a list of links to each season associated with the organization.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Following the link to a season will show a list of teams and each team's record, ordered by overall ranking.  Under the list of teams is the list of games, including who is playing, each team's score if applicable, date, time, location, and any notes.  Clicking on a team at the top of the page will show only the games that that team plays in.  Users with editing permissions can quickly pull up their season, scroll down to the appropriate game, and add the score as each game is played in real time.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Tech
+The frontend was built using hooks based React, initialized with Create React App.  Styling and responsiveness are done primarily using React Bootstrap, along with some pretty basic CSS files.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The backend is also deployed on Heroku.  The backend was built using Node.js with Express, with a PostgreSQL database.  Backend files are available at [Sporty-backend](https://github.com/bpruitt63/sporty-backend)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## TODOS
+The backend *should be* complete, unless I find bugs or decide to add additional functionality.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The frontend **is not** complete.  I deployed early because I wanted to run a private beta test on my spring youth soccer season.  However, **no** frontend tests have been written yet.  I also have some minor UI elements I want to improve before I'm ready to call it a fully working app.  One additional feature I would also like to add in the future is a function to use a completed season to automatically seed and schedule an end-of-season tournament.

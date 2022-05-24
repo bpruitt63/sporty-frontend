@@ -166,20 +166,60 @@ function sortRanking(teams, rankings) {
     let ind1 = 0
     while (ind1 < rankings.length - 1){
         let ind2 = ind1 + 1;
-        if (teams[rankings[ind1]].winPercent !== 0.0001) {
-            while (rankings[ind2] && teams[rankings[ind1]].winPercent === teams[rankings[ind2]].winPercent) {
-                ind2++;
-            };
+        while (rankings[ind2] && teams[rankings[ind1]].winPercent === teams[rankings[ind2]].winPercent) {
+            ind2++;
         };
         if (ind2 > ind1 + 1) {
-            rankings.splice(ind1, ind2 - ind1, tiebreaker(teams, rankings.slice(ind1, ind2)));
+            let ties = rankings.slice(ind1, ind2);
+            rankings.splice(ind1, 
+                            ind2 - ind1, 
+                            ties.length === rankings.length ? tiebreakerByPoints(teams, ties)
+                                                        : tiebreakerByWins(teams, ties));
+            rankings = rankings.flat();
         };
         ind1 = ind2;
     };
-    return rankings.flat();
+    return rankings;
 };
 
-function tiebreaker(teams, rankings){
+function tiebreakerByWins(teams, rankings) {
+    let {tiedTeamGames, tiedTeams} = getTeamsAndGamesWithEqualRecords(teams, rankings);
+    tiedTeams = getRecords(Object.values(tiedTeamGames), tiedTeams);
+    rankings = setRankings(tiedTeams);
+    rankings = sortRanking(tiedTeams, rankings, teams);
+    return rankings;
+};
+
+function tiebreakerByPoints(teams, rankings) {
+    let {tiedTeamGames, tiedTeams} = getTeamsAndGamesWithEqualRecords(teams, rankings);
+    let teamPoints = tallyPoints(tiedTeams, tiedTeamGames);
+    rankings = tiebreakerSort(rankings, teamPoints);
+    return rankings;
+};
+
+function tiebreakerSort(rankings, teamPoints) {
+    rankings = rankings.sort((a, b) => 
+        (teamPoints[b].pointsFor - teamPoints[b].pointsAgainst)
+        - (teamPoints[a].pointsFor - teamPoints[a].pointsAgainst));
+    return rankings;
+};
+
+function tallyPoints(teams, games) {
+    const teamPoints = {};
+    for (let teamId of Object.keys(teams)) {
+        teamPoints[teamId] = {pointsFor: 0,
+                            pointsAgainst: 0};
+    };
+    for (let game of Object.values(games)) {
+        teamPoints[game.team1Id].pointsFor += game.team1Score;
+        teamPoints[game.team1Id].pointsAgainst += game.team2Score;
+        teamPoints[game.team2Id].pointsFor += game.team2Score;
+        teamPoints[game.team2Id].pointsAgainst += game.team1Score;
+    };
+    return teamPoints;
+};
+
+function getTeamsAndGamesWithEqualRecords(teams, rankings) {
     const tiedTeamGames = {};
     let tiedTeams = {};
     for (let team of rankings) {
@@ -187,17 +227,14 @@ function tiebreaker(teams, rankings){
                             record: [0, 0, 0]};
     };
     for (let team of rankings) {
-        for (let game of tiedTeams[team].games){
+        for (let game of tiedTeams[team].games) {
             if (game.team1Id in tiedTeams && game.team2Id in tiedTeams) {
                 tiedTeamGames[game.gameId] = game;
             };
         };
         tiedTeams[team].games = [];
     };
-    tiedTeams = getRecords(Object.values(tiedTeamGames), tiedTeams);
-    rankings = setRankings(tiedTeams);
-    //rankings = sortRanking(tiedTeams, rankings);
-    return rankings;
+    return {tiedTeamGames, tiedTeams};
 };
 
 

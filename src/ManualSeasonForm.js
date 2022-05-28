@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner, Button, Form, Row, Col } from 'react-bootstrap';
 import { useErrors } from './hooks';
@@ -13,6 +13,7 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
     const [isLoading, setIsLoading] = useState(false);
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const navigate = useNavigate();
+    const gameRefs = useRef([]);
 
     const bye = parseInt(Object.keys(season.teams).find(key => season.teams[key].teamName === 'Bye'));
 
@@ -60,7 +61,7 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
         setErrors({});
         setApiErrors({});
 
-        if (!validateGames(season.games, setErrors)) return false;
+        if (!validateGames(season.games, setErrors, gameRefs)) return false;
         const games = formatInputs(season.games, bye);
         setIsLoading(true);
 
@@ -88,7 +89,9 @@ function ManualSeasonForm({season, setSeason, gamesToDatabase}) {
                     apiErrors={apiErrors} />
             <Form onSubmit={handleSubmit}>
                 {Object.keys(season.games).map(g =>
-                    <div key={g} className='gameContainer gameContainer-manual'>
+                    <div key={g} 
+                        ref={game => {gameRefs.current[g - 1] = game}}
+                        className='gameContainer gameContainer-manual'>
                         <NewGameForm g={g}
                                     season={season}
                                     handleGameChange={handleGameChange}

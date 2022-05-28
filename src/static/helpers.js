@@ -239,26 +239,32 @@ function getTeamsAndGamesWithEqualRecords(teams, rankings) {
 
 
 /** Form validation for game creation or update */
-export function validateGames(games, setErrors) {
+export function validateGames(games, setErrors, gameRefs=[]) {
     for (let game of Object.keys(games)){
         if (!(games[game].team1Id && games[game].team2Id)) {
             setErrors({error: 'Both teams are required'});
+            if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[0].focus();
             return false;
         } else if (games[game].team1Id === games[game].team2Id) {
             setErrors({error: 'Team cannot play itself'});
+            if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[0].focus();
             return false;
         };
         if (games[game].gameLocation.length > 50) {
             setErrors({error: 'Location cannot exceed 50 characters'});
+            if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[2].children[0].children[0].children[1].children[0].focus();
             return false;
         };
         if (games[game].notes.length > 1000) {
             setErrors({error: 'Notes cannot exceed 1000 characters'});
+            if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[3].children[1].children[0].focus();
             return false;
         };
-        if ((games[game].team1Score === '' && games[game].team2Score !== '') ||
-                (games[game].team2Score ==='' && games[game].team2Score !== '')) {
+        if ((games[game].team1Score === null && games[game].team2Score !== null) ||
+                (games[game].team2Score === null && games[game].team1Score !== null)) {
                     setErrors({error: 'Both team scores are required if entering score'});
+                    console.log(gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[1].children[1].children[0])
+                    if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[1].children[1].children[0].focus();
                     return false;
         };
     };

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner, Button, Form, Row, Col } from 'react-bootstrap';
 import { useErrors } from './hooks';
-import { validateGames, formatInputs } from './static/helpers';
+import { validateGames, formatInputs } from './static/helpers/helpers';
 import NewGameForm from './NewGameForm';
 import Errors from './Errors';
 

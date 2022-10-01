@@ -4,7 +4,8 @@ import { Container, Button, ListGroup, Col, Row, Spinner, Form } from 'react-boo
 import './static/styles/Season.css';
 import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
-import {getTeams, getRankings, validateGames, formatInputs} from './static/helpers';
+import {validateGames, formatInputs} from './static/helpers/helpers';
+import {getTeams, getRankings} from './static/helpers/seasonRank';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
 import GameList from './GameList';

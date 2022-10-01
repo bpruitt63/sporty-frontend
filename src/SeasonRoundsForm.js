@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Spinner, Col, Row, Form, Button} from 'react-bootstrap';
-import { buildSeason, getTeams } from './static/helpers';
+import { buildSeason } from './static/helpers/seasonBuild';
+import { getTeams } from './static/helpers/seasonRank';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import SportyApi from './SportyApi';

@@ -12,6 +12,7 @@ import GameList from './GameList';
 import SeasonNameForm from './SeasonNameForm';
 import ModalComponent from './ModalComponent';
 import NewGameForm from './NewGameForm';
+import { buildTournament } from './static/helpers/tournament';
 
 function SeasonHome({user, isMobile}) {
 

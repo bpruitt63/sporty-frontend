@@ -54,7 +54,12 @@ function buildRound(numTeams) {
     let key;
     while (game * 2 <= numTeams) {
         key = `Game ${game}`;
-        round[key] = {};
+        round[key] = {team1Id: null,
+                        team2Id: null,
+                        team1Name: 'N/A',
+                        team2Name: 'N/A',
+                        team1Color: 'N/A',
+                        team2Color: 'N/A'};
         game++;
     };
     return round;

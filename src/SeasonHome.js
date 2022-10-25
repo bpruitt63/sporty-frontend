@@ -13,6 +13,7 @@ import SeasonNameForm from './SeasonNameForm';
 import ModalComponent from './ModalComponent';
 import NewGameForm from './NewGameForm';
 import { buildTournament } from './static/helpers/tournament';
+import TournamentDisplay from './TournamentDisplay';
 
 function SeasonHome({user, isMobile}) {
 
@@ -20,7 +21,7 @@ function SeasonHome({user, isMobile}) {
     const {orgId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [season, setSeason] = useState({seasonId, title: '', games: []});
-    const [apiErrors, getApiErrors] = useErrors();
+    const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const [apiErrorsNewGame, getApiErrorsNewGame, setApiErrorsNewGame] = useErrors();
     const [errors, setErrors] = useState({});
     const [games, setGames] = useState();
@@ -30,6 +31,8 @@ function SeasonHome({user, isMobile}) {
     const [addGame, setAddGame] = useState(false);
     const [newGame, setNewGame] = useState();
     const [bye, setBye] = useState();
+    const [tournament, setTournament] = useState({});
+    const [showTournament, setShowTournament] = useState(false);
     const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
         user.organizations[orgId].adminLevel <= 2);
     const navigate = useNavigate();
@@ -53,6 +56,9 @@ function SeasonHome({user, isMobile}) {
                     SportyApi.getGames(orgId, seasonId),
                     SportyApi.getTeams(orgId, seasonId)
                 ]);
+                if (gamesResult && gamesResult['Round 1']) {
+                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: gamesResult});
+                };
                 teamsResult = getTeams(teamsResult);
                 const {teams, rankings} = getRankings(gamesResult, teamsResult);
                 setSeason({seasonId: gamesResult[0].seasonId, 
@@ -190,6 +196,31 @@ function SeasonHome({user, isMobile}) {
     };
 
 
+    const makeTournament = (e) => {
+        e.preventDefault();
+        const tournament = buildTournament(season.teams, season.rankings);
+        setTournament(tournament);
+        setShowTournament(true);
+    };
+
+
+    const saveTournament = async (e) => {
+        e.preventDefault();
+        setApiErrors({});
+        setIsLoading(true);
+        try {
+            const {seasonId} = await SportyApi.addSeason(`${season.title} Tournament`, orgId);
+            console.log(tournament)
+            await SportyApi.addGames({games: tournament}, orgId, seasonId);
+            setIsLoading(false);
+            navigate(`/organization/${orgId}/tournaments/${seasonId}`);
+        } catch (err) {
+            setApiErrors(err);
+            setIsLoading(false);
+        };
+    };
+
+
     if (isLoading) {
         return (
             <Spinner animation="border" role="status">
@@ -255,48 +286,60 @@ function SeasonHome({user, isMobile}) {
                     </ListGroup.Item>
                 </ListGroup>
             </Col>
-            {games &&
-                <GameList games={games}
-                            setGames={setGames}
-                            isEditor={isEditor}
-                            season={season}
-                            setSeason={setSeason} />}
-            {addGame &&
-                <Form onSubmit={handleSubmit}
-                        className='gameContainer'>
-                    <Errors apiErrors={apiErrorsNewGame}
-                            formErrors={errors} />
-                    <NewGameForm g={'0'}
-                                season={newGame}
-                                handleGameChange={handleGameChange}
-                                nullScore={nullScore}
-                                bye={bye} />
-                    <div className='d-grid gap-2'>
-                        <Button type='submit'
-                                variant='outline-secondary'>
-                            Save
-                        </Button>
-                    </div>
-                </Form>}
-            {isEditor &&
-                <Row className='addDelete'>
-                    <Col xs={6}>
-                        <Button onClick={deleteModal}
-                                variant='danger'>
-                            Delete Season
-                        </Button> 
-                    </Col>
-                    <Col xs={6}>
-                        <Button onClick={toggleAdd}
-                                variant={addGame ? 'secondary' : 'dark'}>
-                            {addGame ? 'Cancel Add' : 'Add Game'}    
-                        </Button> 
-                    </Col>
-                </Row>}
+            {!showTournament &&
+                <div>
+                    {isEditor &&
+                        <button onClick={makeTournament}>Build Tournament from Current Rankings</button>}
+                    {games &&
+                        <GameList games={games}
+                                    setGames={setGames}
+                                    isEditor={isEditor}
+                                    season={season}
+                                    setSeason={setSeason} />}
+                    {addGame &&
+                        <Form onSubmit={handleSubmit}
+                                className='gameContainer'>
+                            <Errors apiErrors={apiErrorsNewGame}
+                                    formErrors={errors} />
+                            <NewGameForm g={'0'}
+                                        season={newGame}
+                                        handleGameChange={handleGameChange}
+                                        nullScore={nullScore}
+                                        bye={bye} />
+                            <div className='d-grid gap-2'>
+                                <Button type='submit'
+                                        variant='outline-secondary'>
+                                    Save
+                                </Button>
+                            </div>
+                        </Form>}
+                    {isEditor &&
+                        <Row className='addDelete'>
+                            <Col xs={6}>
+                                <Button onClick={deleteModal}
+                                        variant='danger'>
+                                    Delete Season
+                                </Button> 
+                            </Col>
+                            <Col xs={6}>
+                                <Button onClick={toggleAdd}
+                                        variant={addGame ? 'secondary' : 'dark'}>
+                                    {addGame ? 'Cancel Add' : 'Add Game'}    
+                                </Button> 
+                            </Col>
+                        </Row>}
+                </div>}
             {modal &&
                 <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
+
+            {showTournament &&
+                <div>
+                    <button onClick={() => setShowTournament(false)}>Back to Season</button>
+                    <TournamentDisplay tournament={tournament} /> 
+                    <button onClick={saveTournament}>Save Tournament</button>
+                </div>}
         </Container>
     );
 };

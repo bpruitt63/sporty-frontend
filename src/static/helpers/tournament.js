@@ -18,7 +18,7 @@ export function buildTournament(teams, rankings, details='single') {
         round++;
     };
     tournament[`Round ${round}`] = populateGames(byes, tournament[`Round ${round}`], teams);
-    console.log(tournament)
+    return tournament;
 };
 
 function getByes(rankings) {

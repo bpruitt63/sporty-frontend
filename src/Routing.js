@@ -6,6 +6,7 @@ import Logout from './Logout';
 import Admin from './Admin';
 import UserUpdateForm from './UserUpdateForm';
 import OrganizationHome from './OrganizationHome';
+import TournamentHome from './TournamentHome';
 import SeasonHome from './SeasonHome';
 
 function Routing({user, setUser, handleLogin, isMobile}) {
@@ -28,6 +29,7 @@ function Routing({user, setUser, handleLogin, isMobile}) {
                                                                         isMobile={isMobile} />} />
             <Route path='/organization/:orgId/seasons/:seasonId' element={<SeasonHome user={user}
                                                                                     isMobile={isMobile} />} />
+            <Route path='/organization/:orgId/tournaments/:seasonId' element={<TournamentHome user={user} />} />
             <Route path='*' element={<Navigate to='/'/>} />
         </Routes>
     );

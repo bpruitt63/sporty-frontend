@@ -210,11 +210,20 @@ function SeasonHome({user, isMobile}) {
         setIsLoading(true);
         try {
             const {seasonId} = await SportyApi.addSeason(`${season.title} Tournament`, orgId);
-            console.log(tournament)
-            await SportyApi.addGames({games: tournament}, orgId, seasonId);
+            let teamsMinusBye = Object.keys(season.teams).filter(
+                                    id => season.teams[id].teamName !== 'Bye');
+            const teamNames = [];
+            for (let key of teamsMinusBye) {
+                teamNames.push({teamName: season.teams[key].teamName, color: season.teams[key].color});
+            };
+            teamsMinusBye = teamsMinusBye.map(id => ({teamId: +id}));
+            const [addedGames] = await Promise.all([
+                SportyApi.addGames({games: tournament}, orgId, seasonId),
+                SportyApi.addTeams({teamIds: teamsMinusBye, teams: teamNames}, seasonId, orgId)]);
             setIsLoading(false);
-            navigate(`/organization/${orgId}/tournaments/${seasonId}`);
+            navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: addedGames});
         } catch (err) {
+            console.log('now here')
             setApiErrors(err);
             setIsLoading(false);
         };

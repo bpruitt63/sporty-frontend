@@ -146,7 +146,9 @@ function OrganizationHome({user, setUser, isMobile}) {
                     {isOpen.seasons && org.seasons[0] &&
                         org.seasons.map(s =>
                             <ListGroup.Item key={s.seasonId} className='listItem'>
-                                <Link to={`/organization/${orgId}/seasons/${s.seasonId}`}>
+                                <Link to={s.title.split(' ')[s.title.split(' ').length - 1] === 'Tournament'
+                                    ? `/organization/${orgId}/tournaments/${s.seasonId}`
+                                    : `/organization/${orgId}/seasons/${s.seasonId}`}>
                                     {s.title}
                                 </Link>
                             </ListGroup.Item>)}

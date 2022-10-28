@@ -51,9 +51,8 @@ function TournamentHome() {
 
     return (
         <>
-        {console.log(tournament)}
-        <Errors apiErrors={apiErrors} />
-        <TournamentDisplay />
+            <Errors apiErrors={apiErrors} />
+            <TournamentDisplay tournament={tournament} />
         </>
     );
 };

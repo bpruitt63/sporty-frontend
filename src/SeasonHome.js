@@ -20,7 +20,7 @@ function SeasonHome({user, isMobile}) {
     const {seasonId} = useParams();
     const {orgId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const [season, setSeason] = useState({seasonId, title: '', games: []});
+    const [season, setSeason] = useState({seasonId, title: '', games: [], rankings: []});
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const [apiErrorsNewGame, getApiErrorsNewGame, setApiErrorsNewGame] = useErrors();
     const [errors, setErrors] = useState({});
@@ -58,19 +58,19 @@ function SeasonHome({user, isMobile}) {
                 ]);
                 if (gamesResult && gamesResult['Round 1']) {
                     navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: gamesResult});
-                };
-                teamsResult = getTeams(teamsResult);
-                const {teams, rankings} = getRankings(gamesResult, teamsResult);
-                setSeason({seasonId: gamesResult[0].seasonId, 
-                            title: gamesResult[0].title, 
-                            games: gamesResult,
-                            teams,
-                            rankings});
-                setGames(gamesResult);
-                setTitle({seasonTitle: gamesResult[0].title});
-                setNewGame({games: [newGameObj], teams});
-                setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-                setIsLoading(false);
+                } else {
+                    teamsResult = getTeams(teamsResult);
+                    const {teams, rankings} = getRankings(gamesResult, teamsResult);
+                    setSeason({seasonId: gamesResult[0].seasonId, 
+                                title: gamesResult[0].title, 
+                                games: gamesResult,
+                                teams,
+                                rankings});
+                    setGames(gamesResult);
+                    setTitle({seasonTitle: gamesResult[0].title});
+                    setNewGame({games: [newGameObj], teams});
+                    setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
+                    };
             } catch (e) {
                 getApiErrors(e);
                 try {
@@ -89,7 +89,6 @@ function SeasonHome({user, isMobile}) {
                     setTitle({seasonTitle: seasonResult.title});
                     setNewGame({games: [newGameObj], teams});
                     setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-                    setIsLoading(false);
                 } catch (err) {
                     getApiErrors(err);
                     navigate(`/organization/${orgId}`);
@@ -97,6 +96,7 @@ function SeasonHome({user, isMobile}) {
             };
         };
         getSeason(orgId, seasonId);
+        setIsLoading(false);
     }, [orgId, seasonId, setSeason, getApiErrors, navigate, setTitle, setNewGame, newGameObj]);
 
 

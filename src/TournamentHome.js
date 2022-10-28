@@ -1,64 +1,58 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, useLocation} from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
+import { useErrors } from './hooks';
+import Errors from './Errors';
 import TournamentDisplay from './TournamentDisplay';
+import SportyApi from './SportyApi';
 
 function TournamentHome() {
 
+    const {seasonId} = useParams();
+    const {orgId} = useParams();
+    const [isLoading, setIsLoading] = useState(true);
+    const [tournament, setTournament] = useState({});
+    const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const location = useLocation();
+    const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     async function getTournament() {
-    //         try {
-    //             let [gamesResult, teamsResult] = await Promise.all([
-    //                 SportyApi.getGames(orgId, seasonId),
-    //                 SportyApi.getTeams(orgId, seasonId)
-    //             ]);
-    //             if (gamesResult && gamesResult['Round 1']) {
-    //                 navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: gamesResult});
-    //             };
-    //             teamsResult = getTeams(teamsResult);
-    //             const {teams, rankings} = getRankings(gamesResult, teamsResult);
-    //             setSeason({seasonId: gamesResult[0].seasonId, 
-    //                         title: gamesResult[0].title, 
-    //                         games: gamesResult,
-    //                         teams,
-    //                         rankings});
-    //             setGames(gamesResult);
-    //             setTitle({seasonTitle: gamesResult[0].title});
-    //             setNewGame({games: [newGameObj], teams});
-    //             setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-    //             setIsLoading(false);
-    //         } catch (e) {
-    //             getApiErrors(e);
-    //             try {
-    //                 let [seasonResult, teamsResult] = await Promise.all([
-    //                     SportyApi.getSeason(orgId, seasonId),
-    //                     SportyApi.getTeams(orgId, seasonId)
-    //                 ]);
-    //                 teamsResult = getTeams(teamsResult);
-    //                 const {teams, rankings} = getRankings([], teamsResult);
-    //                 setSeason({seasonId: seasonResult.seasonId, 
-    //                             title: seasonResult.title, 
-    //                             games: [],
-    //                             teams,
-    //                             rankings});
-    //                 setGames([]);
-    //                 setTitle({seasonTitle: seasonResult.title});
-    //                 setNewGame({games: [newGameObj], teams});
-    //                 setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-    //                 setIsLoading(false);
-    //             } catch (err) {
-    //                 getApiErrors(err);
-    //                 navigate(`/organization/${orgId}`);
-    //             };
-    //         };
-    //     };
-    //     getSeason(orgId, seasonId);
-    // }, [orgId, seasonId, setSeason, getApiErrors, navigate, setTitle, setNewGame, newGameObj]);
+
+    useEffect(() => {
+        async function getTournament() {
+            if (location.state) {
+                setTournament(location.state);
+            } else {
+                try {
+                    const tournament = await SportyApi.getGames(orgId, seasonId);
+                    if (Array.isArray(tournament)) {
+                        navigate(`/organization/${orgId}/seasons/${seasonId}`);
+                    } else {
+                        setTournament(tournament);
+                    };
+                } catch (err) {
+                    getApiErrors(err);
+                    navigate(`/organization/${orgId}`);
+                };
+            };
+        };
+        getTournament(orgId, seasonId);
+        setIsLoading(false);
+    }, [orgId, seasonId, setTournament, setIsLoading, getApiErrors, location, navigate]);
+
+
+    if (isLoading) {
+        return (
+            <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        );
+    };
+
 
     return (
         <>
-        {console.log(location.state)}
+        {console.log(tournament)}
+        <Errors apiErrors={apiErrors} />
         <TournamentDisplay />
         </>
     );

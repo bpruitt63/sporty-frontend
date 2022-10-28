@@ -1,4 +1,4 @@
-export function buildTournament(teams, rankings, details='single') {
+export function buildTournament(teams, rankings) {
     const {byes, playIns} = getByes(rankings);
     const tournament = buildRounds(byes, playIns);
 
@@ -29,7 +29,8 @@ function getByes(rankings) {
     const numPlayInGames = rankings.length - (target / 2);
     const firstPlayInIndex = rankings.length - (numPlayInGames * 2);
     const byes = rankings.slice(0, firstPlayInIndex);
-    const playIns = rankings.slice(firstPlayInIndex);
+    let playIns = rankings.slice(firstPlayInIndex);
+    playIns = [...playIns.slice(0, playIns.length / 2).reverse(), ...playIns.slice(playIns.length / 2).reverse()]
     return {byes, playIns}
 };
 

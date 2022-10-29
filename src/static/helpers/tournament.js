@@ -73,9 +73,9 @@ function populateGames(rankings, round, teams) {
         const game = i + 1;
         round[`Game ${game}`].team1Id = team1Id;
         round[`Game ${game}`].team2Id = team2Id;
-        round[`Game ${game}`].team1Name = teams[team1Id].teamName || 'N/A';
+        round[`Game ${game}`].team1Name = teams[team1Id]?.teamName || 'N/A';
         round[`Game ${game}`].team2Name = teams[team2Id]?.teamName || 'N/A';
-        round[`Game ${game}`].team1Color = teams[team1Id].color || 'N/A';
+        round[`Game ${game}`].team1Color = teams[team1Id]?.color || 'N/A';
         round[`Game ${game}`].team2Color = teams[team2Id]?.color || 'N/A';
     };
     return round;

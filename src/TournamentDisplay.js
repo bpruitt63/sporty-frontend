@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Col, Row } from 'react-bootstrap';
 import TournamentRound from './TournamentRound';
 
 function TournamentDisplay({tournament={}}) {
@@ -18,10 +19,10 @@ function TournamentDisplay({tournament={}}) {
 
 
     return (
-        <div>{console.log(tournament)}
+        <Row>
             {orderedRounds.map(r => 
-                <TournamentRound key={r} round={tournament[r]} />)}
-        </div>
+                <Col style={{backgroundColor: 'white'}} key={r} xs={1}><TournamentRound key={r} round={tournament[r]} /></Col>)}
+        </Row>
     );
 };
 

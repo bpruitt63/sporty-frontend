@@ -28,10 +28,11 @@ function TournamentRound({round}) {
                     current++;
                 };
             };
+            console.log(orderedGames)
             setOrderedGames(orderedGames);
         };
         function getGoalLength(goalLength) {
-            let goal = 2;
+            let goal = 1;
             while (goal * 2 < goalLength) goal *= 2;
             return goal;
         };

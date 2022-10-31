@@ -7,18 +7,33 @@ function TournamentRound({round}) {
 
     useEffect(() => {
         function orderGames() {
+            const isPlayIn = isPlayInRound(round);
             const keys = Object.keys(round);
-            if (!isPlayInRound(round)) {
-                let orderedGames = [1];
-                while (orderedGames.length < keys.length) {
-                    for (let i = 0; i < orderedGames.length; i++) {
-                        orderedGames[i] = [orderedGames[i], (2 * orderedGames.length + 1) - orderedGames[i]];
-                    };
-                    orderedGames = orderedGames.flat();
+            const goalLength = isPlayIn ? getGoalLength(keys.length) : keys.length;
+            let orderedGames = [1];
+            while (orderedGames.length < goalLength) {
+                for (let i = 0; i < orderedGames.length; i++) {
+                    orderedGames[i] = [orderedGames[i], (2 * orderedGames.length + 1) - orderedGames[i]];
                 };
-                orderedGames = orderedGames.map(g => g = `Game ${g}`);
-                setOrderedGames(orderedGames);
+                orderedGames = orderedGames.flat();
             };
+            orderedGames = orderedGames.map(g => g = `Game ${g}`);
+            if (isPlayIn) {
+                let target = orderedGames.length;
+                let current = target + 1;
+                while (orderedGames.length < keys.length) {
+                    const targetInd = orderedGames.indexOf(`Game ${target}`);
+                    orderedGames.splice(targetInd + 1, 0, `Game ${current}`)
+                    target--;
+                    current++;
+                };
+            };
+            setOrderedGames(orderedGames);
+        };
+        function getGoalLength(goalLength) {
+            let goal = 2;
+            while (goal * 2 < goalLength) goal *= 2;
+            return goal;
         };
         function isPlayInRound() {
             if (!round['Game 1'].tournamentRound || round['Game 1'].tournamentRound === 1) {
@@ -34,8 +49,6 @@ function TournamentRound({round}) {
 
     return (
         <div>
-            {console.log(round)}
-            {console.log(orderedGames)}
             {orderedGames.map(g =>
                 <TournamentGame key={g} game={round[g]} />)}
                 <hr/>

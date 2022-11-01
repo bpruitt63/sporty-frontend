@@ -58,7 +58,7 @@ function SeasonHome({user, isMobile}) {
                     SportyApi.getTeams(orgId, seasonId)
                 ]); console.log(seasonResult)
                 if (seasonResult.tournamentFor) {
-                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: gamesResult});
+                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {gamesResult, seasonResult}});
                 } else {
                     teamsResult = getTeams(teamsResult);
                     const {teams, rankings} = getRankings(gamesResult, teamsResult);

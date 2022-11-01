@@ -15,7 +15,7 @@ function TournamentDisplay({tournament={}}) {
             setOrderedRounds(rounds);
         };
         orderRounds(tournament);
-    }, [tournament]);
+    }, [tournament, setOrderedRounds]);
 
 
     return (

@@ -20,7 +20,7 @@ function SeasonHome({user, isMobile}) {
     const {seasonId} = useParams();
     const {orgId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const [season, setSeason] = useState({seasonId, title: '', games: [], rankings: []});
+    const [season, setSeason] = useState({seasonId, title: '', games: [], rankings: [], seasonTournament: null});
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const [apiErrorsNewGame, getApiErrorsNewGame, setApiErrorsNewGame] = useErrors();
     const [errors, setErrors] = useState({});
@@ -52,22 +52,24 @@ function SeasonHome({user, isMobile}) {
     useEffect(() => {
         async function getSeason() {
             try {
-                let [gamesResult, teamsResult] = await Promise.all([
+                let [seasonResult, gamesResult, teamsResult] = await Promise.all([
+                    SportyApi.getSeason(orgId, seasonId),
                     SportyApi.getGames(orgId, seasonId),
                     SportyApi.getTeams(orgId, seasonId)
-                ]);
-                if (gamesResult && gamesResult['Round 1']) {
+                ]); console.log(seasonResult)
+                if (seasonResult.tournamentFor) {
                     navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: gamesResult});
                 } else {
                     teamsResult = getTeams(teamsResult);
                     const {teams, rankings} = getRankings(gamesResult, teamsResult);
-                    setSeason({seasonId: gamesResult[0].seasonId, 
-                                title: gamesResult[0].title, 
+                    setSeason({seasonId: seasonResult.seasonId, 
+                                title: seasonResult.title, 
                                 games: gamesResult,
                                 teams,
-                                rankings});
+                                rankings, 
+                                seasonTournament: seasonResult.seasonTournament});
                     setGames(gamesResult);
-                    setTitle({seasonTitle: gamesResult[0].title});
+                    setTitle({seasonTitle: seasonResult.title});
                     setNewGame({games: [newGameObj], teams});
                     setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
                     };
@@ -84,7 +86,8 @@ function SeasonHome({user, isMobile}) {
                                 title: seasonResult.title, 
                                 games: [],
                                 teams,
-                                rankings});
+                                rankings, 
+                                seasonTournament: seasonResult.seasonTournament});
                     setGames([]);
                     setTitle({seasonTitle: seasonResult.title});
                     setNewGame({games: [newGameObj], teams});
@@ -209,7 +212,9 @@ function SeasonHome({user, isMobile}) {
         setApiErrors({});
         setIsLoading(true);
         try {
-            const {seasonId} = await SportyApi.addSeason(`${season.title} Tournament`, orgId);
+            const seasonData = {title: `${season.title} Tournament`, 
+                                tournamentFor: season.seasonId};
+            const {seasonId} = await SportyApi.addSeason(seasonData, orgId);
             let teamsMinusBye = Object.keys(season.teams).filter(
                                     id => season.teams[id].teamName !== 'Bye');
             const teamNames = [];
@@ -297,8 +302,12 @@ function SeasonHome({user, isMobile}) {
             </Col>
             {!showTournament &&
                 <div>
-                    {isEditor &&
+                    {isEditor && !season.seasonTournament &&
                         <button onClick={makeTournament}>Build Tournament from Current Rankings</button>}
+                    {season.seasonTournament &&
+                        <Link to={`../organization/${orgId}/tournaments/${season.seasonTournament}`}>
+                            View tournament
+                        </Link>}
                     {games &&
                         <GameList games={games}
                                     setGames={setGames}

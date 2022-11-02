@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import TournamentGame from './TournamentGame';
 
-function TournamentRound({round}) {
+function TournamentRound({round, isEditor, setPopupGame}) {
 
     const [orderedGames, setOrderedGames] = useState(Object.keys(round));
 
@@ -28,7 +28,6 @@ function TournamentRound({round}) {
                     current++;
                 };
             };
-            console.log(orderedGames)
             setOrderedGames(orderedGames);
         };
         function getGoalLength(goalLength) {
@@ -51,7 +50,10 @@ function TournamentRound({round}) {
     return (
         <div>
             {orderedGames.map(g =>
-                <TournamentGame key={g} game={round[g]} />)}
+                <TournamentGame key={g} 
+                                game={round[g]}
+                                isEditor={isEditor}
+                                setPopupGame={setPopupGame} />)}
                 <hr/>
         </div>
     );

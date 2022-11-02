@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { Col, Row } from 'react-bootstrap';
 import TournamentRound from './TournamentRound';
+import GameModal from './GameModal';
 
-function TournamentDisplay({tournament={}}) {
+function TournamentDisplay({tournament={}, isEditor=false}) {
 
     const [orderedRounds, setOrderedRounds] = useState(Object.keys(tournament));
+    const [popupGame, setPopupGame] = useState({display: false, type: 'details', game: {}});
 
     useEffect(() => {
         function orderRounds() {
@@ -20,8 +22,12 @@ function TournamentDisplay({tournament={}}) {
 
     return (
         <Row>
+            {popupGame.display && 
+                <GameModal game={popupGame.game} 
+                            type={popupGame.type} 
+                            setPopupGame={setPopupGame} />}
             {orderedRounds.map(r => 
-                <Col style={{backgroundColor: 'white'}} key={r} xs={1}><TournamentRound key={r} round={tournament[r]} /></Col>)}
+                <Col style={{backgroundColor: 'white'}} key={r} xs={1}><TournamentRound key={r} round={tournament[r]} isEditor={isEditor} setPopupGame={setPopupGame} /></Col>)}
         </Row>
     );
 };

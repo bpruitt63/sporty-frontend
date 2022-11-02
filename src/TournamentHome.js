@@ -6,7 +6,7 @@ import Errors from './Errors';
 import TournamentDisplay from './TournamentDisplay';
 import SportyApi from './SportyApi';
 
-function TournamentHome() {
+function TournamentHome({user}) {
 
     const {seasonId} = useParams();
     const {orgId} = useParams();
@@ -14,6 +14,8 @@ function TournamentHome() {
     const [tournament, setTournament] = useState({});
     const [tournamentData, setTournamentData] = useState({title: '', tournamentFor: null});
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
+    const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
+        user.organizations[orgId].adminLevel <= 2);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -76,7 +78,7 @@ function TournamentHome() {
                 View season
             </Link>
             <Errors apiErrors={apiErrors} />
-            <TournamentDisplay tournament={tournament} />
+            <TournamentDisplay tournament={tournament} isEditor={isEditor} />
         </>
     );
 };

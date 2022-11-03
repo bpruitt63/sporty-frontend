@@ -6,7 +6,7 @@ import GameModal from './GameModal';
 function TournamentDisplay({tournament={}, isEditor=false}) {
 
     const [orderedRounds, setOrderedRounds] = useState(Object.keys(tournament));
-    const [popupGame, setPopupGame] = useState({display: false, type: 'details', game: {}});
+    const [popupGame, setPopupGame] = useState({display: false, edit: false, game: {}});
 
     useEffect(() => {
         function orderRounds() {
@@ -24,8 +24,9 @@ function TournamentDisplay({tournament={}, isEditor=false}) {
         <Row>
             {popupGame.display && 
                 <GameModal game={popupGame.game} 
-                            type={popupGame.type} 
-                            setPopupGame={setPopupGame} />}
+                            edit={popupGame.edit} 
+                            setPopupGame={setPopupGame}
+                            isEditor={isEditor} />}
             {orderedRounds.map(r => 
                 <Col style={{backgroundColor: 'white'}} key={r} xs={1}><TournamentRound key={r} round={tournament[r]} isEditor={isEditor} setPopupGame={setPopupGame} /></Col>)}
         </Row>

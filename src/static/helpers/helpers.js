@@ -23,7 +23,6 @@ export function validateGames(games, setErrors, gameRefs=[]) {
         if ((games[game].team1Score === null && games[game].team2Score !== null) ||
                 (games[game].team2Score === null && games[game].team1Score !== null)) {
                     setErrors({error: 'Both team scores are required if entering score'});
-                    console.log(gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[1].children[1].children[0])
                     if (gameRefs.current.length) gameRefs.current[game - 1].children[0].children[1].children[0].children[0].children[1].children[1].children[0].focus();
                     return false;
         };

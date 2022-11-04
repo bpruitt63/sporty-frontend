@@ -13,7 +13,7 @@ function TournamentHome({user}) {
     const [isLoading, setIsLoading] = useState(true);
     const [tournament, setTournament] = useState({});
     const [tournamentData, setTournamentData] = useState({title: '', tournamentFor: null});
-    const [apiErrors, getApiErrors, setApiErrors] = useErrors();
+    const [apiErrors, getApiErrors] = useErrors();
     const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
         user.organizations[orgId].adminLevel <= 2);
     const location = useLocation();
@@ -48,6 +48,39 @@ function TournamentHome({user}) {
         setIsLoading(false);
     }, [orgId, seasonId, setTournament, setIsLoading, getApiErrors, location, navigate]);
 
+    const updateGame = async (game, data) => {
+        const updatedGame = await SportyApi.editGame({game: data}, game.gameId, orgId, seasonId);
+        const updatedTournament = {...tournament};
+        updatedTournament[`Round ${updatedGame.tournamentRound}`][`Game ${updatedGame.tournamentGame}`] = updatedGame;
+        const nextRound = `Round ${updatedGame.tournamentRound + 1}`;
+        if (tournament[nextRound]) {
+            if (updatedGame.team1Score !== null) {
+                const winner = updatedGame.team1Score > updatedGame.team2Score ?
+                                updatedGame.team1Id : updatedGame.team2Id;
+                const nextRoundSize = Object.keys(tournament[nextRound]).length;
+                const currentRoundSize = Object.keys(tournament[`Round ${updatedGame.tournamentRound}`]).length;
+                const nextGame = `Game ${updatedGame.tournamentGame <= nextRoundSize ? updatedGame.tournamentGame
+                                : (nextRoundSize + 1) - (updatedGame.tournamentGame - nextRoundSize)}`;
+                const nextTeam = currentRoundSize === nextRoundSize * 2
+                    ? updatedGame.tournamentGame <= nextRoundSize ? 'team1Id' : 'team2Id'
+                    : getNextforPlayInRound(nextRoundSize, currentRoundSize, updatedGame.tournamentGame);
+                const dataToSend = {[nextTeam]: winner};
+                const updatedNext = await SportyApi.editGame({game: dataToSend}, updatedTournament[nextRound][nextGame].gameId, orgId, seasonId);
+                updatedTournament[nextRound][nextGame] = updatedNext;
+            };
+        };
+        setTournament(updatedTournament);
+    };
+
+    const getNextforPlayInRound = (nextRoundSize, currentRoundSize, gameNum) => {
+        const diff = (nextRoundSize * 2) - currentRoundSize;
+        let teamId = 'team2Id';
+        if (gameNum > diff && gameNum <= nextRoundSize) {
+            teamId = 'team1Id';
+        };
+        return teamId;
+    };
+
 
     if (isLoading) {
         return (
@@ -78,7 +111,7 @@ function TournamentHome({user}) {
                 View season
             </Link>
             <Errors apiErrors={apiErrors} />
-            <TournamentDisplay tournament={tournament} isEditor={isEditor} />
+            <TournamentDisplay tournament={tournament} isEditor={isEditor} updateGame={updateGame} />
         </>
     );
 };

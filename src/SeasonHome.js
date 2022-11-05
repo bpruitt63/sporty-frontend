@@ -303,9 +303,14 @@ function SeasonHome({user, isMobile}) {
             {!showTournament &&
                 <div>
                     {isEditor && !season.seasonTournament &&
-                        <button onClick={makeTournament}>Build Tournament from Current Rankings</button>}
+                        <Button onClick={makeTournament}
+                                variant='dark'
+                                className='tournamentButton'>
+                            Build Tournament from Current Rankings
+                        </Button>}
                     {season.seasonTournament &&
-                        <Link to={`../organization/${orgId}/tournaments/${season.seasonTournament}`}>
+                        <Link to={`../organization/${orgId}/tournaments/${season.seasonTournament}`}
+                                className='tournamentButton message'>
                             View tournament
                         </Link>}
                     {games &&
@@ -354,9 +359,16 @@ function SeasonHome({user, isMobile}) {
 
             {showTournament &&
                 <div>
-                    <button onClick={() => setShowTournament(false)}>Back to Season</button>
+                    <Button onClick={() => setShowTournament(false)}
+                            variant='secondary'>
+                        Back to Season
+                    </Button>
                     <TournamentDisplay tournament={tournament} /> 
-                    <button onClick={saveTournament}>Save Tournament</button>
+                    <Button onClick={saveTournament}
+                            variant='dark'
+                            className='addDelete'>
+                        Save Tournament
+                    </Button>
                 </div>}
         </Container>
     );

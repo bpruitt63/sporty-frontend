@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, useLocation, Link} from 'react-router-dom';
 import { Spinner, Col, Row } from 'react-bootstrap';
+import './static/styles/Tournament.css';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import TournamentDisplay from './TournamentDisplay';
@@ -106,10 +107,12 @@ function TournamentHome({user}) {
                     </Col>
                 </Row>
             </Col>
+            <div>
             <Link to={`../organization/${orgId}/seasons/${tournamentData.tournamentFor}`}
-                    className='returnLink'>
+                    className='message'>
                 View season
             </Link>
+            </div>
             <Errors apiErrors={apiErrors} />
             <TournamentDisplay tournament={tournament} isEditor={isEditor} updateGame={updateGame} />
         </>

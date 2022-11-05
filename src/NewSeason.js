@@ -147,7 +147,8 @@ function NewSeason({orgId=null, cancel}) {
                 <GameList games={Object.values(season.games)} />}
             {orgId && isOpen.preview && !season.seasonId &&
                 <Button onClick={saveSeason}
-                        variant='dark'>
+                        variant='dark'
+                        className='addDelete'>
                     Save Season    
                 </Button>}
         </div>

@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, useLocation, Link} from 'react-router-dom';
-import { Spinner, Col, Row } from 'react-bootstrap';
-import './static/styles/Tournament.css';
+import { Spinner, Col, Row, Container } from 'react-bootstrap';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import TournamentDisplay from './TournamentDisplay';
 import SportyApi from './SportyApi';
 
-function TournamentHome({user}) {
+function TournamentHome({user, isMobile}) {
 
     const {seasonId} = useParams();
     const {orgId} = useParams();
@@ -93,7 +92,7 @@ function TournamentHome({user}) {
 
 
     return (
-        <>
+        <Container>
             <Col xs={{span: 10, offset: 1}} 
                 md={{span: 6, offset: 3}} 
                 className='seasonHead'>
@@ -114,8 +113,11 @@ function TournamentHome({user}) {
             </Link>
             </div>
             <Errors apiErrors={apiErrors} />
-            <TournamentDisplay tournament={tournament} isEditor={isEditor} updateGame={updateGame} />
-        </>
+            <TournamentDisplay tournament={tournament} 
+                                isEditor={isEditor} 
+                                updateGame={updateGame}
+                                isMobile={isMobile} />
+        </Container>
     );
 };
 

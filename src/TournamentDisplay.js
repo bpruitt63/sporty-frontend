@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
+import './static/styles/Tournament.css';
 import TournamentRound from './TournamentRound';
 import GameModal from './GameModal';
 
-function TournamentDisplay({tournament={}, isEditor=false, updateGame=null}) {
+function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMobile}) {
 
     const [orderedRounds, setOrderedRounds] = useState(Object.keys(tournament));
     const [popupGame, setPopupGame] = useState({display: false, edit: false, game: {}});
+    const [mobileRound, setMobileRound] = useState(1);
+    const [winner, setWinner] = useState(null);
 
     useEffect(() => {
         function orderRounds() {
@@ -15,6 +18,13 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null}) {
             rounds.sort((a, b) => a[1] - b[1]);
             for (let i = 0; i < rounds.length; i++) rounds[i] = rounds[i].join(' ');
             setOrderedRounds(rounds);
+            if (rounds.length) {
+                const lastGame = tournament[rounds[rounds.length - 1]]['Game 1'];
+                if (lastGame.team1Score) {
+                    setWinner(lastGame.team1Score > lastGame.team2Score ? 
+                                lastGame.team1Name : lastGame.team2Name);
+                };
+            };
         };
         orderRounds(tournament);
     }, [tournament, setOrderedRounds]);
@@ -33,17 +43,50 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null}) {
 
 
     return (
-        <Row>
-            {popupGame.display && 
-                <GameModal game={popupGame.game} 
-                            edit={popupGame.edit} 
-                            setPopupGame={setPopupGame}
-                            isEditor={isEditor}
-                            canEditScore={canEditScore}
-                            updateGame={updateGame} />}
-            {orderedRounds.map(r => 
-                <Col style={{backgroundColor: 'white'}} key={r} xs={1}><TournamentRound key={r} round={tournament[r]} isEditor={isEditor} setPopupGame={setPopupGame} /></Col>)}
-        </Row>
+        <Container className='tournamentContainer'>
+            <Row>
+                {popupGame.display && 
+                    <GameModal game={popupGame.game} 
+                                edit={popupGame.edit} 
+                                setPopupGame={setPopupGame}
+                                isEditor={isEditor}
+                                canEditScore={canEditScore}
+                                updateGame={updateGame} />}
+                {!isMobile ? 
+                    <>
+                        {orderedRounds.map(r => 
+                            <Col key={r}>
+                                <TournamentRound key={r} 
+                                                round={tournament[r]} 
+                                                isEditor={isEditor} 
+                                                setPopupGame={setPopupGame} />
+                            </Col>)}
+                            <Col>{winner || ''}</Col>
+                    </>
+                    :
+                    <>
+                        <div className='prevNextButtons'>
+                            <Button onClick={() => setMobileRound(mobileRound - 1)}
+                                    variant='outline-secondary'
+                                    className={mobileRound === 1 ? 'hidden' : ''}>
+                                {'< Prev'}
+                            </Button>
+                            <Button onClick={() => setMobileRound(mobileRound + 1)}
+                                    variant='outline-secondary'
+                                    className={!tournament[`Round ${mobileRound}`] ? 'hidden' : ''}>
+                                {`Next >`}
+                            </Button>
+                        </div>
+                        {tournament[`Round ${mobileRound}`] ?
+                            <TournamentRound round={tournament[`Round ${mobileRound}`]}
+                                        isEditor={isEditor}
+                                        setPopupGame={setPopupGame} />
+                            :
+                            <p>{winner || ''}</p>}
+                    </>
+                }
+            </Row>
+        </Container>
     );
 };
 

@@ -54,7 +54,6 @@ function TournamentRound({round, isEditor, setPopupGame}) {
                                 game={round[g]}
                                 isEditor={isEditor}
                                 setPopupGame={setPopupGame} />)}
-                <hr/>
         </div>
     );
 };

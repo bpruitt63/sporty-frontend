@@ -12,14 +12,18 @@ function GameModalEdit({game, data, handleChange, canEditScore, nullScore}) {
             <form onSubmit={() => console.log(data)}>
                 <p>
                     {game.team1Name || 'Team TBD'}
-                        <span>{game.team1Id && game.team2Id && canEditScores &&
-                            <input type='number'
-                                    min='0'
-                                    max='999'
-                                    name={`team1Score`}
-                                    value={data.team1Score !== null ? data.team1Score : ''}
-                                    onChange={handleChange} />
-                        }</span>
+                        <span>
+                            {game.team1Id && game.team2Id && canEditScores &&
+                                <input type='number'
+                                        min='0'
+                                        max='999'
+                                        name={`team1Score`}
+                                        value={data.team1Score !== null ? data.team1Score : ''}
+                                        onChange={handleChange} />
+                            }
+                            {!canEditScores && game.team1Score &&
+                                `${game.team1Score}`}
+                        </span>
                 </p>
                 <input type='date'
                         name='gameDate'
@@ -47,14 +51,18 @@ function GameModalEdit({game, data, handleChange, canEditScore, nullScore}) {
                     </Button>}
                 <p>
                     {game.team2Name || 'Team TBD'}
-                        <span>{game.team1Id && game.team2Id && canEditScores &&
-                            <input type='number'
-                                    min='0'
-                                    max='999'
-                                    name={`team2Score`}
-                                    value={data.team2Score !== null ? data.team2Score : ''}
-                                    onChange={handleChange} />
-                        }</span>
+                        <span>
+                            {game.team1Id && game.team2Id && canEditScores &&
+                                <input type='number'
+                                        min='0'
+                                        max='999'
+                                        name={`team2Score`}
+                                        value={data.team2Score !== null ? data.team2Score : ''}
+                                        onChange={handleChange} />
+                            }
+                            {!canEditScores && game.team2Score &&
+                                `${game.team2Score}`}
+                        </span>
                 </p>
             </form>
         </div>

@@ -1,0 +1,16 @@
+.tournamentContainer {
+    background-color: aliceblue;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 15px auto 20px;
+}
+
+.prevNextButtons {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0px;
+}
+
+.hidden {
+    visibility: hidden;
+}

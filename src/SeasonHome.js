@@ -363,7 +363,8 @@ function SeasonHome({user, isMobile}) {
                             variant='secondary'>
                         Back to Season
                     </Button>
-                    <TournamentDisplay tournament={tournament} /> 
+                    <TournamentDisplay tournament={tournament}
+                                        isMobile={isMobile} /> 
                     <Button onClick={saveTournament}
                             variant='dark'
                             className='addDelete'>

@@ -55,13 +55,17 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                 {!isMobile ? 
                     <>
                         {orderedRounds.map(r => 
-                            <Col key={r}>
+                            <Col key={r} className='tournamentCol'>
                                 <TournamentRound key={r} 
                                                 round={tournament[r]} 
                                                 isEditor={isEditor} 
-                                                setPopupGame={setPopupGame} />
+                                                setPopupGame={setPopupGame}/>
                             </Col>)}
-                            <Col>{winner || ''}</Col>
+                            <Col className='tournamentCol'>
+                                <p className='winner'>
+                                    {winner || ''}
+                                </p>
+                            </Col>
                     </>
                     :
                     <>

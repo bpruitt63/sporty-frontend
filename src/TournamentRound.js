@@ -48,12 +48,13 @@ function TournamentRound({round, isEditor, setPopupGame}) {
     }, [round, setOrderedGames]);
 
     return (
-        <div>
+        <div className='tournamentRound'>
             {orderedGames.map(g =>
                 <TournamentGame key={g} 
                                 game={round[g]}
                                 isEditor={isEditor}
-                                setPopupGame={setPopupGame} />)}
+                                setPopupGame={setPopupGame}
+                                height={Math.floor(100 / (orderedGames.length + 1))} />)}
         </div>
     );
 };

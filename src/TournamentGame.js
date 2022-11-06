@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TournamentGame({game, isEditor, setPopupGame}) {
+function TournamentGame({game, isEditor, setPopupGame, height}) {
 
     const handlePopup = (edit) => {
         setPopupGame({display: true, edit, game});
@@ -9,14 +9,16 @@ function TournamentGame({game, isEditor, setPopupGame}) {
     return (
         <>
         {game &&
-            <div>
-                <p>{game.tournamentGame}</p>
-                <p>{game.team1Name}{' '}{game.team1Score}</p>
+            <div className='tournamentGame' 
+                style={{height: `${height}%`}}>
+                <p className='gameTeamTop'>{game.team1Name}{' '}{game.team1Score}</p>
+                <div className='gameMiddle'>
                 {game.gameId &&
                     <button onClick={() => handlePopup(false)}>Details</button>}
                 {game.gameId && isEditor &&
                     <button onClick={() => handlePopup(true)}>Edit</button>}
-                <p>{game.team2Name}{' '}{game.team2Score}</p>
+                </div>
+                <p className='gameTeamBottom'>{game.team2Name}{' '}{game.team2Score}</p>
             </div>}
         </>
     );

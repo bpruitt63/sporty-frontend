@@ -14,3 +14,36 @@
 .hidden {
     visibility: hidden;
 }
+
+.tournamentCol {
+    display: flex;
+    align-items: center;
+}
+
+/* .tournamentRound {
+    height: 100%;
+} */
+
+/* .tournamentGame {
+    border-right: 1px solid black;
+} */
+
+.gameTeamTop {
+    border-bottom: 1px solid black;
+    margin-bottom: 0px;
+}
+
+.gameTeamBottom {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.gameMiddle {
+    padding-top: 10px;
+    border-right: 1px solid black;
+}
+
+.winner {
+    width: 100%;
+    border-bottom: 1px solid black;
+}

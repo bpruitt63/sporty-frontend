@@ -58,7 +58,7 @@ function SeasonHome({user, isMobile}) {
                     SportyApi.getTeams(orgId, seasonId)
                 ]);
                 if (seasonResult.tournamentFor) {
-                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {gamesResult, seasonResult}});
+                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {games: gamesResult, season: seasonResult}});
                 } else {
                     teamsResult = getTeams(teamsResult);
                     const {teams, rankings} = getRankings(gamesResult, teamsResult);
@@ -226,9 +226,8 @@ function SeasonHome({user, isMobile}) {
                 SportyApi.addGames({games: tournament}, orgId, seasonId),
                 SportyApi.addTeams({teamIds: teamsMinusBye, teams: teamNames}, seasonId, orgId)]);
             setIsLoading(false);
-            navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: addedGames});
+            navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {games: addedGames, season: seasonData}});
         } catch (err) {
-            console.log('now here')
             setApiErrors(err);
             setIsLoading(false);
         };

@@ -23,9 +23,9 @@ function TournamentHome({user, isMobile}) {
     useEffect(() => {
         async function getTournament() {
             if (location.state) {
-                setTournament(location.state.gamesResult);
-                setTournamentData({title: location.state.seasonResult.title, 
-                                    tournamentFor: location.state.seasonResult.tournamentFor});
+                setTournament(location.state.games);
+                setTournamentData({title: location.state.season.title, 
+                                    tournamentFor: location.state.season.tournamentFor});
             } else {
                 try {
                     const [tournament, seasonData] = await Promise.all([

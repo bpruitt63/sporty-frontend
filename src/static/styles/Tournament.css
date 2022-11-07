@@ -47,3 +47,94 @@
     width: 100%;
     border-bottom: 1px solid black;
 }
+
+.modalGameTop {
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modalGameBottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalGameN\/A {
+    border: 1px solid grey;
+}
+
+.modalGameblack {
+    background-color: black;
+    color: white;
+}
+
+.modalGamewhite {
+    border: 1px solid grey;
+    background-color: white;
+}
+
+.modalGamegray {
+    background-color: grey;
+    color: white;
+}
+
+.modalGamered {
+    background-color: red;
+    color: white;
+}
+
+.modalGameorange {
+    background-color: orange;
+}
+
+.modalGameyellow {
+    background-color: yellow;
+}
+
+.modalGameblue {
+    background-color: blue;
+    color: white;
+}
+
+.modalGamegreen {
+    background-color: green;
+    color: white;
+}
+
+.modalGamepurple {
+    background-color: purple;
+    color: white;
+}
+
+.modalTeam {
+    padding: 8px 25px;
+    font-size: 1.4rem;
+}
+
+.modalDateColumn {
+    padding: 0px 25px;
+}
+
+.noPadding {
+    padding: 0px;
+}
+
+.tournamentModalFooter {
+    border-top: none;
+    padding-top: 0px;
+}
+
+.modalDateTime {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalFormSpacing {
+    margin-bottom: 15px;
+}
+
+.modalLocation {
+    text-align: left;
+    padding: 0px 25px;
+}

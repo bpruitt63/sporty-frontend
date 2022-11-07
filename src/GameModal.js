@@ -105,7 +105,7 @@ function GameModal({game, edit, setPopupGame, isEditor, canEditScore, updateGame
         <Modal show centered 
                 onHide={hideModal} 
                 backdrop={edit ? 'static' : true}>
-            <Modal.Body>
+            <Modal.Body className='noPadding'>
                 <Errors apiErrors={apiErrors}
                         formErrors={errors} />
                 {edit ?
@@ -113,11 +113,12 @@ function GameModal({game, edit, setPopupGame, isEditor, canEditScore, updateGame
                                     data={data} 
                                     handleChange={handleChange} 
                                     canEditScore={canEditScore}
-                                    nullScore={nullScore} />
+                                    nullScore={nullScore}
+                                    handleSubmit={handleSubmit} />
                     :
                     <GameModalDetail game={game} />}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className='tournamentModalFooter'>
                 <Button onClick={hideModal} 
                         variant='dark'>
                     Cancel

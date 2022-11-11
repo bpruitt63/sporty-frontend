@@ -54,7 +54,7 @@ function TournamentRound({round, isEditor, setPopupGame}) {
                                 game={round[g]}
                                 isEditor={isEditor}
                                 setPopupGame={setPopupGame}
-                                height={Math.floor(100 / (orderedGames.length + 1))} />)}
+                                height={100 / (orderedGames.length + 1)} />)}
         </div>
     );
 };

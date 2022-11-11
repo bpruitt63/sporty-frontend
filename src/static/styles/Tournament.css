@@ -1,7 +1,7 @@
 .tournamentContainer {
     background-color: aliceblue;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 20px 30px;
     margin: 15px auto 20px;
 }
 
@@ -18,34 +18,115 @@
 .tournamentCol {
     display: flex;
     align-items: center;
+    padding: 0px;
 }
 
-/* .tournamentRound {
+.tournamentRound {
     height: 100%;
-} */
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
 
-/* .tournamentGame {
-    border-right: 1px solid black;
-} */
+.tournamentGame {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-.gameTeamTop {
+.gameTop {
     border-bottom: 1px solid black;
     margin-bottom: 0px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.gameTeamBottom {
+.gameBottom {
     border-bottom: 1px solid black;
     border-right: 1px solid black;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .gameMiddle {
-    padding-top: 10px;
+    padding: 10px;
     border-right: 1px solid black;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-around;
 }
 
 .winner {
     width: 100%;
     border-bottom: 1px solid black;
+}
+
+.gameTeam {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0px 5px;
+    margin-left: 20%;
+}
+
+.tournamentGameN\/A {
+    color: black;
+}
+
+.tournamentGameblack {
+    background-color: black;
+    color: white;
+}
+
+.tournamentGamewhite {
+    background-color: white;
+}
+
+.tournamentGamegray {
+    background-color: grey;
+    color: white;
+}
+
+.tournamentGamered {
+    background-color: red;
+    color: white;
+}
+
+.tournamentGameorange {
+    background-color: orange;
+}
+
+.tournamentGameyellow {
+    background-color: yellow;
+}
+
+.tournamentGameblue {
+    background-color: blue;
+    color: white;
+}
+
+.tournamentGamegreen {
+    background-color: green;
+    color: white;
+}
+
+.tournamentGamepurple {
+    background-color: purple;
+    color: white;
+}
+
+.icon {
+    width: 25px;
+    margin: 0px;
+}
+
+.imgButton {
+    all: unset;
+    cursor: pointer;
+    padding: 0px;
 }
 
 .modalGameTop {

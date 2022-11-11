@@ -10,6 +10,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
     const [popupGame, setPopupGame] = useState({display: false, edit: false, game: {}});
     const [mobileRound, setMobileRound] = useState(1);
     const [winner, setWinner] = useState(null);
+    const [playInRound, setPlayInRound] = useState(null);
 
     useEffect(() => {
         function orderRounds() {
@@ -17,13 +18,18 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             for (let i = 0; i < rounds.length; i++) rounds[i] = rounds[i].split(' ');
             rounds.sort((a, b) => a[1] - b[1]);
             for (let i = 0; i < rounds.length; i++) rounds[i] = rounds[i].join(' ');
-            setOrderedRounds(rounds);
             if (rounds.length) {
                 const lastGame = tournament[rounds[rounds.length - 1]]['Game 1'];
                 if (lastGame.team1Score) {
                     setWinner(lastGame.team1Score > lastGame.team2Score ? 
                                 lastGame.team1Name : lastGame.team2Name);
                 };
+            };
+            if (rounds[0].length !== rounds[1].length * 2) {
+                setPlayInRound(rounds[0]);
+                setOrderedRounds(rounds.slice(1));
+            } else {
+                setOrderedRounds(rounds);
             };
         };
         orderRounds(tournament);
@@ -54,10 +60,15 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                 updateGame={updateGame} />}
                 {!isMobile ? 
                     <>
+                        {playInRound && 
+                            <Col className='tournamentCol'>
+                                <TournamentRound round={tournament[playInRound]} 
+                                                isEditor={isEditor} 
+                                                setPopupGame={setPopupGame}/>
+                            </Col>}
                         {orderedRounds.map(r => 
                             <Col key={r} className='tournamentCol'>
-                                <TournamentRound key={r} 
-                                                round={tournament[r]} 
+                                <TournamentRound round={tournament[r]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}/>
                             </Col>)}

@@ -8,11 +8,12 @@ function TournamentGame({game, isEditor, setPopupGame, height}) {
         setPopupGame({display: true, edit, game});
     };
 
-    
+
     return (
         <>
         {game &&
-            <div className='tournamentGame'
+            <div className={game.gameId === 'dummy' ? `tournamentGame hidden`
+                                                    : 'tournamentGame'}
                 style={{height: `${height}%`}}>
                 <p className='gameTop'>
                     <span className={!game.team1Name ? 'hidden' 

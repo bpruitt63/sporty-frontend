@@ -1,57 +1,67 @@
 import React, {useState, useEffect} from 'react';
 import TournamentGame from './TournamentGame';
 
-function TournamentRound({round, isEditor, setPopupGame}) {
+function TournamentRound({round, isEditor, setPopupGame, playInLength=null}) {
 
     const [orderedGames, setOrderedGames] = useState(Object.keys(round));
+    const dummyGame = {gameId: 'dummy'}
 
     useEffect(() => {
         function orderGames() {
-            const isPlayIn = isPlayInRound(round);
             const keys = Object.keys(round);
-            const goalLength = isPlayIn ? getGoalLength(keys.length) : keys.length;
-            let orderedGames = [1];
+            const goalLength = playInLength && playInLength < keys.length ?
+                                playInLength : keys.length;
+            let orderedGames = fillGamesArray([1], goalLength);
+            if (playInLength) {
+                if (playInLength <= orderedGames.length) {
+                    let target = orderedGames.length;
+                    let current = target + 1;
+                    while (orderedGames.length < keys.length) {
+                        const targetInd = orderedGames.indexOf(`Game ${target}`);
+                        orderedGames.splice(targetInd + 1, 0, `Game ${current}`);
+                        target--;
+                        current++;
+                    };
+                    while (orderedGames.length < playInLength * 2) {
+                        const targetInd = orderedGames.indexOf(`Game ${target}`);
+                        orderedGames.splice(targetInd, 0, null);
+                        target--;
+                    };
+                } else {
+                    let dummyRound = fillGamesArray([1], playInLength * 2);
+                    for (let i = 0; i < dummyRound.length; i++) {
+                        if (+(dummyRound[i].split(' ')[1]) > playInLength * 2 - orderedGames.length) {
+                            dummyRound.splice(i, 1);
+                            i--;
+                        } else if (orderedGames.includes(dummyRound[i])) {
+                            dummyRound.splice(i, 0, null);
+                            i++;
+                        } else {
+                            dummyRound[i] = null;
+                        };
+                    };
+                    orderedGames = dummyRound;
+                };
+            };
+            setOrderedGames(orderedGames);
+        };
+        function fillGamesArray(orderedGames, goalLength) {
             while (orderedGames.length < goalLength) {
                 for (let i = 0; i < orderedGames.length; i++) {
                     orderedGames[i] = [orderedGames[i], (2 * orderedGames.length + 1) - orderedGames[i]];
                 };
                 orderedGames = orderedGames.flat();
             };
-            orderedGames = orderedGames.map(g => g = `Game ${g}`);
-            if (isPlayIn) {
-                let target = orderedGames.length;
-                let current = target + 1;
-                while (orderedGames.length < keys.length) {
-                    const targetInd = orderedGames.indexOf(`Game ${target}`);
-                    orderedGames.splice(targetInd + 1, 0, `Game ${current}`)
-                    target--;
-                    current++;
-                };
-            };
-            setOrderedGames(orderedGames);
-        };
-        function getGoalLength(goalLength) {
-            let goal = 1;
-            while (goal * 2 < goalLength) goal *= 2;
-            return goal;
-        };
-        function isPlayInRound() {
-            if (!round['Game 1'].tournamentRound || round['Game 1'].tournamentRound === 1) {
-                let check = 2;
-                const roundSize = Object.keys(round).length;
-                while (check < roundSize) check *= 2;
-                if (check !== roundSize) return true;
-            };
-            return false;
+            return orderedGames.map(g => g = `Game ${g}`);
         };
         orderGames(round);
-    }, [round, setOrderedGames]);
+    }, [round, setOrderedGames, playInLength]);
 
     return (
         <div className='tournamentRound'>
-            {orderedGames.map(g =>
-                <TournamentGame key={g} 
-                                game={round[g]}
+            {orderedGames.map((g, i) =>
+                <TournamentGame key={g || `null${i}`} 
+                                game={g ? round[g] : dummyGame}
                                 isEditor={isEditor}
                                 setPopupGame={setPopupGame}
                                 height={100 / (orderedGames.length + 1)} />)}

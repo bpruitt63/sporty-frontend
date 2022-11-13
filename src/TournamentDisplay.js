@@ -25,7 +25,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                 lastGame.team1Name : lastGame.team2Name);
                 };
             };
-            if (rounds[0].length !== rounds[1].length * 2) {
+            if (tournament[rounds[0]]?.length !== tournament[rounds[1]]?.length * 2) {
                 setPlayInRound(rounds[0]);
                 setOrderedRounds(rounds.slice(1));
             } else {
@@ -64,13 +64,15 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                             <Col className='tournamentCol'>
                                 <TournamentRound round={tournament[playInRound]} 
                                                 isEditor={isEditor} 
-                                                setPopupGame={setPopupGame}/>
+                                                setPopupGame={setPopupGame}
+                                                playInLength={Object.keys(tournament[orderedRounds[0]]).length} />
                             </Col>}
                         {orderedRounds.map(r => 
                             <Col key={r} className='tournamentCol'>
                                 <TournamentRound round={tournament[r]} 
                                                 isEditor={isEditor} 
-                                                setPopupGame={setPopupGame}/>
+                                                setPopupGame={setPopupGame}
+                                                playInLength={null} />
                             </Col>)}
                             <Col className='tournamentCol'>
                                 <p className='winner'>

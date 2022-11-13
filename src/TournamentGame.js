@@ -25,20 +25,18 @@ function TournamentGame({game, isEditor, setPopupGame, height}) {
                     </span>
                 </p>
                 <div className='gameMiddle'>
-                {game.gameId &&
-                    <button onClick={() => handlePopup(false)}
-                            className='imgButton'>
+                    <button onClick={game.gameId ? () => handlePopup(false) : null}
+                            className={`imgButton${!game.gameId ? ' hidden' : ''}`}>
                         <img src={detail_icon} 
                             alt='More Details'
-                            className='icon'/>
-                    </button>}
-                {game.gameId && isEditor &&
-                    <button onClick={() => handlePopup(true)}
-                            className='imgButton'>
+                            className={`icon${!game.gameId ? ' hidden' : ''}`}/>
+                    </button>
+                    <button onClick={game.gameId && isEditor ? () => handlePopup(true) : null}
+                            className={`imgButton${!game.gameId ? ' hidden' : ''}`}>
                         <img src={edit_icon} 
                             alt='Edit'
-                            className='icon'/>
-                    </button>}
+                            className={`icon${!game.gameId ? ' hidden' : ''}`}/>
+                    </button>
                 </div>
                 <p className='gameBottom'>
                     <span className={!game.team2Name ? 'hidden' 

@@ -27,7 +27,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             };
             if (!tournament['Round 2']) {
                 setOrderedRounds(rounds);
-            } else if (tournament[rounds[0]]?.length !== tournament[rounds[1]]?.length * 2) {
+            } else if (Object.keys(tournament[rounds[0]])?.length !== Object.keys(tournament[rounds[1]])?.length * 2) {
                 setPlayInRound(rounds[0]);
                 setOrderedRounds(rounds.slice(1));
             } else {
@@ -76,9 +76,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                 <TournamentRound round={tournament[r]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}
-                                                playInLength={null}
-                                                spread={{alignContent: !tournament['Round 2'] ?
-                                                        'normal' : 'space-around'}} />
+                                                playInLength={null} />
                             </Col>)}
                             <Col className='tournamentCol'>
                                 <p className='winner'>

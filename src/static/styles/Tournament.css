@@ -3,6 +3,9 @@
     border-radius: 5px;
     padding: 20px 30px;
     margin: 15px auto 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .prevNextButtons {
@@ -13,6 +16,10 @@
 
 .hidden {
     visibility: hidden;
+}
+
+.hidden:hover {
+    cursor: default;
 }
 
 .tournamentCol {
@@ -26,6 +33,7 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-content: space-around;
 }
 
 .tournamentGame {

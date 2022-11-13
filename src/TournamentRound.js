@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import TournamentGame from './TournamentGame';
 
-function TournamentRound({round, isEditor, setPopupGame, playInLength=null, spread={alignContent: 'space-around'}}) {
+function TournamentRound({round, isEditor, setPopupGame, playInLength=null}) {
 
     const [orderedGames, setOrderedGames] = useState(Object.keys(round));
     const dummyGame = {gameId: 'dummy'}
@@ -58,8 +58,7 @@ function TournamentRound({round, isEditor, setPopupGame, playInLength=null, spre
     }, [round, setOrderedGames, playInLength]);
 
     return (
-        <div className='tournamentRound'
-                style={spread}>
+        <div className='tournamentRound'>
             {orderedGames.map((g, i) =>
                 <TournamentGame key={g || `null${i}`} 
                                 game={g ? round[g] : dummyGame}

@@ -25,7 +25,9 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                 lastGame.team1Name : lastGame.team2Name);
                 };
             };
-            if (tournament[rounds[0]]?.length !== tournament[rounds[1]]?.length * 2) {
+            if (!tournament['Round 2']) {
+                setOrderedRounds(rounds);
+            } else if (tournament[rounds[0]]?.length !== tournament[rounds[1]]?.length * 2) {
                 setPlayInRound(rounds[0]);
                 setOrderedRounds(rounds.slice(1));
             } else {
@@ -65,14 +67,18 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                 <TournamentRound round={tournament[playInRound]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}
-                                                playInLength={Object.keys(tournament[orderedRounds[0]]).length} />
+                                                playInLength={orderedRounds[0] ? 
+                                                                Object.keys(tournament[orderedRounds[0]]).length 
+                                                                : null} />
                             </Col>}
                         {orderedRounds.map(r => 
                             <Col key={r} className='tournamentCol'>
                                 <TournamentRound round={tournament[r]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}
-                                                playInLength={null} />
+                                                playInLength={null}
+                                                spread={{alignContent: !tournament['Round 2'] ?
+                                                        'normal' : 'space-around'}} />
                             </Col>)}
                             <Col className='tournamentCol'>
                                 <p className='winner'>

@@ -8,6 +8,10 @@
     flex-direction: column;
 }
 
+.tournamentContainer .row div:first-child .tournamentRound {
+    height: auto;
+}
+
 .prevNextButtons {
     display: flex;
     justify-content: space-between;
@@ -77,6 +81,15 @@
     border-top-right-radius: 5px;
     padding: 0px 5px;
     margin-left: 20%;
+    white-space: nowrap;
+    max-width: 60%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.gameTeam:hover {
+    max-width: fit-content;
+    overflow-x: visible;
 }
 
 .tournamentGameN\/A {

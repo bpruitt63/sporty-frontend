@@ -21,8 +21,10 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             if (rounds.length) {
                 const lastGame = tournament[rounds[rounds.length - 1]]['Game 1'];
                 if (lastGame.team1Score) {
-                    setWinner(lastGame.team1Score > lastGame.team2Score ? 
-                                lastGame.team1Name : lastGame.team2Name);
+                    setWinner({teamName : lastGame.team1Score > lastGame.team2Score ? 
+                                lastGame.team1Name : lastGame.team2Name,
+                            color: lastGame.team1Score > lastGame.team2Score ? 
+                            lastGame.team1Color : lastGame.team2Color});
                 };
             };
             if (!tournament['Round 2']) {
@@ -80,7 +82,10 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                             </Col>)}
                             <Col className='tournamentCol'>
                                 <p className='winner'>
-                                    {winner || ''}
+                                    <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}
+                                            style={{marginLeft: '0px'}}>
+                                        {winner?.teamName || ''}
+                                    </span>
                                 </p>
                             </Col>
                     </>
@@ -103,7 +108,12 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                         isEditor={isEditor}
                                         setPopupGame={setPopupGame} />
                             :
-                            <p>{winner || ''}</p>}
+                            <p className='winner'>
+                                <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}
+                                        style={{marginLeft: '0px'}}>
+                                    {winner?.teamName || ''}
+                                </span>
+                            </p>}
                     </>
                 }
             </Row>

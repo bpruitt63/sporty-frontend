@@ -8,6 +8,10 @@
     flex-direction: column;
 }
 
+.tournamentContainer .row {
+    max-width: 100%;
+}
+
 .tournamentContainer .row div:first-child .tournamentRound {
     height: auto;
 }

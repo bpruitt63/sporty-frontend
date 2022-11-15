@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate, useLocation, Link} from 'react-router-dom';
-import { Spinner, Col, Row, Container } from 'react-bootstrap';
+import { Spinner, Col, Row, Container, Button } from 'react-bootstrap';
 import { useErrors } from './hooks';
 import Errors from './Errors';
 import TournamentDisplay from './TournamentDisplay';
 import SportyApi from './SportyApi';
+import ModalComponent from './ModalComponent';
 
 function TournamentHome({user, isMobile}) {
 
@@ -13,6 +14,7 @@ function TournamentHome({user, isMobile}) {
     const [isLoading, setIsLoading] = useState(true);
     const [tournament, setTournament] = useState({});
     const [tournamentData, setTournamentData] = useState({title: '', tournamentFor: null});
+    const [modal, setModal] = useState(false);
     const [apiErrors, getApiErrors] = useErrors();
     const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
         user.organizations[orgId].adminLevel <= 2);
@@ -81,6 +83,23 @@ function TournamentHome({user, isMobile}) {
         return teamId;
     };
 
+    const deleteModal = (e) => {
+        e.preventDefault();
+        setModal(!modal);
+    };
+
+    const deleteTournament = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        try {
+            await SportyApi.removeSeason(orgId, seasonId);
+        } catch (err) {
+            getApiErrors(err);
+        };
+        setIsLoading(false);
+        navigate(`/organization/${orgId}`);
+    };
+
 
     if (isLoading) {
         return (
@@ -117,6 +136,15 @@ function TournamentHome({user, isMobile}) {
                                 isEditor={isEditor} 
                                 updateGame={updateGame}
                                 isMobile={isMobile} />
+            {isEditor &&
+                <Button onClick={deleteModal}
+                        variant='danger'>
+                    Delete Tournament
+                </Button>}
+            {modal &&
+                <ModalComponent message={`Permanently delete tournament ${tournamentData.title}?`}
+                                cancel={deleteModal}
+                                confirm={deleteTournament} />}
         </Container>
     );
 };

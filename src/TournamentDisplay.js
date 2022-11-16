@@ -64,7 +64,8 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                 {!isMobile ? 
                     <>
                         {playInRound && 
-                            <Col className='tournamentCol'>
+                            <Col className='tournamentCol'
+                                    style={{maxWidth: `${100 / (orderedRounds.length + 1)}%`}}>
                                 <TournamentRound round={tournament[playInRound]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}
@@ -73,16 +74,17 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                                                 : null} />
                             </Col>}
                         {orderedRounds.map(r => 
-                            <Col key={r} className='tournamentCol'>
+                            <Col key={r} className='tournamentCol'
+                                            style={{maxWidth: `${100 / (orderedRounds.length + 1)}%`}}>
                                 <TournamentRound round={tournament[r]} 
                                                 isEditor={isEditor} 
                                                 setPopupGame={setPopupGame}
                                                 playInLength={null} />
                             </Col>)}
-                            <Col className='tournamentCol'>
+                            <Col className='tournamentCol'
+                                    style={{maxWidth: `${100 / (orderedRounds.length + 1)}%`}}>
                                 <p className='winner'>
-                                    <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}
-                                            style={{marginLeft: '0px'}}>
+                                    <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}>
                                         {winner?.teamName || ''}
                                     </span>
                                 </p>
@@ -108,8 +110,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
                                         setPopupGame={setPopupGame} />
                             :
                             <p className='winner'>
-                                <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}
-                                        style={{marginLeft: '0px'}}>
+                                <span className={`gameTeam${winner?.color ? ` tournamentGame${winner.color}` : ''}`}>
                                     {winner?.teamName || ''}
                                 </span>
                             </p>}

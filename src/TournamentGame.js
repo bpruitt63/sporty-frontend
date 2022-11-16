@@ -29,13 +29,13 @@ function TournamentGame({game, isEditor, setPopupGame, height}) {
                             className={`imgButton${!game.gameId ? ' hidden' : ''}`}>
                         <img src={detail_icon} 
                             alt='More Details'
-                            className={`icon${!game.gameId ? ' hidden' : ''}`}/>
+                            className={`tournamentIcon${!game.gameId ? ' hidden' : ''}`}/>
                     </button>
                     <button onClick={game.gameId && isEditor ? () => handlePopup(true) : null}
                             className={`imgButton${!game.gameId ? ' hidden' : ''}`}>
                         <img src={edit_icon} 
                             alt='Edit'
-                            className={`icon${!game.gameId ? ' hidden' : ''}`}/>
+                            className={`tournamentIcon${!game.gameId || !isEditor ? ' hidden' : ''}`}/>
                     </button>
                 </div>
                 <p className='gameBottom'>

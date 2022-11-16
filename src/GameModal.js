@@ -50,11 +50,11 @@ function GameModal({game, edit, setPopupGame, isEditor, canEditScore, updateGame
                 (gameData.team2Score === null && gameData.team1Score !== null)) {
                     setErrors({error: 'Both team scores are required if entering score'});
                     return false;
-        } else if (gameData.team1Score !== null && gameData.team1Score === gameData.team2Score) {
+        } else if (gameData.team1Score !== null && +gameData.team1Score === +gameData.team2Score) {
             setErrors({error: 'Tournament games cannot end in a tie'});
             return false;
-        } else if (((game.team1Score !== null && game.team1Score !== gameData.team1Score) ||
-                    (game.team2Score !== null && game.team2Score !== gameData.team2Score)) &&
+        } else if (((game.team1Score !== null && +game.team1Score !== +gameData.team1Score) ||
+                    (game.team2Score !== null && +game.team2Score !== +gameData.team2Score)) &&
                     !canEditScore) {
             setErrors({error: 'Cannot edit score if subsequent game has already been played'});
             return false;

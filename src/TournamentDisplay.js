@@ -4,12 +4,11 @@ import './static/styles/Tournament.css';
 import TournamentRound from './TournamentRound';
 import GameModal from './GameModal';
 
-function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMobile}) {
+function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMobile, winner=null, setWinner=null}) {
 
     const [orderedRounds, setOrderedRounds] = useState(Object.keys(tournament));
     const [popupGame, setPopupGame] = useState({display: false, edit: false, game: {}});
     const [mobileRound, setMobileRound] = useState(1);
-    const [winner, setWinner] = useState(null);
     const [playInRound, setPlayInRound] = useState(null);
 
     useEffect(() => {
@@ -20,7 +19,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             for (let i = 0; i < rounds.length; i++) rounds[i] = rounds[i].join(' ');
             if (rounds.length) {
                 const lastGame = tournament[rounds[rounds.length - 1]]['Game 1'];
-                if (lastGame.team1Score) {
+                if (setWinner && lastGame.team1Score !== null) {
                     setWinner({teamName : lastGame.team1Score > lastGame.team2Score ? 
                                 lastGame.team1Name : lastGame.team2Name,
                             color: lastGame.team1Score > lastGame.team2Score ? 
@@ -37,7 +36,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             };
         };
         orderRounds(tournament);
-    }, [tournament, setOrderedRounds]);
+    }, [tournament, setOrderedRounds, setWinner]);
 
 
     const canEditScore = (game) => {
@@ -46,7 +45,7 @@ function TournamentDisplay({tournament={}, isEditor=false, updateGame=null, isMo
             const nextRoundSize = Object.keys(tournament[nextRound]).length;
             const nextGame = game.tournamentGame <= nextRoundSize ? game.tournamentGame
                             : (nextRoundSize + 1) - (game.tournamentGame - nextRoundSize);
-            if (tournament[nextRound][`Game ${nextGame}`].team1Score) return false;
+            if (tournament[nextRound][`Game ${nextGame}`].team1Score !== null) return false;
         };
         return true;
     };

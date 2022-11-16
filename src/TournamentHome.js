@@ -14,6 +14,7 @@ function TournamentHome({user, isMobile}) {
     const [isLoading, setIsLoading] = useState(true);
     const [tournament, setTournament] = useState({});
     const [tournamentData, setTournamentData] = useState({title: '', tournamentFor: null});
+    const [winner, setWinner] = useState(null);
     const [modal, setModal] = useState(false);
     const [apiErrors, getApiErrors] = useErrors();
     const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
@@ -55,21 +56,25 @@ function TournamentHome({user, isMobile}) {
         const updatedTournament = {...tournament};
         updatedTournament[`Round ${updatedGame.tournamentRound}`][`Game ${updatedGame.tournamentGame}`] = updatedGame;
         const nextRound = `Round ${updatedGame.tournamentRound + 1}`;
+        let winningTeam = null;
+        if (updatedGame.team1Score !== null) {
+            winningTeam = updatedGame.team1Score > updatedGame.team2Score ?
+                        'team1' : 'team2';
+        };
         if (tournament[nextRound]) {
-            if (updatedGame.team1Score !== null) {
-                const winner = updatedGame.team1Score > updatedGame.team2Score ?
-                                updatedGame.team1Id : updatedGame.team2Id;
-                const nextRoundSize = Object.keys(tournament[nextRound]).length;
-                const currentRoundSize = Object.keys(tournament[`Round ${updatedGame.tournamentRound}`]).length;
-                const nextGame = `Game ${updatedGame.tournamentGame <= nextRoundSize ? updatedGame.tournamentGame
-                                : (nextRoundSize + 1) - (updatedGame.tournamentGame - nextRoundSize)}`;
-                const nextTeam = currentRoundSize === nextRoundSize * 2
-                    ? updatedGame.tournamentGame <= nextRoundSize ? 'team1Id' : 'team2Id'
-                    : getNextforPlayInRound(nextRoundSize, currentRoundSize, updatedGame.tournamentGame);
-                const dataToSend = {[nextTeam]: winner};
-                const updatedNext = await SportyApi.editGame({game: dataToSend}, updatedTournament[nextRound][nextGame].gameId, orgId, seasonId);
-                updatedTournament[nextRound][nextGame] = updatedNext;
-            };
+            const nextRoundSize = Object.keys(tournament[nextRound]).length;
+            const currentRoundSize = Object.keys(tournament[`Round ${updatedGame.tournamentRound}`]).length;
+            const nextGame = `Game ${updatedGame.tournamentGame <= nextRoundSize ? updatedGame.tournamentGame
+                            : (nextRoundSize + 1) - (updatedGame.tournamentGame - nextRoundSize)}`;
+            const nextTeam = currentRoundSize === nextRoundSize * 2
+                ? updatedGame.tournamentGame <= nextRoundSize ? 'team1Id' : 'team2Id'
+                : getNextforPlayInRound(nextRoundSize, currentRoundSize, updatedGame.tournamentGame);
+            const dataToSend = {[nextTeam]: updatedGame[`${winningTeam}Id`] || null};
+            const updatedNext = await SportyApi.editGame({game: dataToSend}, updatedTournament[nextRound][nextGame].gameId, orgId, seasonId);
+            updatedTournament[nextRound][nextGame] = updatedNext;
+        } else {
+            setWinner({teamName: updatedGame[`${winningTeam}Name`],
+                        color: updatedGame[`${winningTeam}Color`]})
         };
         setTournament(updatedTournament);
     };
@@ -135,7 +140,9 @@ function TournamentHome({user, isMobile}) {
             <TournamentDisplay tournament={tournament} 
                                 isEditor={isEditor} 
                                 updateGame={updateGame}
-                                isMobile={isMobile} />
+                                isMobile={isMobile}
+                                winner={winner}
+                                setWinner={setWinner} />
             {isEditor &&
                 <Button onClick={deleteModal}
                         variant='danger'>

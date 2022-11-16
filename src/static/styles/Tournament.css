@@ -244,3 +244,7 @@
     text-align: left;
     padding: 0px 25px;
 }
+
+.deleteTournamentButton {
+    margin-bottom: 20px;
+}

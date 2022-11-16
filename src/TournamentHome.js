@@ -148,7 +148,8 @@ function TournamentHome({user, isMobile}) {
                                 setWinner={setWinner} />
             {isEditor &&
                 <Button onClick={deleteModal}
-                        variant='danger'>
+                        variant='danger'
+                        className='deleteTournamentButton'>
                     Delete Tournament
                 </Button>}
             {modal &&

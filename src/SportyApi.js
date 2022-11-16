@@ -113,8 +113,8 @@ class SportyApi {
     };
 
     /** Add season title */
-    static async addSeason(title, orgId) {
-        const res = await this.request(`organizations/${orgId}/seasons`, {title}, 'post');
+    static async addSeason(data, orgId) {
+        const res = await this.request(`organizations/${orgId}/seasons`, data, 'post');
         return res.season;
     };
 

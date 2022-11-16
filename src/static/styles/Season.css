@@ -41,6 +41,11 @@
     margin-bottom: 30px;
 }
 
+.tournamentButton {
+    margin-bottom: 20px;
+    text-decoration: none;
+}
+
 .teamRankN\/A {
     background-color: white;
 }

@@ -1,0 +1,250 @@
+.tournamentContainer {
+    background-color: aliceblue;
+    border-radius: 5px;
+    padding: 20px 30px;
+    margin: 15px auto 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.tournamentContainer .row {
+    max-width: 100%;
+}
+
+.tournamentContainer .row div:first-child .tournamentRound {
+    height: auto;
+}
+
+.prevNextButtons {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.hidden:hover {
+    cursor: default;
+}
+
+.tournamentCol {
+    display: flex;
+    align-items: center;
+    padding: 0px;
+}
+
+.tournamentRound {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.tournamentGame {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.gameTop {
+    border-bottom: 1px solid black;
+    margin-bottom: 0px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gameBottom {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.gameMiddle {
+    padding: 10px;
+    border-right: 1px solid black;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-around;
+}
+
+.winner {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.gameTeam {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 0px 5px;
+    margin-left: 20%;
+    white-space: nowrap;
+    max-width: 60%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.gameTeam:hover {
+    max-width: fit-content;
+    overflow-x: visible;
+}
+
+.tournamentGameN\/A {
+    color: black;
+}
+
+.tournamentGameblack {
+    background-color: black;
+    color: white;
+}
+
+.tournamentGamewhite {
+    background-color: white;
+}
+
+.tournamentGamegray {
+    background-color: grey;
+    color: white;
+}
+
+.tournamentGamered {
+    background-color: red;
+    color: white;
+}
+
+.tournamentGameorange {
+    background-color: orange;
+}
+
+.tournamentGameyellow {
+    background-color: yellow;
+}
+
+.tournamentGameblue {
+    background-color: blue;
+    color: white;
+}
+
+.tournamentGamegreen {
+    background-color: green;
+    color: white;
+}
+
+.tournamentGamepurple {
+    background-color: purple;
+    color: white;
+}
+
+.tournamentIcon {
+    width: 20px;
+    margin: 0px;
+}
+
+.imgButton {
+    all: unset;
+    cursor: pointer;
+    padding: 0px;
+}
+
+.modalGameTop {
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.modalGameBottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalGameN\/A {
+    border: 1px solid grey;
+}
+
+.modalGameblack {
+    background-color: black;
+    color: white;
+}
+
+.modalGamewhite {
+    border: 1px solid grey;
+    background-color: white;
+}
+
+.modalGamegray {
+    background-color: grey;
+    color: white;
+}
+
+.modalGamered {
+    background-color: red;
+    color: white;
+}
+
+.modalGameorange {
+    background-color: orange;
+}
+
+.modalGameyellow {
+    background-color: yellow;
+}
+
+.modalGameblue {
+    background-color: blue;
+    color: white;
+}
+
+.modalGamegreen {
+    background-color: green;
+    color: white;
+}
+
+.modalGamepurple {
+    background-color: purple;
+    color: white;
+}
+
+.modalTeam {
+    padding: 8px 25px;
+    font-size: 1.4rem;
+}
+
+.modalDateColumn {
+    padding: 0px 25px;
+}
+
+.noPadding {
+    padding: 0px;
+}
+
+.tournamentModalFooter {
+    border-top: none;
+    padding-top: 0px;
+}
+
+.modalDateTime {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalFormSpacing {
+    margin-bottom: 15px;
+}
+
+.modalLocation {
+    text-align: left;
+    padding: 0px 25px;
+}
+
+.deleteTournamentButton {
+    margin-bottom: 20px;
+}

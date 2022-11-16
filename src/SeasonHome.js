@@ -4,21 +4,24 @@ import { Container, Button, ListGroup, Col, Row, Spinner, Form } from 'react-boo
 import './static/styles/Season.css';
 import './static/styles/Game.css';
 import {useErrors, useHandleChange} from './hooks';
-import {getTeams, getRankings, validateGames, formatInputs} from './static/helpers';
+import {validateGames, formatInputs} from './static/helpers/helpers';
+import {getTeams, getRankings} from './static/helpers/seasonRank';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
 import GameList from './GameList';
 import SeasonNameForm from './SeasonNameForm';
 import ModalComponent from './ModalComponent';
 import NewGameForm from './NewGameForm';
+import { buildTournament } from './static/helpers/tournament';
+import TournamentDisplay from './TournamentDisplay';
 
 function SeasonHome({user, isMobile}) {
 
     const {seasonId} = useParams();
     const {orgId} = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    const [season, setSeason] = useState({seasonId, title: '', games: []});
-    const [apiErrors, getApiErrors] = useErrors();
+    const [season, setSeason] = useState({seasonId, title: '', games: [], rankings: [], seasonTournament: null});
+    const [apiErrors, getApiErrors, setApiErrors] = useErrors();
     const [apiErrorsNewGame, getApiErrorsNewGame, setApiErrorsNewGame] = useErrors();
     const [errors, setErrors] = useState({});
     const [games, setGames] = useState();
@@ -28,6 +31,8 @@ function SeasonHome({user, isMobile}) {
     const [addGame, setAddGame] = useState(false);
     const [newGame, setNewGame] = useState();
     const [bye, setBye] = useState();
+    const [tournament, setTournament] = useState({});
+    const [showTournament, setShowTournament] = useState(false);
     const isEditor = (user && user.superAdmin) || (user && user.organizations[orgId] && 
         user.organizations[orgId].adminLevel <= 2);
     const navigate = useNavigate();
@@ -47,22 +52,27 @@ function SeasonHome({user, isMobile}) {
     useEffect(() => {
         async function getSeason() {
             try {
-                let [gamesResult, teamsResult] = await Promise.all([
+                let [seasonResult, gamesResult, teamsResult] = await Promise.all([
+                    SportyApi.getSeason(orgId, seasonId),
                     SportyApi.getGames(orgId, seasonId),
                     SportyApi.getTeams(orgId, seasonId)
                 ]);
-                teamsResult = getTeams(teamsResult);
-                const {teams, rankings} = getRankings(gamesResult, teamsResult);
-                setSeason({seasonId: gamesResult[0].seasonId, 
-                            title: gamesResult[0].title, 
-                            games: gamesResult,
-                            teams,
-                            rankings});
-                setGames(gamesResult);
-                setTitle({seasonTitle: gamesResult[0].title});
-                setNewGame({games: [newGameObj], teams});
-                setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-                setIsLoading(false);
+                if (seasonResult.tournamentFor) {
+                    navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {games: gamesResult, season: seasonResult}});
+                } else {
+                    teamsResult = getTeams(teamsResult);
+                    const {teams, rankings} = getRankings(gamesResult, teamsResult);
+                    setSeason({seasonId: seasonResult.seasonId, 
+                                title: seasonResult.title, 
+                                games: gamesResult,
+                                teams,
+                                rankings, 
+                                seasonTournament: seasonResult.seasonTournament});
+                    setGames(gamesResult);
+                    setTitle({seasonTitle: seasonResult.title});
+                    setNewGame({games: [newGameObj], teams});
+                    setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
+                    };
             } catch (e) {
                 getApiErrors(e);
                 try {
@@ -76,12 +86,12 @@ function SeasonHome({user, isMobile}) {
                                 title: seasonResult.title, 
                                 games: [],
                                 teams,
-                                rankings});
+                                rankings, 
+                                seasonTournament: seasonResult.seasonTournament});
                     setGames([]);
                     setTitle({seasonTitle: seasonResult.title});
                     setNewGame({games: [newGameObj], teams});
                     setBye(parseInt(Object.keys(teams).find(key => teams[key].teamName === 'Bye')));
-                    setIsLoading(false);
                 } catch (err) {
                     getApiErrors(err);
                     navigate(`/organization/${orgId}`);
@@ -89,6 +99,7 @@ function SeasonHome({user, isMobile}) {
             };
         };
         getSeason(orgId, seasonId);
+        setIsLoading(false);
     }, [orgId, seasonId, setSeason, getApiErrors, navigate, setTitle, setNewGame, newGameObj]);
 
 
@@ -188,6 +199,41 @@ function SeasonHome({user, isMobile}) {
     };
 
 
+    const makeTournament = (e) => {
+        e.preventDefault();
+        const tournament = buildTournament(season.teams, season.rankings);
+        setTournament(tournament);
+        setShowTournament(true);
+    };
+
+
+    const saveTournament = async (e) => {
+        e.preventDefault();
+        setApiErrors({});
+        setIsLoading(true);
+        try {
+            const seasonData = {title: `${season.title} Tournament`, 
+                                tournamentFor: season.seasonId};
+            const {seasonId} = await SportyApi.addSeason(seasonData, orgId);
+            let teamsMinusBye = Object.keys(season.teams).filter(
+                                    id => season.teams[id].teamName !== 'Bye');
+            const teamNames = [];
+            for (let key of teamsMinusBye) {
+                teamNames.push({teamName: season.teams[key].teamName, color: season.teams[key].color});
+            };
+            teamsMinusBye = teamsMinusBye.map(id => ({teamId: +id}));
+            const [addedGames] = await Promise.all([
+                SportyApi.addGames({games: tournament}, orgId, seasonId),
+                SportyApi.addTeams({teamIds: teamsMinusBye, teams: teamNames}, seasonId, orgId)]);
+            setIsLoading(false);
+            navigate(`/organization/${orgId}/tournaments/${seasonId}`, {state: {games: addedGames, season: seasonData}});
+        } catch (err) {
+            setApiErrors(err);
+            setIsLoading(false);
+        };
+    };
+
+
     if (isLoading) {
         return (
             <Spinner animation="border" role="status">
@@ -253,48 +299,77 @@ function SeasonHome({user, isMobile}) {
                     </ListGroup.Item>
                 </ListGroup>
             </Col>
-            {games &&
-                <GameList games={games}
-                            setGames={setGames}
-                            isEditor={isEditor}
-                            season={season}
-                            setSeason={setSeason} />}
-            {addGame &&
-                <Form onSubmit={handleSubmit}
-                        className='gameContainer'>
-                    <Errors apiErrors={apiErrorsNewGame}
-                            formErrors={errors} />
-                    <NewGameForm g={'0'}
-                                season={newGame}
-                                handleGameChange={handleGameChange}
-                                nullScore={nullScore}
-                                bye={bye} />
-                    <div className='d-grid gap-2'>
-                        <Button type='submit'
-                                variant='outline-secondary'>
-                            Save
-                        </Button>
-                    </div>
-                </Form>}
-            {isEditor &&
-                <Row className='addDelete'>
-                    <Col xs={6}>
-                        <Button onClick={deleteModal}
-                                variant='danger'>
-                            Delete Season
-                        </Button> 
-                    </Col>
-                    <Col xs={6}>
-                        <Button onClick={toggleAdd}
-                                variant={addGame ? 'secondary' : 'dark'}>
-                            {addGame ? 'Cancel Add' : 'Add Game'}    
-                        </Button> 
-                    </Col>
-                </Row>}
+            {!showTournament &&
+                <div>
+                    {isEditor && !season.seasonTournament &&
+                        <Button onClick={makeTournament}
+                                variant='dark'
+                                className='tournamentButton'>
+                            Build Tournament from Current Rankings
+                        </Button>}
+                    {season.seasonTournament &&
+                        <Link to={`../organization/${orgId}/tournaments/${season.seasonTournament}`}
+                                className='tournamentButton message'>
+                            View tournament
+                        </Link>}
+                    {games &&
+                        <GameList games={games}
+                                    setGames={setGames}
+                                    isEditor={isEditor}
+                                    season={season}
+                                    setSeason={setSeason} />}
+                    {addGame &&
+                        <Form onSubmit={handleSubmit}
+                                className='gameContainer'>
+                            <Errors apiErrors={apiErrorsNewGame}
+                                    formErrors={errors} />
+                            <NewGameForm g={'0'}
+                                        season={newGame}
+                                        handleGameChange={handleGameChange}
+                                        nullScore={nullScore}
+                                        bye={bye} />
+                            <div className='d-grid gap-2'>
+                                <Button type='submit'
+                                        variant='outline-secondary'>
+                                    Save
+                                </Button>
+                            </div>
+                        </Form>}
+                    {isEditor &&
+                        <Row className='addDelete'>
+                            <Col xs={6}>
+                                <Button onClick={deleteModal}
+                                        variant='danger'>
+                                    Delete Season
+                                </Button> 
+                            </Col>
+                            <Col xs={6}>
+                                <Button onClick={toggleAdd}
+                                        variant={addGame ? 'secondary' : 'dark'}>
+                                    {addGame ? 'Cancel Add' : 'Add Game'}    
+                                </Button> 
+                            </Col>
+                        </Row>}
+                </div>}
             {modal &&
                 <ModalComponent message={`Permanently delete season ${season.title}?`}
                         cancel={deleteModal}
                         confirm={deleteSeason} />}
+
+            {showTournament &&
+                <div>
+                    <Button onClick={() => setShowTournament(false)}
+                            variant='secondary'>
+                        Back to Season
+                    </Button>
+                    <TournamentDisplay tournament={tournament}
+                                        isMobile={isMobile} /> 
+                    <Button onClick={saveTournament}
+                            variant='dark'
+                            className='addDelete'>
+                        Save Tournament
+                    </Button>
+                </div>}
         </Container>
     );
 };

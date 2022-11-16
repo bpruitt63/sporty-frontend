@@ -41,7 +41,7 @@ function NewSeason({orgId=null, cancel}) {
     const seasonAndTeams = async () => {
         let teams = Object.values(season.teams);
         try {
-            const {seasonId} = await SportyApi.addSeason(season.seasonTitle, orgId);
+            const {seasonId} = await SportyApi.addSeason({title: season.seasonTitle}, orgId);
             const teamsRes = await SportyApi.addTeams({teams}, seasonId, orgId);
             setSeason({...season, seasonId, teams: teamsRes});
             return {seasonId, teamsRes};
@@ -147,7 +147,8 @@ function NewSeason({orgId=null, cancel}) {
                 <GameList games={Object.values(season.games)} />}
             {orgId && isOpen.preview && !season.seasonId &&
                 <Button onClick={saveSeason}
-                        variant='dark'>
+                        variant='dark'
+                        className='addDelete'>
                     Save Season    
                 </Button>}
         </div>

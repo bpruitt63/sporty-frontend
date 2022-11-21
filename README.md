@@ -25,7 +25,7 @@ The backend is also deployed on Heroku.  The backend was built using Node.js wit
 ## TODOS
 The backend *should be* complete, unless I find bugs or decide to add additional functionality.
 
-The frontend **is not** complete.  I deployed early because I wanted to run a private beta test on my spring youth soccer season.  However, **no** frontend tests have been written yet.  I also have some minor UI elements I want to improve before I'm ready to call it a fully working app.  One additional feature I would also like to add in the future is a function to use a completed season to automatically seed and schedule an end-of-season tournament.
+The frontend **is not** complete.  I deployed early because I wanted to run a private beta test on my spring youth soccer season.  However, frontend testing is still incomplete.  I also have some minor UI elements I want to improve before I'm ready to call it a fully working app.  One additional feature I would also like to add in the future is a function to use a completed season to automatically seed and schedule an end-of-season tournament.
 
 **Updated 11/16/22**
 The tournament feature has been added in its basic form.  I still intend to add the ability to choose tournament types other than single elimination, as well as the ability to create a tournament that is not associated with a specific season.

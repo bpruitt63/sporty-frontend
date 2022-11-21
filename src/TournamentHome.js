@@ -29,9 +29,7 @@ function TournamentHome({user, isMobile}) {
                 setTournament(location.state.games);
                 setTournamentData({title: location.state.season.title, 
                                     tournamentFor: location.state.season.tournamentFor});
-                    console.log(location)
                 window.history.replaceState({}, '');
-                console.log(location)
             } else {
                 try {
                     const [tournament, seasonData] = await Promise.all([

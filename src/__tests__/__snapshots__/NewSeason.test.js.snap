@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <p
+      class="message"
+    >
+      Seasons created here will not be saved. To save a season, navigate to your organization's home page.
+    </p>
+    <div
+      class="Errors"
+    />
+    <div
+      class="nameForm"
+    >
+      <div
+        class="Errors"
+      />
+      <form
+        class=""
+      >
+        <div
+          class="col-md-6 col-10 offset-md-3 offset-1"
+        >
+          <div>
+            <div
+              class="input-group"
+            >
+              <input
+                class="form-control"
+                id="seasonTitle"
+                name="seasonTitle"
+                placeholder="Season Title"
+                type="text"
+                value=""
+              />
+              <button
+                class="btn btn-dark"
+                type="submit"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</DocumentFragment>
+`;

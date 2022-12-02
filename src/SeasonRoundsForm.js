@@ -33,7 +33,8 @@ function SeasonRoundsForm({season, handleChange, toggle, setSeason, orgId}) {
                 games[game] = newGame;
             };
             try {
-                const {seasonId} = await SportyApi.addSeason(season.seasonTitle, orgId);
+                const dataToSubmit = {title: season.seasonTitle, tournamentFor: null}
+                const {seasonId} = await SportyApi.addSeason(dataToSubmit, orgId);
                 teamsArray = await SportyApi.addTeams({teams: teamsArray}, seasonId, orgId);
                 const teams = getTeams(teamsArray);
                 setSeason({...season, seasonId, games, teams});

@@ -35,7 +35,7 @@ const evenHomeAway = (games) => {
     };
     const vals = Object.values(locationCount);
     for (let val of vals) {
-        if (Math.abs(val[0] - val[1]) > 1) {console.log(vals); console.log(games.length); return false;}
+        if (Math.abs(val[0] - val[1]) > 2) return false;
     };
     return true;
 };

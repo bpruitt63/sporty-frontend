@@ -34,7 +34,7 @@ const bulletClick = async (labelText) => {
 };
 
 
-
+/** TESTS */
 test('renders from home', () => {
     renderComponent();
     const warning = screen.getByText(
@@ -75,12 +75,12 @@ test('name input works', async () => {
     expect(screen.getByLabelText('Number of Teams')).toBeInTheDocument();
 });
 
-test('anon keeps subnav', () => {
+test('no cancel button anon', () => {
     renderComponent();
     expect(screen.queryByText('Cancel Season Create')).not.toBeInTheDocument();
 });
 
-test('no subnav from org', () => {
+test('org has cancel button', () => {
     renderComponent(1);
     expect(screen.getByText('Cancel Season Create')).toBeInTheDocument();
 });
@@ -129,4 +129,65 @@ test('allows team naming', async () => {
     expect(screen.getByPlaceholderText('Team 23')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Team 30')).toBeInTheDocument();
     expect(screen.queryByPlaceholderText('Team 31')).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Team 0')).not.toBeInTheDocument();
+});
+
+test('name entry works', async () => {
+    renderComponent();
+    await formInput({placeholder: 'Season Title'}, 'Test Season');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Teams'}, '2');
+    await bulletClick('Name Teams');
+    await buttonClick('Next');
+    await buttonClick('Submit Teams');
+    expect(screen.queryByLabelText('Number of Weeks/Rounds')).not.toBeInTheDocument();
+    await formInput({placeholder: 'Team 1'}, 'test1');
+    await formInput({placeholder: 'Team 2'}, 'test2');
+    await buttonClick('Submit Teams');
+    expect(screen.getByLabelText('Number of Weeks/Rounds')).toBeInTheDocument();
+});
+
+test('generates season anon, even team number', async () => {
+    renderComponent();
+    await formInput({placeholder: 'Season Title'}, 'Test Season');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Teams'}, '4');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Weeks/Rounds'}, '6');
+    await buttonClick('Generate Season');
+    const games = screen.getAllByText('Date TBA');
+    expect(games.length).toEqual(12);
+    expect(screen.queryByText('Bye')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save Season')).not.toBeInTheDocument();
+});
+
+test('generates season anon, odd team number', async () => {
+    renderComponent();
+    await formInput({placeholder: 'Season Title'}, 'Test Season');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Teams'}, '5');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Weeks/Rounds'}, '6');
+    await buttonClick('Generate Season');
+    const games = screen.getAllByText('Date TBA');
+    const gamesAndByes = screen.getAllByText('Notes:');
+    const byes = screen.getAllByText('Bye');
+    expect(games.length).toEqual(12);
+    expect(gamesAndByes.length).toEqual(18);
+    expect(byes.length).toEqual(6);
+    expect(screen.queryByText('Save Season')).not.toBeInTheDocument();
+});
+
+test('generates season for org', async () => {
+    renderComponent(1);
+    await formInput({placeholder: 'Season Title'}, 'Test Season');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Teams'}, '4');
+    await buttonClick('Next');
+    await formInput({label: 'Number of Weeks/Rounds'}, '6');
+    await buttonClick('Next');
+    const games = screen.getAllByText('Date TBA');
+    expect(games.length).toEqual(12);
+    expect(screen.queryByText('Bye')).not.toBeInTheDocument();
+    expect(screen.getAllByText('Save Season').length).toEqual(2);
 });

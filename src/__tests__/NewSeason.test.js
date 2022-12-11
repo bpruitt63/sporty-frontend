@@ -1,11 +1,9 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import {buttonClick, formInput, bulletClick} from '../static/helpers/testActions';
 import NewSeason from '../NewSeason';
 
-
-const user = userEvent.setup();
 
 const renderComponent = (orgId) => {
     return render(<BrowserRouter>
@@ -14,27 +12,7 @@ const renderComponent = (orgId) => {
 };
 
 
-/** ACTIONS */
-const buttonClick = async (buttonText) => {
-    const button = screen.getByText(buttonText);
-    await user.click(button);
-};
 
-const formInput = async (identifier, message) => {
-    const input = identifier.placeholder ? 
-                    screen.getByPlaceholderText(identifier.placeholder)
-                    : screen.getByLabelText(identifier.label);
-    await user.click(input);
-    await user.keyboard(message);
-};
-
-const bulletClick = async (labelText) => {
-    const bullet = screen.getByLabelText(labelText);
-    await user.click(bullet);
-};
-
-
-/** TESTS */
 test('renders from home', () => {
     renderComponent();
     const warning = screen.getByText(

@@ -1,19 +1,8 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import {buttonClick} from '../static/helpers/testActions';
+import {buttonClick, uOrgless, uOrgs} from '../static/helpers/testActions';
 import Home from '../Home';
-
-const uOrgless = {email: 'test@test.com',
-            firstName: 'Bob',
-            lastName: 'Testy',
-            superAdmin: false};
-
-const uOrgs = {email: 'test@test.com',
-            firstName: 'Bob',
-            lastName: 'Testy',
-            superAdmin: false, 
-            organizations: {1: {adminLevel: 1, orgName: 'testOrg'}}};
 
 const renderComponent = (user) => {
     return render(<BrowserRouter>

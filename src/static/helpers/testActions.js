@@ -20,3 +20,14 @@ export const bulletClick = async (labelText) => {
     const bullet = screen.getByLabelText(labelText);
     await user.click(bullet);
 };
+
+export const uOrgless = {email: 'test@test.com',
+                            firstName: 'Bob',
+                            lastName: 'Testy',
+                            superAdmin: false};
+
+export const uOrgs = {email: 'test@test.com',
+                            firstName: 'Bob',
+                            lastName: 'Testy',
+                            superAdmin: false, 
+                            organizations: {1: {adminLevel: 1, orgName: 'testOrg'}}};

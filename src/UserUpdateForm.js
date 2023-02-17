@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Form, Button, Col, Spinner} from 'react-bootstrap';
-import {useHandleChange, useValidate, useErrors} from './hooks';
+import {useHandleChange, useValidate, useErrors, useToast} from './hooks';
 import {useNavigate} from 'react-router-dom';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
@@ -13,6 +13,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
     const [data, handleChange, setData] = useHandleChange(initialState);
     const [formErrors, validate] = useValidate();
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
+    const [message, toast] = useToast();
     const navigate = useNavigate();
 
     if (user && !targetEmail) targetEmail = user.email;
@@ -72,6 +73,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
                     SportyApi.setToken(updated.token);
                 };
                 setIsLoading(false);
+                toast('User successfully updated');
             } catch (e) {
                 setData({...data, pwd: '', pwd2: ''});
                 getApiErrors(e);
@@ -99,6 +101,7 @@ function UserUpdateForm({user, targetEmail='', setUser=null}) {
         <div>
             <Errors formErrors={formErrors}
                     apiErrors={apiErrors} />
+            {message && <p className='toastMsg'>{message}</p>}
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
                 <Form onSubmit={handleSubmit} className='userForm'>
                     <Form.Control type='password'

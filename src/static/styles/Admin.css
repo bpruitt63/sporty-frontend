@@ -8,11 +8,3 @@
 .userPermissionContainer .form-check {
     background-color: aliceblue;
 }
-
-.toastMsg {
-    background-color: green;
-    color: white;
-    display: inline-block;
-    padding: 5px 20px;
-    border-radius: 5px;
-}

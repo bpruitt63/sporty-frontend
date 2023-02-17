@@ -10,6 +10,10 @@ Anyone with organizational permissions can create a season either through the se
 
 Following the link to a season will show a list of teams and each team's record, ordered by overall ranking.  Under the list of teams is the list of games, including who is playing, each team's score if applicable, date, time, location, and any notes.  Clicking on a team at the top of the page will show only the games that that team plays in.  Users with editing permissions can quickly pull up their season, scroll down to the appropriate game, and add the score as each game is played in real time.
 
+A sample account does exist for anyone who would like to play around with the editing functionality.  To log in, use the following credentials:  
+Email: sample@sporty.com  
+Password:  SportySample23
+
 **Update 11/16/22**
 Added tournament feature.  Users with editing permissions can go into a completed (or in progress) season and hit a tournament create button, and a single elimination tournament will be automatically generated and seeded based on the current team rankings for that season.  If user chooses to save the tournament to the database, they can then add scores to the tournament games and subsequent rounds will be automatically populated, all the way up to the tournament winner.  Tournaments for an organization are listed alongside that organization's seasons.
 

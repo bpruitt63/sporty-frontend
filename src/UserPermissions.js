@@ -26,7 +26,7 @@ function UserPermissions({targetUser, orgId}) {
         if (val === 4){
             try{
                 await SportyApi.removeUserOrganization(orgId, targetUser.email);
-                toast('User successfully removed from organization');
+                toast('User removed from organization');
             } catch (err) {
                 getApiErrors(err);
             };
@@ -43,7 +43,7 @@ function UserPermissions({targetUser, orgId}) {
                 try {
                     await SportyApi.addUserOrganization(orgId, 
                                 targetUser.email, {adminLevel: val});
-                    toast('User successfully added to organization');
+                    toast('User added to organization');
                 } catch (err) {
                     getApiErrors(err);
                 };

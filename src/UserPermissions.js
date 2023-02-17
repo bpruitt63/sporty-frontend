@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Spinner, Form, Button } from 'react-bootstrap';
 import SportyApi from './SportyApi';
-import {useErrors} from './hooks';
+import {useErrors, useToast} from './hooks';
 import Errors from './Errors';
 
 function UserPermissions({targetUser, orgId}) {
@@ -11,13 +11,8 @@ function UserPermissions({targetUser, orgId}) {
                     targetUser.organizations[orgId].adminLevel : 3;
     const [val, setVal] = useState(initialState);
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
-    const [message, setMessage] = useState();
+    const [message, toast] = useToast();
 
-
-    const toast = (msg) => {
-        setMessage(msg);
-        setTimeout(() => {setMessage('')}, 2500);
-    };
 
     const handleRadio = (val) => {
         setVal(val);

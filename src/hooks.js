@@ -86,4 +86,14 @@ function useToggle(initialState, toggleState=initialState) {
     return [toggle, isOpen];
 };
 
-export {useHandleChange, useValidate, useErrors, useToggle};
+function useToast() {
+    const [message, setMessage] = useState();
+
+    function toast(msg) {
+        setMessage(msg);
+        setTimeout(() => {setMessage('')}, 2500);
+    };
+    return [message, toast, setMessage];
+};
+
+export {useHandleChange, useValidate, useErrors, useToggle, useToast};

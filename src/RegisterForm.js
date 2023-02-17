@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useNavigate, Navigate} from 'react-router-dom';
 import {Col, Form, Button, Spinner} from 'react-bootstrap';
-import {useHandleChange, useValidate, useErrors} from './hooks';
+import {useHandleChange, useValidate, useErrors, useToast} from './hooks';
 import SportyApi from './SportyApi';
 import Errors from './Errors';
 
@@ -13,6 +13,7 @@ function RegisterForm({user, handleLogin}) {
     const [data, handleChange, setData] = useHandleChange(initialState);
     const [formErrors, validate] = useValidate();
     const [apiErrors, getApiErrors, setApiErrors] = useErrors();
+    const [message, toast] = useToast();
     const navigate = useNavigate();
 
     /** Redirects to home if already logged in and not super admin */
@@ -48,7 +49,9 @@ function RegisterForm({user, handleLogin}) {
             try {
                 if (user && user.superAdmin) {
                     const newUser = await SportyApi.create(data);
-                    console.log(`Created user ${newUser.email}`)
+                    setIsLoading(false);
+                    setData(initialState);
+                    toast(`Created user ${newUser.email}`, 3500);
                 } else {
                     const token = await SportyApi.register(data);
                     handleLogin(token);
@@ -81,6 +84,7 @@ function RegisterForm({user, handleLogin}) {
         <div>
             <Errors formErrors={formErrors}
                     apiErrors={apiErrors} />
+            {message && <p className='toastMsg'>{message}</p>}
             <Col xs={{span: 10, offset: 1}} md={{span: 4, offset: 4}}>
                 <Form onSubmit={handleSubmit} className='userForm'>
                     <Form.Control type='text'

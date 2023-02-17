@@ -89,9 +89,9 @@ function useToggle(initialState, toggleState=initialState) {
 function useToast() {
     const [message, setMessage] = useState();
 
-    function toast(msg) {
+    function toast(msg, duration=2500) {
         setMessage(msg);
-        setTimeout(() => {setMessage('')}, 2500);
+        setTimeout(() => {setMessage('')}, duration);
     };
     return [message, toast, setMessage];
 };

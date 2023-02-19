@@ -1,16 +1,26 @@
+/** teams = object of objects: {teamId: {team info}}
+ * rankings = array of teamIds from higest rank to lowest
+ */
 export function buildTournament(teams, rankings) {
     const {byes, playIns} = getByes(rankings);
     const tournament = buildRounds(byes, playIns);
 
+    /** Fills tournament with correct number of game objects for each round except first.
+     * Works backward from final round which is always 1 game.
+     */
     let numTeams = 2;
     for (let i = Object.keys(tournament).length; i > 1; i--) {
         const key = `Round ${i}`;
         tournament[key] = buildRound(numTeams);
         numTeams *= 2;
     };
+    /** Fills first round with correct number of game objects, depending on whether there are playIns */ 
     tournament['Round 1'] = playIns.length ? buildRound(playIns.length) 
                                             : buildRound(numTeams);
     
+    /** Seeds teams into correct games for Round 1.
+     * If any teams have bye in first round, seeds them into Round 2.
+     */
     let round = 1;
     if (playIns.length) {
         tournament['Round 1'] = populateGames(playIns, tournament['Round 1'], teams);
@@ -21,6 +31,9 @@ export function buildTournament(teams, rankings) {
     return tournament;
 };
 
+/** byes = teams that don't play in first round
+* playIns = teams that play in first round
+*/
 function getByes(rankings) {
     let target = 2;
     while (target <= rankings.length) {
@@ -34,6 +47,9 @@ function getByes(rankings) {
     return {byes, playIns}
 };
 
+/** Build tournament object, each round is empty object.
+ * {Round 1: {}, Round 2: {}}
+ */
 function buildRounds(byes, playIns) {
     const tournament = {};
     let target = 2;
@@ -49,6 +65,9 @@ function buildRounds(byes, playIns) {
     return tournament;
 };
 
+/** Populates one round of tournament with empty game objects
+ * {Game 1: {}, Game 2: {}}
+ */
 function buildRound(numTeams) {
     const round = {};
     let game = 1;

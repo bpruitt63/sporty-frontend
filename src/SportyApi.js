@@ -177,6 +177,12 @@ class SportyApi {
         const res = await this.request(`organizations/${orgId}/seasons/${seasonId}/games/${gameId}`, {}, 'delete');
         return res.deleted;
     };
+
+    /** Wake up heroku backend */
+    static async herokuWakeup() {
+        const res = await this.request(`heroku/wakeup`);
+        return res;
+    };
 };
 
 SportyApi.token = localStorage.getItem("token");

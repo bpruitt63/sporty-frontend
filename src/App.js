@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useMediaQuery} from 'react-responsive';
 import jwt_decode from 'jwt-decode';
 import './static/styles/App.css';
@@ -13,6 +13,10 @@ function App() {
   const [user, setUser] = useState(localStorage.token &&
                         jwt_decode(localStorage.getItem("token")).user);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+  useEffect(() => {
+      SportyApi.herokuWakeup();
+  }, []);
 
   const handleLogin = (token) => {
       localStorage.setItem("token", token);
